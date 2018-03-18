@@ -10,14 +10,15 @@ all: main
 
 main: $(BINFILES) main.cpp
 	$(CC) $(CFLAGS) $^ -o $@
+	mv main main.out
 
 run: all
-	./main
+	./main.out
 
 valgrind: all
-	valgrind --leak-check=full ./main
+	valgrind --leak-check=full ./main.out
 
 clean:
-	rm -f main *.o
+	rm -f main.out *.o
 
 .PHONY: clean run

@@ -1,14 +1,14 @@
 CFLAGS := -g -Wall
-CC := g++
-BIN := $(filter-out main.cpp, $(wildcard *.cpp))
-BINFILES := $(BIN:.cpp=.o)
+CC := gcc
+BIN := $(filter-out main.c, $(wildcard *.c))
+BINFILES := $(BIN:.c=.o)
 
 all: main
 
-%.o: %.cpp %.h
+%.o: %.c %.h
 	$(CC) $(CFLAGS) -c $<
 
-main: $(BINFILES) main.cpp
+main: $(BINFILES) main.c
 	$(CC) $(CFLAGS) $^ -o $@
 	mv main main.out
 

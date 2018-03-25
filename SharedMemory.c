@@ -1,6 +1,5 @@
 #include "SharedMemory.h"
 
-
 int ShareMem_crear(SharedMemory* SHM, size_t size, const char* filename, int num){
 
     //Creo la key
@@ -15,7 +14,7 @@ int ShareMem_crear(SharedMemory* SHM, size_t size, const char* filename, int num
         return ERROR_SHMGET;
     }
 
-    //Hago el atach
+    //Hago el attach
     SHM->mem_ptr = shmat(SHM->mem_id, NULL, 0);
     if (SHM->mem_ptr == (void*) -1){
         return ERROR_SHMAT;
@@ -27,11 +26,12 @@ int ShareMem_crear(SharedMemory* SHM, size_t size, const char* filename, int num
 }
 
 int ShareMem_cantProcesosAdosados(SharedMemory* SHM){
+    
     struct shmid_ds estado;
     shmctl(SHM->mem_id , IPC_STAT , &estado);
+    
     return estado.shm_nattch ;
 }
-
 
 int ShareMem_liberar(SharedMemory* SHM){
 
@@ -40,7 +40,7 @@ int ShareMem_liberar(SharedMemory* SHM){
 
     //Si no hay procesos adosados libero
     int procAdosados = ShareMem_cantProcesosAdosados(SHM);
-    if ( procAdosados == 0 ) {
+    if (procAdosados == 0) {
         shmctl(SHM->mem_id, IPC_RMID, NULL) ;
     }
 

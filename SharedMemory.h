@@ -17,8 +17,6 @@ typedef struct{
     size_t size;   //tamaño de la memoria (bytes)
 } SharedMemory;
 
-
-
 int ShareMem_crear(SharedMemory* SHM, size_t size, const char*, int);
 
 int ShareMem_cantProcesosAdosados(SharedMemory* SM);
@@ -28,9 +26,5 @@ int ShareMem_liberar(SharedMemory* SHM);
 int ShareMem_leer(SharedMemory* SHM, void *ptr, int offset, size_t s);
 
 int ShareMem_escribir(SharedMemory* SHM, const void *ptr, int offset, size_t s);
-
-
-
-
 
 #endif //SHAREDMEMORY_H

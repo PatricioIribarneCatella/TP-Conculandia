@@ -9,7 +9,8 @@ typedef struct {
 } CmdLine;
 
 static void print_usage() {
-	printf("USAGE: ./main.out -v num -s num\n");
+	printf("USAGE: ./main.out -v numV -s numS\n");
+	printf("Tener en cuenta que: numV > numS y (numS > 1 && numV > 1)\n");
 }
 
 static void parse_cmd_line(int argc, char* argv[], CmdLine* cl) {
@@ -31,7 +32,10 @@ static void parse_cmd_line(int argc, char* argv[], CmdLine* cl) {
 		}
 	}
 	
-	if (cl->ventanillas == 0 || cl->sellos == 0) {
+	if (cl->ventanillas < 2 ||
+		cl->sellos < 2 ||
+		(cl->sellos >= cl->ventanillas)) {
+		
 		print_usage();
 		_exit(EXIT_FAILURE);
 	}

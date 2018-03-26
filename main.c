@@ -2,6 +2,7 @@
 #include <unistd.h>
 
 #include "CmdLine.h"
+#include "Conculandia.h"
 
 int main(int argc, char* argv[]) {
 
@@ -9,7 +10,7 @@ int main(int argc, char* argv[]) {
 
 	CmdLine_parse(argc, argv, &cl);
 
-	printf("Sellos: %d, ventanillas: %d\n", cl.sellos, cl.ventanillas);
+	Conculandia_init(&cl);
 
 	return 0;
 }

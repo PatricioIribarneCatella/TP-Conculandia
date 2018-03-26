@@ -1,27 +1,28 @@
 CFLAGS := -g -Wall
 CC := gcc
-BIN := $(filter-out main.c, $(wildcard *.c))
+EXEC := main
+BIN := $(filter-out $(EXEC).c, $(wildcard *.c))
 BINFILES := $(BIN:.c=.o)
 
-all: main
+all: $(EXEC)
 
 %.o: %.c %.h
 	$(CC) $(CFLAGS) -c $<
 
-main: $(BINFILES) main.c
+main: $(BINFILES) $(EXEC).c
 	$(CC) $(CFLAGS) $^ -o $@
-	mv main main.out
+	mv $(EXEC) $(EXEC).out
 
 run: all
-	./main.out
+	bash run.sh
 
 valgrind: all
-	valgrind --leak-check=full ./main.out
+	valgrind --leak-check=full ./$(EXEC).out
 
 format: .clang-files
 	xargs clang-format -style=file -i <$<
 
 clean:
-	rm -f main.out *.o
+	rm -f $(EXEC).out *.o
 
 .PHONY: clean run

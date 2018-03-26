@@ -1,10 +1,10 @@
 #ifndef LOG_H
 #define LOG_H
 
+#include <fcntl.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <fcntl.h>
 
 #define LOG_OK 0
 #define ERROR_LOG_OPEN -1
@@ -16,14 +16,14 @@
 #define LOG_FILE "log.txt"
 
 typedef struct {
-    struct flock fl;
-    int fd;
+	struct flock fl;
+	int fd;
 } Log;
 
-int Log_abrir(Log* LG);
+int Log_abrir(Log *LG);
 
 int Log_escribir(Log *LG, char *msg);
 
 int Log_cerrar(Log *LG);
 
-#endif //LOG_H
+#endif  //LOG_H

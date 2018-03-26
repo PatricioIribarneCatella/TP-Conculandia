@@ -1,9 +1,9 @@
 #ifndef CMDLINE_H
 #define CMDLINE_H
 
+#include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <getopt.h>
 #include <unistd.h>
 
 typedef struct {
@@ -11,6 +11,6 @@ typedef struct {
 	int ventanillas;
 } CmdLine;
 
-void CmdLine_parse(int argc, char* argv[], CmdLine* cl);
+void CmdLine_parse(int argc, char *argv[], CmdLine *cl);
 
-#endif //CMDLINE_H
+#endif  //CMDLINE_H

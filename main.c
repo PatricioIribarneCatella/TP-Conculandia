@@ -4,8 +4,7 @@
 #include "CmdLine.h"
 #include "Conculandia.h"
 
-int main(int argc, char* argv[]) {
-
+int main(int argc, char *argv[]) {
 	CmdLine cl;
 
 	CmdLine_parse(argc, argv, &cl);

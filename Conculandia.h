@@ -1,9 +1,9 @@
 #ifndef CONCULANDIA_H
 #define CONCULANDIA_H
 
-#include <stdio.h>
 #include "CmdLine.h"
+#include <stdio.h>
 
-void Conculandia_init(CmdLine* cl);
+void Conculandia_init(CmdLine *cl);
 
-#endif //CONCULANDIA_H
+#endif  //CONCULANDIA_H

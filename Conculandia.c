@@ -1,9 +1,7 @@
 #include "Conculandia.h"
 
-void Conculandia_init(CmdLine* cl) {
-
-	printf("Sellos: %d, ventanillas: %d\n",
-		cl->sellos, cl->ventanillas);
+void Conculandia_init(CmdLine *cl) {
+	printf("Sellos: %d, ventanillas: %d\n", cl->sellos, cl->ventanillas);
 
 	/*
 	 * 1 - realizar fork() para mantener la simulación en segundo plano

@@ -5,13 +5,11 @@ static void print_usage() {
 	printf("Tener en cuenta que: numV > numS y (numS > 1 && numV > 1)\n");
 }
 
-void CmdLine_parse(int argc, char* argv[], CmdLine* cl) {
-	
+void CmdLine_parse(int argc, char *argv[], CmdLine *cl) {
 	int option;
 
 	while ((option = getopt(argc, argv, "v:s:")) != -1) {
-		
-		switch(option) {
+		switch (option) {
 			case 'v':
 				cl->ventanillas = atoi(optarg);
 				break;
@@ -23,11 +21,9 @@ void CmdLine_parse(int argc, char* argv[], CmdLine* cl) {
 				_exit(EXIT_FAILURE);
 		}
 	}
-	
-	if (cl->ventanillas < 2 ||
-		cl->sellos < 2 ||
+
+	if (cl->ventanillas < 2 || cl->sellos < 2 ||
 		(cl->sellos >= cl->ventanillas)) {
-		
 		print_usage();
 		_exit(EXIT_FAILURE);
 	}

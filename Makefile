@@ -18,6 +18,9 @@ run: all
 valgrind: all
 	valgrind --leak-check=full ./main.out
 
+format: .clang-files
+	xargs clang-format -style=file -i <$<
+
 clean:
 	rm -f main.out *.o
 

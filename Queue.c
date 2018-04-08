@@ -10,13 +10,27 @@ int Queue_crear(Queue *Q, char *file_name) {
 }
 
 int Queue_abrir(Queue *Q, char *file_name, int mode) {
+	Q->fl.l_type = F_RDLCK;
+	Q->fl.l_whence = SEEK_SET;
+	Q->fl.l_start = 0;
+	Q->fl.l_len = 0;
 	Q->fd = open(file_name, mode);
 	strcpy(Q->f_name, file_name);
 	return Q->fd;
 }
 
 int Queue_leer(Queue *Q, void *ptr, size_t s) {
-	return read(Q->fd, ptr, s);
+	//Adquiero el lock
+	Q->fl.l_type = F_RDLCK;
+	fcntl(Q->fd, F_SETLKW, &(Q->fl));
+
+	int r_bytes = read(Q->fd, ptr, s);
+
+	//Libero el lock
+	Q->fl.l_type = F_UNLCK;
+	fcntl(Q->fd, F_SETLKW, &(Q->fl));
+
+	return r_bytes;
 }
 
 int Queue_escribir(Queue *Q, void *ptr, size_t s) {

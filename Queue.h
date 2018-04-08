@@ -13,10 +13,14 @@
 #define QUEUE_OK 0
 #define ERROR_MKNOD -1
 
+//FIFO default file
+#define FIFO_FILE "/tmp/fifo_f"
+
 //FIFO usado como cola
 
 typedef struct {
 	char f_name[MAX_FILE_NAME];
+	struct flock fl;
 	int fd;
 } Queue;
 

@@ -11,3 +11,7 @@ Person.c
 Person.h
 Queue.c
 Queue.h
+Frontera.c
+Frontera.h
+Migraciones.c
+Migraciones.h

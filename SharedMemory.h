@@ -1,7 +1,7 @@
 #ifndef SHAREDMEMORY_H
 #define SHAREDMEMORY_H
 
-#include <lzma.h>
+#include <stddef.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <sys/types.h>

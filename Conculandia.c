@@ -46,9 +46,9 @@ void Conculandia_init(CmdLine *cl) {
 		printf("PROUCTOR PID: %d \n", f);
 	}
 
-    //Inicializo sellos (para las ventanillas)
-    Sellos sellos;
-    Sellos_crear(&sellos, cl->sellos);
+	//Inicializo sellos (para las ventanillas)
+	Sellos sellos;
+	Sellos_crear(&sellos, cl->sellos);
 
 	//forks - ventanillas
 	int i = 0;
@@ -76,5 +76,5 @@ void Conculandia_init(CmdLine *cl) {
 
 	//libero recursos
 	Queue_eliminar(&q);
-    Sellos_eliminar(&sellos);
+	Sellos_eliminar(&sellos);
 }

@@ -10,20 +10,20 @@ int Migraciones_run(Sellos *sellos) {
 		Person p;
 		int r = Queue_leer(&q, &p, sizeof(Person));
 		if (r > 0) {
-            //Tomo un seloo
+			//Tomo un seloo
 			Sellos_tomar_sello(sellos);
 
-            //si es un id valido imprimo (aca iria el procesamiento de la persona)
-            printf(
-                    "Ventanilla pid: %d, Persona nacionalidad: %d - id: %d \n",
-					getpid(), p.nacionalidad, p.id);
+			//si es un id valido imprimo (aca iria el procesamiento de la persona)
+			printf("Ventanilla pid: %d, Persona nacionalidad: %d - id: %d \n",
+				   getpid(), p.nacionalidad, p.id);
 
-            //Simulo tiempo de procesamiento (0.05 seg)
-            usleep(50000);
+			//Simulo tiempo de procesamiento (0.05 seg)
+			usleep(50000);
 
-            //Libero el sello
+			//Libero el sello
 			Sellos_liberar_sello(sellos);
-		} else {
+		}
+		else {
 			stop = 1;
 		}
 	}

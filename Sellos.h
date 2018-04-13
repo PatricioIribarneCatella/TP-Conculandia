@@ -3,8 +3,9 @@
 
 #include "Semaphore.h"
 
-#define SELLOS_SHMEM_FILE_NAME "Sellos.h"
 #define SELLOS_FILE_NAME "Sellos.h"
+
+//SOLO PUEDE HABER UNA VARIABLE SELLOS
 
 typedef struct {
     Semaphore sem;

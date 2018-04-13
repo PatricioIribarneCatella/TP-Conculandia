@@ -1,5 +1,6 @@
 #include "Conculandia.h"
 #include "CmdLine.h"
+#include "Contador.h"
 #include "Frontera.h"
 #include "Migraciones.h"
 #include "Person.h"
@@ -49,6 +50,8 @@ void Conculandia_init(CmdLine *cl) {
 	//Inicializo sellos (para las ventanillas)
 	Sellos sellos;
 	Sellos_crear(&sellos, cl->sellos);
+	Contador cont_1;
+	Contador_crear(&cont_1, CONT_FILE_1);
 
 	//forks - ventanillas
 	int i = 0;
@@ -74,7 +77,10 @@ void Conculandia_init(CmdLine *cl) {
 		wait(NULL);
 	}
 
+	printf("PERSONAS PROCESADAS :%d \n", Contador_get(&cont_1));
+
 	//libero recursos
+	Contador_eliminar(&cont_1);
 	Queue_eliminar(&q);
 	Sellos_eliminar(&sellos);
 }

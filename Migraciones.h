@@ -1,6 +1,7 @@
 #ifndef MIGRACIONES_H
 #define MIGRACIONES_H
 
+#include "Contador.h"
 #include "Person.h"
 #include "Queue.h"
 #include "Sellos.h"

@@ -4,6 +4,8 @@ int Migraciones_run(Sellos *sellos) {
 	//Adquiero recursos
 	Queue q;
 	Queue_abrir(&q, FIFO_FILE, O_RDONLY);
+	Contador cont_1;
+	Contador_crear(&cont_1, CONT_FILE_1);
 
 	int stop = 0;
 	while (!stop) {
@@ -20,6 +22,9 @@ int Migraciones_run(Sellos *sellos) {
 			//Simulo tiempo de procesamiento (0.05 seg)
 			usleep(50000);
 
+			//incremento el contador de personas procesadas
+			Contador_incrementar(&cont_1);
+
 			//Libero el sello
 			Sellos_liberar_sello(sellos);
 		}
@@ -29,6 +34,7 @@ int Migraciones_run(Sellos *sellos) {
 	}
 
 	//Libero recursos
+	Contador_eliminar(&cont_1);
 	Queue_cerrar(&q);
 
 	return 0;

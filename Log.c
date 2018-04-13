@@ -1,12 +1,12 @@
 #include "Log.h"
 
-int Log_abrir(Log *LG) {
+int Log_abrir(Log *LG, const char *filename) {
 	LG->fl.l_type = F_WRLCK;
 	LG->fl.l_whence = SEEK_SET;
 	LG->fl.l_start = 0;
 	LG->fl.l_len = 0;
 
-	LG->fd = open(LOG_FILE, O_CREAT | O_WRONLY, 0777);
+	LG->fd = open(filename, O_CREAT | O_WRONLY, 0777);
 
 	if (LG->fd == -1)
 		return ERROR_LOG_OPEN;

@@ -20,7 +20,7 @@ typedef struct {
 	int fd;
 } Log;
 
-int Log_abrir(Log *LG);
+int Log_abrir(Log *LG, const char *filename);
 
 int Log_escribir(Log *LG, char *msg);
 

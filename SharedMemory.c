@@ -10,8 +10,8 @@ int ShareMem_crear(SharedMemory *SHM,
 		return ERROR_FTOK;
 	}
 
-	//Reservo el segmento de memoria
-	SHM->mem_id = shmget(key, size, 0644 | IPC_CREAT | IPC_EXCL);
+	//Reservo el segmento de memoria (no usar IPC_EXCL, si ya fue creado hay que seguir de la misma forma)
+	SHM->mem_id = shmget(key, size, 0644 | IPC_CREAT);
 	if (SHM->mem_id == ERROR_SHMGET) {
 		return ERROR_SHMGET;
 	}
@@ -48,7 +48,7 @@ int ShareMem_liberar(SharedMemory *SHM) {
 }
 
 int ShareMem_leer(SharedMemory *SHM, void *ptr, int offset, size_t s) {
-	*((char *) ptr) = *(((char *) SHM->mem_ptr) + offset * s);
+	memcpy(ptr, ((char *) SHM->mem_ptr) + offset * s, s);
 	return SHM_OK;
 }
 
@@ -56,6 +56,6 @@ int ShareMem_escribir(SharedMemory *SHM,
 					  const void *ptr,
 					  int offset,
 					  size_t s) {
-	*(((char *) SHM->mem_ptr) + offset * s) = *((char *) ptr);
+	memcpy(((char *) SHM->mem_ptr) + offset * s, ptr, s);
 	return SHM_OK;
 }

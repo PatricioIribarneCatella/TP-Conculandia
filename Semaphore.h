@@ -1,6 +1,7 @@
 #ifndef SEMAPHORE_H
 #define SEMAPHORE_H
 
+#include <errno.h>
 #include <sys/ipc.h>
 #include <sys/sem.h>
 #include <sys/types.h>
@@ -11,7 +12,7 @@
 #define ERROR_FTOK -1
 #define ERROR_SEMGET -2
 
-#define DEFAULT_NUM 25
+#define SEM_DEFAULT_NUM 25
 
 typedef struct {
     int id;

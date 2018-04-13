@@ -1,9 +1,9 @@
 #include "Person.h"
 
 
-#define NAT_U_LIM 75
-//1 si x > NAT_U_LIM, 0 caso contratio
-//para regular el porcentage de nativos - extranjeros
+#define NAT_U_LIM 35
+//1 si x > NAT_U_LIM, 0 caso contrario
+//para regular el porcentage de nativos/extranjeros
 #define NAT(X) (X > NAT_U_LIM ? 1 : 0)
 
 //Son los id que se asigan a la persona

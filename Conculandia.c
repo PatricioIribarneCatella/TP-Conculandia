@@ -28,7 +28,7 @@ void Conculandia_init(CmdLine *cl) {
 	 * 	hacia el proceso de la simulación
 	 * */
 
-	//Inicializo recursos
+	//Inicializo Cola
 	Queue q;
 	Queue_crear(&q, FIFO_FILE);
 
@@ -46,20 +46,24 @@ void Conculandia_init(CmdLine *cl) {
 		printf("PROUCTOR PID: %d \n", f);
 	}
 
+    //Inicializo sellos (para las ventanillas)
+    Sellos sellos;
+    Sellos_crear(&sellos, cl->sellos);
+
 	//forks - ventanillas
 	int i = 0;
 	for (i = 0; i < cl->ventanillas; i++) {
 		int g = fork();
 		if (g == 0) {
-			Migraciones_run();
+			Migraciones_run(&sellos);
 			exit(0);
 		}
 	}
 
-	//busy wait, solo de prueba
+	//busy wait, solo de prueba (aca iria la consola)
 	sleep(3);
 
-	printf("KILL PRODUCER");
+	printf("KILL PRODUCER\n");
 
 	//signal al producer
 	kill(producer_pid, SIGINT);
@@ -72,4 +76,5 @@ void Conculandia_init(CmdLine *cl) {
 
 	//libero recursos
 	Queue_eliminar(&q);
+    Sellos_eliminar(&sellos);
 }

@@ -22,20 +22,12 @@ int Frontera_run(int ventanillas) {
 		Person_random_generate(&p);
 		Queue_escribir(&q, &p, sizeof(Person));
 
-		//duerme 0.1 segs para simular paso del tiempo
+		//duerme 0.01 segs para simular paso del tiempo
 		//regular el tiempo de creacion de personas
-		usleep(100000);
+		usleep(10000);
 	}
 
 	printf("PRODUCTOR TERMINANDO\n");
-
-	//Envio a las ventanillas señal para terminar (persona con id -1)
-	int i = 0;
-	for (i = 0; i < ventanillas; i++) {
-		Person p;
-		p.id = -1;
-		Queue_escribir(&q, &p, sizeof(Person));
-	}
 
 	//Libero recursos
 	Queue_cerrar(&q);

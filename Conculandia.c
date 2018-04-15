@@ -1,7 +1,10 @@
 #include "Conculandia.h"
 
 void Conculandia_init(CmdLine *cl) {
-	printf("Sellos: %d, ventanillas: %d\n", cl->sellos, cl->ventanillas);
+	Log log;
+	Log_abrir(&log, (const char*)&cl->log_filename);
+
+	Log_escribir(&log, "Sellos: %d, ventanillas: %d\n", cl->sellos, cl->ventanillas);
 
 	/*
 	 * 1 - realizar fork() para mantener la simulación en segundo plano
@@ -31,12 +34,12 @@ void Conculandia_init(CmdLine *cl) {
 	// Generador de personas
 	f = fork();
 	if (f == 0) {
-		Frontera_run();
+		Frontera_run(log);
 		exit(EXIT_SUCCESS);
 	}
 	else {
 		producer_pid = f;
-		printf("PROUCTOR PID: %d \n", f);
+		Log_escribir(&log, "PROUCTOR PID: %d \n", f);
 	}
 
 	// Inicializo sellos (para las ventanillas)
@@ -50,7 +53,7 @@ void Conculandia_init(CmdLine *cl) {
 	for (i = 0; i < cl->ventanillas; i++) {
 		g = fork();
 		if (g == 0) {
-			Migraciones_run(&sellos, i + 1);
+			Migraciones_run(&sellos, i + 1, log);
 			exit(EXIT_SUCCESS);
 		}
 	}
@@ -58,7 +61,7 @@ void Conculandia_init(CmdLine *cl) {
 	//busy wait, solo de prueba (aca iria la consola)
 	sleep(3);
 
-	printf("KILL PRODUCER\n");
+	Log_escribir(&log, "KILL PRODUCER\n");
 
 	//signal al producer
 	kill(producer_pid, SIGINT);
@@ -68,10 +71,11 @@ void Conculandia_init(CmdLine *cl) {
 	for (i = 0; i < cl->ventanillas + 1; i++)
 		wait(NULL);
 
-	printf("PERSONAS PROCESADAS :%d \n", Contador_get(&cont_personas));
+	Log_escribir(&log, "PERSONAS PROCESADAS :%d \n", Contador_get(&cont_personas));
 
 	// Libero recursos
 	Contador_eliminar(&cont_personas);
 	Queue_eliminar(&q);
 	Sellos_eliminar(&sellos);
+	Log_cerrar(&log);
 }

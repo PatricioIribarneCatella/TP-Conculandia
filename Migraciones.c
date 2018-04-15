@@ -1,6 +1,6 @@
 #include "Migraciones.h"
 
-int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla) {
+int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log log) {
 	//Adquiero recursos
 	Queue q;
 	Contador cont_personas;
@@ -18,7 +18,7 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla) {
 			Sellos_tomar_sello(sellos);
 
 			//si es un id valido imprimo (aca iria el procesamiento de la persona)
-			printf("Ventanilla pid: %d, Persona nacionalidad: %d - id: %d \n",
+			Log_escribir(&log, "Ventanilla pid: %d, Persona nacionalidad: %d - id: %d \n",
 				   getpid(), p.nacionalidad, p.id);
 
 			//Simulo tiempo de procesamiento (0.05 seg)
@@ -32,12 +32,12 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla) {
 		}
 		else {
 			if (r > 0)
-				printf("Bytes leidos incorrectos. Leidos: %d\n", r);
+				Log_escribir(&log, "Bytes leidos incorrectos. Leidos: %d\n", r);
 			stop = 1;
 		}
 	}
 
-	printf("Cerrando ventanilla n° %d\n", numero_ventanilla);
+	Log_escribir(&log, "Cerrando ventanilla n° %d\n", numero_ventanilla);
 
 	//Libero recursos
 	Contador_eliminar(&cont_personas);

@@ -7,7 +7,8 @@
 
 #include "Person.h"
 #include "Queue.h"
+#include "Log.h"
 
-int Frontera_run(void);
+int Frontera_run(Log log);
 
 #endif  //FRONTERA_H

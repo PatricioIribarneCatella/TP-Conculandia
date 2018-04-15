@@ -5,10 +5,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
+
+#define LOG_DEFAULT_FILENAME "log.txt"
+
 
 typedef struct {
 	int sellos;
 	int ventanillas;
+	char log_filename[40];
 } CmdLine;
 
 void CmdLine_parse(int argc, char *argv[], CmdLine *cl);

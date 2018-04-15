@@ -15,9 +15,16 @@ int Log_abrir(Log *LG, const char *filename) {
 }
 
 
-int Log_escribir(Log *LG, char *msg) {
+int Log_escribir(Log *LG, const char *msg, ...) {
 
 	int return_value = LOG_OK;
+	char buffer[MSG_MAX_SIZE];
+
+	va_list args;
+	va_start (args, msg);
+	vsprintf (buffer, msg, args);
+	va_end (args);
+
 
 	if (strlen(msg) > MSG_MAX_SIZE) {
 		return ERROR_LOG_WRITE_MSGTOOLONG;
@@ -30,7 +37,7 @@ int Log_escribir(Log *LG, char *msg) {
 
 	// Me muevo al final del archivo y escribo
 	lseek(LG->fd, 0, SEEK_END);
-	if (ERROR_LOG_WRITE == write(LG->fd, msg, strlen(msg))) {
+	if (ERROR_LOG_WRITE == write(LG->fd, buffer, strlen(buffer))) {
 		return_value = ERROR_LOG_WRITE;
 	}
 

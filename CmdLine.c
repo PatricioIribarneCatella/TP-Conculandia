@@ -2,7 +2,9 @@
 
 static void print_usage() {
 	printf("USAGE: ./main.out -v numV -s numS -l log_filename.txt\n");
-	printf("Tener en cuenta que: numV > numS y (numS > 1 && numV > 1) y l es opcional con valor por defecto %s\n",
+	printf(
+		"Tener en cuenta que: numV > numS y (numS > 1 && numV > 1) y l es "
+		"opcional con valor por defecto %s\n",
 		LOG_DEFAULT_FILENAME);
 }
 

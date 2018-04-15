@@ -14,16 +14,14 @@ int Log_abrir(Log *LG, const char *filename) {
 	return LOG_OK;
 }
 
-
 int Log_escribir(Log *LG, const char *msg, ...) {
-
 	int return_value = LOG_OK;
 	char buffer[MSG_MAX_SIZE];
 
 	va_list args;
-	va_start (args, msg);
-	vsprintf (buffer, msg, args);
-	va_end (args);
+	va_start(args, msg);
+	vsprintf(buffer, msg, args);
+	va_end(args);
 
 
 	if (strlen(msg) > MSG_MAX_SIZE) {

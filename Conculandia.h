@@ -10,10 +10,10 @@
 #include "CmdLine.h"
 #include "Contador.h"
 #include "Frontera.h"
+#include "Log.h"
 #include "Migraciones.h"
 #include "Person.h"
 #include "Queue.h"
-#include "Log.h"
 
 void Conculandia_init(CmdLine *cl);
 

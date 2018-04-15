@@ -1,14 +1,12 @@
 #include "Frontera.h"
 
-#define BUFLEN 200
-
 static int quit;
 
 void SIGINT_handler(int signum) {
 	quit = 1;
 }
 
-int Frontera_run(Log log) {
+int Frontera_run(Log *log) {
 	// Setea el handler para
 	// la señal SIGINT de terminar
 	struct sigaction act;
@@ -37,12 +35,12 @@ int Frontera_run(Log log) {
 		//regular el tiempo de creacion de personas
 		usleep(10000);
 	}
-	if (quit) {
-		Log_escribir(&log, "Frontera SIGINT received");
-	}
 
-	Log_escribir(&log, "PRODUCTOR TERMINANDO \n");
-	Log_escribir(&log, "%d PERSONAS ENTRARON POR LA FRONTERA \n\n", p_created);
+	if (quit)
+		Log_escribir(log, "Frontera SIGINT received\n");
+
+	Log_escribir(log, "PRODUCTOR TERMINANDO \n");
+	Log_escribir(log, "%d PERSONAS ENTRARON POR LA FRONTERA \n\n", p_created);
 
 	//Libero recursos
 	Queue_cerrar(&q);

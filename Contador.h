@@ -17,6 +17,8 @@ typedef struct {
 
 int Contador_crear(Contador *C, const char *filename);
 
+int Contador_init_to_zero(Contador *C);
+
 int Contador_incrementar(Contador *C);
 
 int Contador_get(Contador *C);

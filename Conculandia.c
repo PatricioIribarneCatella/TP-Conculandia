@@ -44,6 +44,7 @@ void Conculandia_init(CmdLine *cl) {
 
 	// Inicializa el contador de personas
 	Contador_crear(&cont_personas, CONT_FILE_1);
+    Contador_init_to_zero(&cont_personas);
 
 	// Ventanillas
 	for (i = 0; i < cl->ventanillas; i++) {

@@ -3,9 +3,15 @@
 
 int Contador_crear(Contador *C, const char *filename){
     ShareMem_crear(&(C->shm_cont), sizeof(int), filename, CONT_DEFAULT_NUM);
-    int init = 0;
-    ShareMem_escribir(&(C->shm_cont), &init, 0, 1);
     Semaphore_init(&(C->sem), filename, 1);
+    return 0;
+}
+
+int Contador_init_to_zero(Contador *C){
+    int init = 0;
+    Semaphore_p(&(C->sem));
+    ShareMem_escribir(&(C->shm_cont), &init, 0, sizeof(int));
+    Semaphore_v(&(C->sem));
     return 0;
 }
 

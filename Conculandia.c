@@ -1,16 +1,7 @@
 #include "Conculandia.h"
-#include "CmdLine.h"
-#include "Contador.h"
-#include "Frontera.h"
-#include "Migraciones.h"
-#include "Person.h"
-#include "Queue.h"
-#include <signal.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 
 void Conculandia_init(CmdLine *cl) {
+
 	printf("Sellos: %d, ventanillas: %d\n", cl->sellos, cl->ventanillas);
 
 	/*
@@ -29,37 +20,38 @@ void Conculandia_init(CmdLine *cl) {
 	 * 	hacia el proceso de la simulación
 	 * */
 
-	//Inicializo Cola
 	Queue q;
+	Sellos sellos;
+	Contador cont_personas;
+	pid_t f, g, producer_pid = 0;
+	int i;
+	
+	// Inicializo Cola
 	Queue_crear(&q, FIFO_FILE);
 
-	//id del proceso que genera personas
-	int producer_pid = 0;
-
-	//fork - generador de personas
-	int f = fork();
+	// Generador de personas
+	f = fork();
 	if (f == 0) {
-		Frontera_run(cl->ventanillas);
-		exit(0);
+		Frontera_run();
+		exit(EXIT_SUCCESS);
 	}
 	else {
 		producer_pid = f;
 		printf("PROUCTOR PID: %d \n", f);
 	}
 
-	//Inicializo sellos (para las ventanillas)
-	Sellos sellos;
+	// Inicializo sellos (para las ventanillas)
 	Sellos_crear(&sellos, cl->sellos);
-	Contador cont_1;
-	Contador_crear(&cont_1, CONT_FILE_1);
+	
+	// Inicializa el contador de personas
+	Contador_crear(&cont_personas, CONT_FILE_1);
 
-	//forks - ventanillas
-	int i = 0;
+	// Ventanillas
 	for (i = 0; i < cl->ventanillas; i++) {
-		int g = fork();
+		g = fork();
 		if (g == 0) {
 			Migraciones_run(&sellos, i + 1);
-			exit(0);
+			exit(EXIT_SUCCESS);
 		}
 	}
 
@@ -73,14 +65,13 @@ void Conculandia_init(CmdLine *cl) {
 
 	//esperar a que todos los procesos terminen
 	//ventanillas + 1(producer) - cambiar si se agregan otros procesos
-	for (i = 0; i < cl->ventanillas + 1; i++) {
+	for (i = 0; i < cl->ventanillas + 1; i++)
 		wait(NULL);
-	}
 
-	printf("PERSONAS PROCESADAS :%d \n", Contador_get(&cont_1));
+	printf("PERSONAS PROCESADAS :%d \n", Contador_get(&cont_personas));
 
-	//libero recursos
-	Contador_eliminar(&cont_1);
+	// Libero recursos
+	Contador_eliminar(&cont_personas);
 	Queue_eliminar(&q);
 	Sellos_eliminar(&sellos);
 }

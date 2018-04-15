@@ -58,7 +58,7 @@ void Conculandia_init(CmdLine *cl) {
 	for (i = 0; i < cl->ventanillas; i++) {
 		int g = fork();
 		if (g == 0) {
-			Migraciones_run(&sellos);
+			Migraciones_run(&sellos, i + 1);
 			exit(0);
 		}
 	}

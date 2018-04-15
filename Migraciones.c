@@ -1,6 +1,6 @@
 #include "Migraciones.h"
 
-int Migraciones_run(Sellos *sellos) {
+int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla) {
 	//Adquiero recursos
 	Queue q;
 	Queue_abrir(&q, FIFO_FILE, O_RDONLY);
@@ -11,7 +11,7 @@ int Migraciones_run(Sellos *sellos) {
 	while (!stop) {
 		Person p;
 		int r = Queue_leer(&q, &p, sizeof(Person));
-		if (r > 0) {
+		if (r == sizeof(Person)) {
 			//Tomo un seloo
 			Sellos_tomar_sello(sellos);
 
@@ -29,10 +29,14 @@ int Migraciones_run(Sellos *sellos) {
 			Sellos_liberar_sello(sellos);
 		}
 		else {
+			if (r > 0)
+				printf("Cantidad de bytes leidos incorrectos.Bytes leidos: %d\n",
+					   r);
 			stop = 1;
 		}
 	}
 
+	printf("Cerrando ventanilla n° %d\n", numero_ventanilla);
 	//Libero recursos
 	Contador_eliminar(&cont_1);
 	Queue_cerrar(&q);

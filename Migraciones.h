@@ -8,6 +8,6 @@
 #include <errno.h>
 #include <stdio.h>
 
-int Migraciones_run(Sellos *sellos);
+int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla);
 
 #endif  //MIGRACIONES_H

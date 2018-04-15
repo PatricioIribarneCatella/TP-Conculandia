@@ -15,26 +15,37 @@ int Log_abrir(Log *LG, const char *filename) {
 }
 
 
-int Log_escribir(Log *LG, char *msg) {
-	//Adquiero el lock
-	LG->fl.l_type = F_WRLCK;
-	fcntl(LG->fd, F_SETLKW, &(LG->fl));
+int Log_escribir(Log *LG, const char *msg, ...) {
+
+	int return_value = LOG_OK;
+	char buffer[MSG_MAX_SIZE];
+
+	va_list args;
+	va_start (args, msg);
+	vsprintf (buffer, msg, args);
+	va_end (args);
+
 
 	if (strlen(msg) > MSG_MAX_SIZE) {
 		return ERROR_LOG_WRITE_MSGTOOLONG;
 	}
 
-	//Me muevo al final del archivo y escribo
+
+	// Adquiero el lock
+	LG->fl.l_type = F_WRLCK;
+	fcntl(LG->fd, F_SETLKW, &(LG->fl));
+
+	// Me muevo al final del archivo y escribo
 	lseek(LG->fd, 0, SEEK_END);
-	if (ERROR_LOG_WRITE == write(LG->fd, msg, strlen(msg))) {
-		return ERROR_LOG_WRITE;
+	if (ERROR_LOG_WRITE == write(LG->fd, buffer, strlen(buffer))) {
+		return_value = ERROR_LOG_WRITE;
 	}
 
-	//Libero el lock
+	// Libero el lock
 	LG->fl.l_type = F_UNLCK;
 	fcntl(LG->fd, F_SETLKW, &(LG->fl));
 
-	return LOG_OK;
+	return return_value;
 }
 
 int Log_cerrar(Log *LG) {

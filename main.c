@@ -3,6 +3,7 @@
 
 #include "CmdLine.h"
 #include "Conculandia.h"
+#include "Log.h"
 
 int main(int argc, char *argv[]) {
 	CmdLine cl;

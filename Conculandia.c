@@ -1,7 +1,6 @@
 #include "Conculandia.h"
 
 void Conculandia_init(CmdLine *cl) {
-
 	printf("Sellos: %d, ventanillas: %d\n", cl->sellos, cl->ventanillas);
 
 	/*
@@ -25,7 +24,7 @@ void Conculandia_init(CmdLine *cl) {
 	Contador cont_personas;
 	pid_t f, g, producer_pid = 0;
 	int i;
-	
+
 	// Inicializo Cola
 	Queue_crear(&q, FIFO_FILE);
 
@@ -42,7 +41,7 @@ void Conculandia_init(CmdLine *cl) {
 
 	// Inicializo sellos (para las ventanillas)
 	Sellos_crear(&sellos, cl->sellos);
-	
+
 	// Inicializa el contador de personas
 	Contador_crear(&cont_personas, CONT_FILE_1);
 

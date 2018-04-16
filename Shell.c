@@ -30,10 +30,11 @@ void Shell_run(pid_t f, Log* log, Contador* p) {
 
 	char* cmd;
 
-	printf("\tConculandia - Shell\n");
-	printf("Comandos:\n");
-	printf("\texit: terminar la simulación\n");
-	printf("\tgetper: devuelve la cantidad de personas que llegaron a la Frontera\n");
+	printf(
+		"\tConculandia - Shell\n"
+		" Comandos:\n"
+		"\texit: terminar la simulación\n"
+		"\tgetper: devuelve la cantidad de personas que llegaron a la Frontera\n");
 
 	while ((cmd = read_line(">")) != NULL) {
 		

@@ -2,10 +2,10 @@
 #define LOG_H
 
 #include <fcntl.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <stdarg.h>
 
 #define LOG_OK 0
 #define ERROR_LOG_OPEN -1

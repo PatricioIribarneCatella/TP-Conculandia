@@ -1,5 +1,4 @@
 #include "Contador.h"
-#include "SharedMemory.h"
 
 int Contador_crear(Contador *C, const char *filename){
     ShareMem_crear(&(C->shm_cont), sizeof(int), filename, CONT_DEFAULT_NUM);

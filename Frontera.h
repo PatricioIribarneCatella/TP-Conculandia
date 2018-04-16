@@ -5,10 +5,10 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include "Log.h"
 #include "Person.h"
 #include "Queue.h"
-#include "Log.h"
 
-int Frontera_run(Log log);
+int Frontera_run(Log *log);
 
 #endif  //FRONTERA_H

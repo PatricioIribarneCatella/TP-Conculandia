@@ -1,6 +1,5 @@
 #include "Person.h"
 
-
 #define NAT_U_LIM 35
 //1 si x > NAT_U_LIM, 0 caso contrario
 //para regular el porcentage de nativos/extranjeros

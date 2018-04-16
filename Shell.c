@@ -31,8 +31,7 @@ void Shell_run(pid_t f, Log *log, Contador *p) {
 		"\tConculandia - Shell\n"
 		" Comandos:\n"
 		"\texit: terminar la simulación\n"
-		"\tgetper: devuelve la cantidad de personas que llegaron a la "
-		"Frontera\n");
+		"\tgetper: cantidad de personas atendidas hasta el momento\n");
 
 	while ((cmd = read_line(">")) != NULL) {
 		if (strcmp(cmd, "exit") == 0) {

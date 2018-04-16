@@ -22,8 +22,8 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 				log, "Ventanilla pid: %d, Persona nacionalidad: %d - id: %d \n",
 				getpid(), p.nacionalidad, p.id);
 
-			//Simulo tiempo de procesamiento (0.05 seg)
-			usleep(50000);
+			//Simulo tiempo de procesamiento (0.02 seg)
+			usleep(20000);
 
 			//incremento el contador de personas procesadas
 			Contador_incrementar(&cont_personas);

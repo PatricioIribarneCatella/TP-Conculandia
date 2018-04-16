@@ -36,36 +36,36 @@ static void Ventanillas_init(Sellos *sellos,
 		}
 }
 
+static void Ventanillas_wait(int ventanillas) {
+	
+	// Esperar a que todas las ventanillas terminen
+	for (int i = 0; i < ventanillas; i++)
+		wait(NULL);
+}
+
 void Conculandia_init(CmdLine *cl) {
 	Log log;
 	Queue q;
 	Sellos sellos;
 	Contador personas;
 	pid_t frontera;
-
+	
+	// Inicializa el Log
 	Log_abrir(&log, (const char *) &cl->log_filename);
-	Log_escribir(&log, "Sellos: %d, ventanillas: %d\n", cl->sellos,
-				 cl->ventanillas);
+	
+	Log_escribir(&log, "Sellos: %d, ventanillas: %d\n",
+			cl->sellos, cl->ventanillas);
 
+	// Inicializa y ejecuta la Frontera
 	frontera = Frontera_init(&q, &log);
-
+	
+	// Inicializa y ejecuta las Ventanillas
 	Ventanillas_init(&sellos, &personas, &log, cl);
+	
+	// Ejecuta la Shell
+	Shell_run(frontera, &log, &personas);
 
-
-	//busy wait, solo de prueba (aca iria la consola)
-	sleep(3);
-
-
-	Log_escribir(&log, "KILL PRODUCER\n");
-
-	// Signal a la frontera para
-	// terminar de producir gente
-	kill(frontera, SIGINT);
-
-	// esperar a que todos los procesos terminen
-	// ventanillas + 1(producer) - cambiar si se agregan otros procesos
-	for (int i = 0; i < cl->ventanillas + 1; i++)
-		wait(NULL);
+	Ventanillas_wait(cl->ventanillas);
 
 	Log_escribir(&log, "PERSONAS PROCESADAS :%d \n", Contador_get(&personas));
 

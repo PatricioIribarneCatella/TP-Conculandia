@@ -14,6 +14,7 @@
 #include "Migraciones.h"
 #include "Person.h"
 #include "Queue.h"
+#include "Shell.h"
 
 void Conculandia_init(CmdLine *cl);
 

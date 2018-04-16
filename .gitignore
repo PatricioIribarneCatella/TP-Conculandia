@@ -33,3 +33,6 @@
 
 # vi swap files
 .*.swp
+
+# log files
+log*.txt

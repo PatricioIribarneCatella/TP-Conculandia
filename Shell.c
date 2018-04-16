@@ -49,6 +49,8 @@ void Shell_run(pid_t f, Log* log, Contador* p) {
 			// del proceso Frontera
 			waitpid(f, NULL, 0);
 
+			printf("saliendo de la simulación\n");
+
 			return;
 		}
 

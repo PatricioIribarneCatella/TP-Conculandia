@@ -23,3 +23,7 @@ void Person_random_generate(Person *p) {
 		pasaport_n = pasaport_n + 1;
 	}
 }
+
+int Person_es_extranjero(Person *p){
+	return (p->nacionalidad == EXTRANJERO);
+}

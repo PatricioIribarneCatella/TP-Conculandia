@@ -36,3 +36,7 @@
 
 # log files
 log*.txt
+
+.idea
+cmake-build-debug
+

@@ -56,7 +56,9 @@ void Shell_run(pid_t f, Log *log, Contador *p, Contador *p_arrest) {
 				   Contador_get(p));
 
 		if (strcmp(cmd, "getpera") == 0)
-			printf("Personas que llegaron fueron derivadas a la Oficina de Policía: %d\n",
-				   Contador_get(p_arrest));
+			printf(
+				"Personas que llegaron fueron derivadas a la Oficina de "
+				"Policía: %d\n",
+				Contador_get(p_arrest));
 	}
 }

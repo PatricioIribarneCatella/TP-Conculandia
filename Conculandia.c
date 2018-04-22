@@ -19,8 +19,8 @@ static int Frontera_init(Queue *q, Log *log) {
 
 static void Ventanillas_init(Sellos *sellos,
 							 Contador *personas,
-                             Contador *pers_arrestadas,
-                             PedidosCaptura *p_captura,
+							 Contador *pers_arrestadas,
+							 PedidosCaptura *p_captura,
 							 Log *log,
 							 CmdLine *cl) {
 	// Inicializo sellos (para las ventanillas)
@@ -30,13 +30,13 @@ static void Ventanillas_init(Sellos *sellos,
 	Contador_crear(personas, CONT_FILE_1);
 	Contador_init_to_zero(personas);
 
-    // Inicializa el contador de residentes arrestadas
-    Contador_crear(pers_arrestadas, CONT_FILE_2);
-    Contador_init_to_zero(pers_arrestadas);
+	// Inicializa el contador de residentes arrestadas
+	Contador_crear(pers_arrestadas, CONT_FILE_2);
+	Contador_init_to_zero(pers_arrestadas);
 
-    // Inicializa los pedidos de captura
-    PedidosCaptura_crear(p_captura, PCAPTURA_FILE);
-    PedidosCaptura_inicializar(p_captura);
+	// Inicializa los pedidos de captura
+	PedidosCaptura_crear(p_captura, PCAPTURA_FILE);
+	PedidosCaptura_inicializar(p_captura);
 
 	// Ventanillas
 	for (int i = 0; i < cl->ventanillas; i++)
@@ -57,8 +57,8 @@ void Conculandia_init(CmdLine *cl) {
 	Queue q;
 	Sellos sellos;
 	Contador personas;
-    Contador pers_arrestadas;
-    PedidosCaptura p_captura;
+	Contador pers_arrestadas;
+	PedidosCaptura p_captura;
 
 	pid_t frontera;
 
@@ -72,7 +72,8 @@ void Conculandia_init(CmdLine *cl) {
 	frontera = Frontera_init(&q, &log);
 
 	// Inicializa y ejecuta las Ventanillas
-	Ventanillas_init(&sellos, &personas, &pers_arrestadas, &p_captura, &log, cl);
+	Ventanillas_init(&sellos, &personas, &pers_arrestadas, &p_captura, &log,
+					 cl);
 
 	// Ejecuta la Shell
 	Shell_run(frontera, &log, &personas, &pers_arrestadas);
@@ -82,8 +83,8 @@ void Conculandia_init(CmdLine *cl) {
 	Log_escribir(&log, "PERSONAS PROCESADAS :%d \n", Contador_get(&personas));
 
 	// Libero recursos
-    PedidosCaptura_eliminar(&p_captura);
-    Contador_eliminar(&pers_arrestadas);
+	PedidosCaptura_eliminar(&p_captura);
+	Contador_eliminar(&pers_arrestadas);
 	Contador_eliminar(&personas);
 	Queue_eliminar(&q);
 	Sellos_eliminar(&sellos);

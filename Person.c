@@ -24,6 +24,6 @@ void Person_random_generate(Person *p) {
 	}
 }
 
-int Person_es_extranjero(Person *p){
+int Person_es_extranjero(Person *p) {
 	return (p->nacionalidad == EXTRANJERO);
 }

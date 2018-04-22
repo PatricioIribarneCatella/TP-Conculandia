@@ -16,4 +16,6 @@ typedef struct {
 
 void Person_random_generate(Person *p);
 
+int Person_es_extranjero(Person *p);
+
 #endif  //PERSON_H

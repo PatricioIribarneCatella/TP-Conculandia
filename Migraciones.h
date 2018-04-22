@@ -6,6 +6,7 @@
 
 #include "Contador.h"
 #include "Log.h"
+#include "PedidosCaptura.h"
 #include "Person.h"
 #include "Queue.h"
 #include "Sellos.h"

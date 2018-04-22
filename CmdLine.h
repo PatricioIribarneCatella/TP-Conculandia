@@ -13,6 +13,7 @@
 typedef struct {
 	int sellos;
 	int ventanillas;
+	int debug;
 	char log_filename[40];
 } CmdLine;
 

@@ -10,8 +10,14 @@ $ make
 
 ### Ejecutar
 
+- Modo normal
 ```bash
 $ make run
+```
+
+- Modo debug
+```bash
+$ make run-debug
 ```
 
 ### Formato

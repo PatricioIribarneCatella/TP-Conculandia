@@ -63,7 +63,7 @@ void Conculandia_init(CmdLine *cl) {
 	pid_t frontera;
 
 	// Inicializa el Log
-	Log_abrir(&log, (const char *) &cl->log_filename);
+	Log_abrir(&log, (const char *) &cl->log_filename, cl->debug);
 
 	Log_escribir(&log, "Sellos: %d, ventanillas: %d\n", cl->sellos,
 				 cl->ventanillas);

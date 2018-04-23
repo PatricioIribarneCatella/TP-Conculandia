@@ -2,19 +2,19 @@
 int Adquerir_recursos(Queue* q, Contador* personas, Contador* pers_arrestadas, PedidosCaptura* p_captura) {
 	int error;
 
-	error = Queue_abrir(&q, FIFO_FILE, O_RDONLY);
+	error = Queue_abrir(q, FIFO_FILE, O_RDONLY);
 	if (error)
 		return error;
 
-	error = Contador_crear(&cont_personas, CONT_FILE_1);
+	error = Contador_crear(personas, CONT_FILE_1);
 	if (error)
 		return error;
 
-	error = Contador_crear(&cont_pers_arrest, CONT_FILE_2);
+	error = Contador_crear(pers_arrestadas, CONT_FILE_2);
 	if (error)
 		return error;
 
-	error = PedidosCaptura_crear(&p_captura, PCAPTURA_FILE);
+	error = PedidosCaptura_crear(p_captura, PCAPTURA_FILE);
 
 	return error;
 

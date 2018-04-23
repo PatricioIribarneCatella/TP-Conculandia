@@ -25,7 +25,7 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 	Contador cont_personas;
 	Contador cont_pers_arrest;
 	PedidosCaptura p_captura;
-	int r, stop = 0;
+	int r, stop = 0, error;
 
 
 	stop = Adquerir_recursos(&q, &cont_personas, &cont_pers_arrest, &p_captura);
@@ -39,7 +39,9 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 				//ENTRANJERO
 
 				//Tomo un sello
-				Sellos_tomar_sello(sellos);
+				error = Sellos_tomar_sello(sellos);
+				if (error)
+					break;
 
 				//si es un id valido imprimo (aca iria el procesamiento de la persona)
 				Log_escribir(
@@ -51,10 +53,14 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 				usleep(20000);
 
 				//incremento el contador de personas procesadas
-				Contador_incrementar(&cont_personas);
+				error = Contador_incrementar(&cont_personas);
+				if (error)
+					break;
 
 				//Libero el sello
-				Sellos_liberar_sello(sellos);
+				error = Sellos_liberar_sello(sellos);
+				if (error)
+					break;
 			}
 			else {
 				//NATIVO
@@ -66,7 +72,9 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 
 				//si tiene pedido va  ala comisaría
 				if (PedidosCaptura_check_persona(&p_captura, &p)) {
-					Contador_incrementar(&cont_pers_arrest);
+					error = Contador_incrementar(&cont_pers_arrest);
+					if (error)
+						break;
 					Log_escribir(log,
 								 "Ventanilla: %d, Persona con dni: %d, "
 								 "derivado a la Oficina de Policía\n",
@@ -80,7 +88,9 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 				}
 
 				//incremento el contador de personas procesadas
-				Contador_incrementar(&cont_personas);
+				error = Contador_incrementar(&cont_personas);
+				if (error)
+					break;
 			}
 		}
 		else {
@@ -89,6 +99,9 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 			stop = 1;
 		}
 	}
+
+	if (error)
+		Log_escribir(log, "Hubo un error en la ventanilla n° %d\n", numero_ventanilla);
 
 	Log_escribir(log, "Cerrando ventanilla n° %d\n", numero_ventanilla);
 

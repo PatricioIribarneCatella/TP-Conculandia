@@ -12,7 +12,7 @@
 #define ERROR_FTOK -1
 #define ERROR_SEMGET -2
 
-#define SEM_DEFAULT_NUM 25
+#define SEM_DEFAULT_NUM 22
 
 typedef struct {
     int id;

@@ -27,7 +27,7 @@ union semun {
 };
 
 
-int Semaphore_init(Semaphore *S, const char *filename, int init_val);
+int Semaphore_init(Semaphore *S, const char *filename, int init_val, int crear);
 
 int Semaphore_v(Semaphore *S); //incrementar (signal, unlock, leave or release)
 

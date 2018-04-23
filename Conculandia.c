@@ -2,18 +2,23 @@
 
 static int Frontera_init(Queue *q, Log *log) {
 	pid_t f;
+	int error;
 
 	// Inicializo Cola
-	Queue_crear(q, FIFO_FILE);
-
+	error = Queue_crear(q, FIFO_FILE);
+	if (error)
+		return error;
 	// Generador de personas
 	if ((f = fork()) == 0) {
 		Frontera_run(log);
 		exit(EXIT_SUCCESS);
 	}
+	if (f < 0)
+		return f;
 
-	Log_escribir(log, "PROUCTOR PID: %d \n", f);
-
+	error = Log_escribir(log, "PROUCTOR PID: %d \n", f);
+	if (error)
+		return error;
 	return f;
 }
 
@@ -44,44 +49,36 @@ static int Ventanillas_init(Sellos *sellos,
     pid_t* ventanillas_pids = malloc(sizeof(pid_t) * cl->ventanillas);
     if (ventanillas_pids == NULL)
         return errno;
-    printf("1\n");
 	// Inicializo sellos (para las ventanillas)
     error = Sellos_crear(sellos, cl->sellos);
 
     if (error)
         return error;
-    printf("2\n");
 
     // Inicializa el contador de personas
-    error = Contador_crear(personas, CONT_FILE_1);
+    error = Contador_crear(personas, CONT_FILE_1, 1);
     if (error)
         return error;
-    printf("3\n");
     error = Contador_init_to_zero(personas);
     if (error)
         return error;
 
-    printf("4\n");
 
 	// Inicializa el contador de residentes arrestadas
-    error = Contador_crear(pers_arrestadas, CONT_FILE_2);
+    error = Contador_crear(pers_arrestadas, CONT_FILE_2, 1);
     if (error)
         return error;
-    printf("5\n");
     error = Contador_init_to_zero(pers_arrestadas);
     if (error)
         return error;
-    printf("6\n");
 
 	// Inicializa los pedidos de captura
     error = PedidosCaptura_crear(p_captura, PCAPTURA_FILE);
     if (error)
         return error;
-    printf("7\n");
     error = PedidosCaptura_inicializar(p_captura);
     if (error)
         return error;
-    printf("8\n");
 
 	// Ventanillas
     for (i = 0; i < cl->ventanillas; i++) {
@@ -143,7 +140,7 @@ int Conculandia_init(CmdLine *cl,
 	// Inicializa y ejecuta la Frontera
 	*frontera = Frontera_init(q, log);
 
-    if (*frontera < 0) {
+    if (*frontera <=  0) {
         perror("Fallo al inicializar la frontera. Error");
         return error;
     }
@@ -153,6 +150,7 @@ int Conculandia_init(CmdLine *cl,
 	error = Ventanillas_init(sellos, personas, pers_arrestadas, p_captura, log, cl);
 
     if (error) {
+				kill(*frontera, SIGINT);
         perror ("Fallo al inicializar las ventanillas. Error");
         return error;
     }

@@ -19,7 +19,6 @@ int main(int argc, char *argv[]) {
 
 	Conculandia_init(&cl, &log, &q, &sellos, &personas, &pers_arrestadas, &p_captura, &frontera);
 
-	printf("Finished");
 	Liberar_recursos(&log, &q, &sellos, &personas, &pers_arrestadas, &p_captura);
 
 

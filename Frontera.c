@@ -7,7 +7,8 @@ void SIGINT_handler(int signum) {
 }
 
 int Frontera_run(Log *log) {
-	int error;
+	int error, fd;
+	quit = 0;
 	// Setea el handler para
 	// la señal SIGINT de terminar
 	struct sigaction act;
@@ -19,7 +20,9 @@ int Frontera_run(Log *log) {
 
 	//Adquiero recursos
 	Queue q;
-	error = Queue_abrir(&q, FIFO_FILE, O_WRONLY);
+	fd = Queue_abrir(&q, FIFO_FILE, O_WRONLY);
+
+	error = fd < 0 ? fd : 0;
 
 	int p_created = 0;
 

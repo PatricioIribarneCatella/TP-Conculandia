@@ -7,6 +7,7 @@ void SIGINT_handler(int signum) {
 }
 
 int Frontera_run(Log *log) {
+	int error;
 	// Setea el handler para
 	// la señal SIGINT de terminar
 	struct sigaction act;
@@ -18,12 +19,12 @@ int Frontera_run(Log *log) {
 
 	//Adquiero recursos
 	Queue q;
-	Queue_abrir(&q, FIFO_FILE, O_WRONLY);
+	error = Queue_abrir(&q, FIFO_FILE, O_WRONLY);
 
 	int p_created = 0;
 
 	//Mientras no haya problemas meto personas en la cola
-	while (!quit) {
+	while (!quit && !error) {
 		Person p;
 		Person_random_generate(&p);
 

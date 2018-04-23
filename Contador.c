@@ -1,13 +1,13 @@
 #include "Contador.h"
 
-int Contador_crear(Contador *C, const char *filename, int crear_sem){
+int Contador_crear(Contador *C, const char *filename){
     int error;
 
     error = ShareMem_crear(&(C->shm_cont), sizeof(int), filename, CONT_DEFAULT_NUM);
 
     if (!error)
-        error = Semaphore_init(&(C->sem), filename, 1, crear_sem);
-    C->crear_sem = crear_sem;
+        error = Semaphore_init(&(C->sem), filename, 1, C->crear_sem);
+
     return error;
 }
 
@@ -27,14 +27,12 @@ int Contador_get(Contador *C){
     int c = 0;
     int error;
     error = Semaphore_p(&(C->sem));
-    printf("Hola\n");
     if (error)
         return error;
 
     ShareMem_leer(&(C->shm_cont), &c, 0, sizeof(int));
     error = Semaphore_v(&(C->sem));
 
-    printf("Hola\n");
     if (error)
         return error;
 

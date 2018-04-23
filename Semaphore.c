@@ -46,6 +46,5 @@ int Semaphore_p(Semaphore *S){
 }
 
 int Semaphore_eliminar(Semaphore *S){
-    printf("Siendo borrado por %d\n", getpid());
     return semctl(S->id, 0, IPC_RMID);
 }

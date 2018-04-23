@@ -6,12 +6,13 @@ static int Adquirir_recursos(Queue* q, Contador* personas, Contador* pers_arrest
 	error = fd < 0 ? fd : 0;
 	if (error)
 		return error;
-
-	error = Contador_crear(personas, CONT_FILE_1, 0);
+	personas->crear_sem = 0;
+	error = Contador_crear(personas, CONT_FILE_1);
 	if (error)
 		return error;
 
-	error = Contador_crear(pers_arrestadas, CONT_FILE_2, 0);
+	pers_arrestadas->crear_sem = 0;
+	error = Contador_crear(pers_arrestadas, CONT_FILE_2);
 	if (error)
 		return error;
 

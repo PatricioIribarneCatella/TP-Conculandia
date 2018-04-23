@@ -16,7 +16,7 @@ typedef struct {
     int crear_sem;
 } Contador;
 
-int Contador_crear(Contador *C, const char *filename, int crear_sem);
+int Contador_crear(Contador *C, const char *filename);
 
 int Contador_init_to_zero(Contador *C);
 

@@ -56,7 +56,8 @@ static int Ventanillas_init(Sellos *sellos,
         return error;
 
     // Inicializa el contador de personas
-    error = Contador_crear(personas, CONT_FILE_1, 1);
+		personas->crear_sem = 1;
+    error = Contador_crear(personas, CONT_FILE_1);
     if (error)
         return error;
     error = Contador_init_to_zero(personas);
@@ -65,7 +66,9 @@ static int Ventanillas_init(Sellos *sellos,
 
 
 	// Inicializa el contador de residentes arrestadas
-    error = Contador_crear(pers_arrestadas, CONT_FILE_2, 1);
+		personas->crear_sem = 1;
+
+    error = Contador_crear(pers_arrestadas, CONT_FILE_2);
     if (error)
         return error;
     error = Contador_init_to_zero(pers_arrestadas);

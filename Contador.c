@@ -1,13 +1,19 @@
 #include "Contador.h"
 
 int Contador_crear(Contador *C, const char *filename){
-    ShareMem_crear(&(C->shm_cont), sizeof(int), filename, CONT_DEFAULT_NUM);
-    Semaphore_init(&(C->sem), filename, 1);
-    return 0;
+    int error;
+
+    error = ShareMem_crear(&(C->shm_cont), sizeof(int), filename, CONT_DEFAULT_NUM);
+
+    if (!error)
+        error = Semaphore_init(&(C->sem), filename, 1);
+
+    return error;
 }
 
 int Contador_init_to_zero(Contador *C){
     int init = 0;
+    int error = 0;
     Semaphore_p(&(C->sem));
     ShareMem_escribir(&(C->shm_cont), &init, 0, sizeof(int));
     Semaphore_v(&(C->sem));

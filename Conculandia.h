@@ -17,6 +17,21 @@
 #include "Queue.h"
 #include "Shell.h"
 
-void Conculandia_init(CmdLine *cl);
+
+int Conculandia_init(CmdLine* cl,
+                      Log* log,
+                      Queue* q,
+                      Sellos* sellos,
+                      Contador* personas,
+                      Contador* pers_arrestadas,
+                      PedidosCaptura* p_captura,
+                      pid_t* frontera);
+
+void Liberar_recursos(Log* log,
+                     Queue* q,
+                     Sellos* sellos,
+                     Contador* personas,
+                     Contador* pers_arrestadas,
+                     PedidosCaptura* p_captura);
 
 #endif  //CONCULANDIA_H

@@ -35,16 +35,20 @@ int ShareMem_cantProcesosAdosados(SharedMemory *SHM) {
 }
 
 int ShareMem_liberar(SharedMemory *SHM) {
+	int return_value = SHM_OK;
 	//Hago el detach
-	shmdt((void *) SHM->mem_ptr);
+	return_value = shmdt((void *) SHM->mem_ptr);
 
 	//Si no hay procesos adosados libero
 	int procAdosados = ShareMem_cantProcesosAdosados(SHM);
+
+	// Puede haber dos procesos que traten de liberar esta memoria, no hay ningun problema, a uno
+	// se le devolvera error diciendo que la memoria borrada
 	if (procAdosados == 0) {
-		shmctl(SHM->mem_id, IPC_RMID, NULL);
+		return_value = shmctl(SHM->mem_id, IPC_RMID, NULL);
 	}
 
-	return SHM_OK;
+	return return_value;
 }
 
 int ShareMem_leer(SharedMemory *SHM, void *ptr, int offset, size_t s) {

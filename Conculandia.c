@@ -123,7 +123,7 @@ int Conculandia_init(CmdLine *cl,
 	int error;
 
     // Inicializa el Log
-    error = Log_abrir(log, (const char *) &cl->log_filename);
+    error = Log_abrir(log, (const char *) &cl->log_filename, cl->debug);
 
     if (error) {
         perror("Fallo al abrir el log. Error");

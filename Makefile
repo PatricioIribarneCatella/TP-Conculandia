@@ -16,6 +16,9 @@ main: $(BINFILES) $(EXEC).c
 run: all
 	bash run.sh
 
+run-debug: all
+	bash run-debug.sh
+
 valgrind: all
 	valgrind --leak-check=full ./$(EXEC).out
 

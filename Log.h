@@ -14,13 +14,13 @@
 
 #define MSG_MAX_SIZE 256
 
-
 typedef struct {
 	struct flock fl;
 	int fd;
+	int debug;
 } Log;
 
-int Log_abrir(Log *LG, const char *filename);
+int Log_abrir(Log *LG, const char *filename, int debug);
 
 int Log_escribir(Log *LG, const char *msg, ...);
 

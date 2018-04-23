@@ -1,5 +1,24 @@
 #include "Migraciones.h"
+int Adquerir_recursos(Queue* q, Contador* personas, Contador* pers_arrestadas, PedidosCaptura* p_captura) {
+	int error;
 
+	error = Queue_abrir(&q, FIFO_FILE, O_RDONLY);
+	if (error)
+		return error;
+
+	error = Contador_crear(&cont_personas, CONT_FILE_1);
+	if (error)
+		return error;
+
+	error = Contador_crear(&cont_pers_arrest, CONT_FILE_2);
+	if (error)
+		return error;
+
+	error = PedidosCaptura_crear(&p_captura, PCAPTURA_FILE);
+
+	return error;
+
+}
 int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 	//Adquiero recursos
 	Queue q;
@@ -8,10 +27,8 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 	PedidosCaptura p_captura;
 	int r, stop = 0;
 
-	Queue_abrir(&q, FIFO_FILE, O_RDONLY);
-	Contador_crear(&cont_personas, CONT_FILE_1);
-	Contador_crear(&cont_pers_arrest, CONT_FILE_2);
-	PedidosCaptura_crear(&p_captura, PCAPTURA_FILE);
+
+	stop = Adquerir_recursos(&q, &cont_personas, &cont_pers_arrest, &p_captura);
 
 	while (!stop) {
 		Person p;

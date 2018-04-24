@@ -4,9 +4,10 @@ int Contador_crear(Contador *C, const char *filename){
     int error;
 
     error = ShareMem_crear(&(C->shm_cont), sizeof(int), filename, CONT_DEFAULT_NUM);
-
-    if (!error)
+    if (!error) {
         error = Semaphore_init(&(C->sem), filename, 1, C->crear_sem);
+
+    }
 
     return error;
 }

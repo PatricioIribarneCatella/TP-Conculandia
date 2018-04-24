@@ -52,36 +52,49 @@ static int Ventanillas_init(Sellos *sellos,
 	// Inicializo sellos (para las ventanillas)
     error = Sellos_crear(sellos, cl->sellos);
 
-    if (error)
+    if (error) {
+        perror("Fallo al crear sellos");
         return error;
+    }
 
     // Inicializa el contador de personas
-		personas->crear_sem = 1;
+    personas->crear_sem = 1;
     error = Contador_crear(personas, CONT_FILE_1);
-    if (error)
+    if (error) {
+        perror("Fallo al crear contador personas");
         return error;
+    }
     error = Contador_init_to_zero(personas);
-    if (error)
+    if (error) {
+        perror("Fallo al inicializar contador personas");
         return error;
-
+    }
 
 	// Inicializa el contador de residentes arrestadas
-		personas->crear_sem = 1;
+    pers_arrestadas->crear_sem = 1;
 
     error = Contador_crear(pers_arrestadas, CONT_FILE_2);
-    if (error)
+    if (error) {
+        perror("Fallo al crear contador personas arrestadas");
         return error;
+    }
     error = Contador_init_to_zero(pers_arrestadas);
-    if (error)
+    if (error) {
+        perror("Fallo al inicializar contador personas arrestadas");
         return error;
+    }
 
 	// Inicializa los pedidos de captura
     error = PedidosCaptura_crear(p_captura, PCAPTURA_FILE);
-    if (error)
+    if (error) {
+        perror("Fallo al crear pedidos de captura");
         return error;
+    }
     error = PedidosCaptura_inicializar(p_captura);
-    if (error)
+    if (error) {
+        perror("Fallo al inicializar pedidos de captura");
         return error;
+    }
 
 	// Ventanillas
     for (i = 0; i < cl->ventanillas; i++) {
@@ -98,6 +111,7 @@ static int Ventanillas_init(Sellos *sellos,
     if(i < cl->ventanillas && ventanillas_pids[i] < 0) {
         for (int j = 0; j < i; j++)
             kill(SIGINT, ventanillas_pids[j]);
+        perror("Error al inicializar las ventanillas");
         error = ventanillas_pids[i];
     }
 
@@ -153,8 +167,7 @@ int Conculandia_init(CmdLine *cl,
 	error = Ventanillas_init(sellos, personas, pers_arrestadas, p_captura, log, cl);
 
     if (error) {
-				kill(*frontera, SIGINT);
-        perror ("Fallo al inicializar las ventanillas. Error");
+        kill(*frontera, SIGINT);
         return error;
     }
 

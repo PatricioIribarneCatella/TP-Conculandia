@@ -12,7 +12,7 @@
 #define ERROR_FTOK -1
 #define ERROR_SEMGET -2
 
-#define SEM_DEFAULT_NUM 25
+#define SEM_DEFAULT_NUM 22
 
 typedef struct {
     int id;
@@ -27,7 +27,7 @@ union semun {
 };
 
 
-int Semaphore_init(Semaphore *S, const char *filename, int init_val);
+int Semaphore_init(Semaphore *S, const char *filename, int init_val, int crear);
 
 int Semaphore_v(Semaphore *S); //incrementar (signal, unlock, leave or release)
 

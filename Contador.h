@@ -13,6 +13,7 @@
 typedef struct {
     SharedMemory shm_cont;
     Semaphore sem; //semaforo binario
+    int crear_sem;
 } Contador;
 
 int Contador_crear(Contador *C, const char *filename);

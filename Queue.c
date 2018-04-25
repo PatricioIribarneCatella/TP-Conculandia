@@ -38,12 +38,16 @@ int Queue_escribir(Queue *Q, void *ptr, size_t s) {
 }
 
 int Queue_cerrar(Queue *Q) {
-	close(Q->fd);
+	int return_value = QUEUE_OK;
+	if (Q->fd >= 0)
+		return_value = close(Q->fd);
 	Q->fd = -1;
-	return QUEUE_OK;
+	return return_value;
 }
 
 int Queue_eliminar(Queue *Q) {
-	unlink(Q->f_name);
-	return QUEUE_OK;
+	int return_value = QUEUE_OK;
+	if (strcmp(Q->f_name, "") != 0)
+		return_value = unlink(Q->f_name);
+	return return_value;
 }

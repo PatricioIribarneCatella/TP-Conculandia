@@ -17,9 +17,11 @@ int main(int argc, char *argv[]) {
 
 	CmdLine_parse(argc, argv, &cl);
 
-	Conculandia_init(&cl, &log, &q, &sellos, &personas, &pers_arrestadas, &p_captura, &frontera);
+	Conculandia_init(&cl, &log, &q, &sellos, &personas, &pers_arrestadas,
+					 &p_captura, &frontera);
 
-	Liberar_recursos(&log, &q, &sellos, &personas, &pers_arrestadas, &p_captura);
+	Liberar_recursos(&log, &q, &sellos, &personas, &pers_arrestadas,
+					 &p_captura);
 
 
 	return 0;

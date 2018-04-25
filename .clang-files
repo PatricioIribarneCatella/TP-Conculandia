@@ -17,3 +17,13 @@ Migraciones.c
 Migraciones.h
 Shell.c
 Shell.h
+LockArchivo.c
+LockArchivo.h
+RasgosDeRiesgoCompartidos.c
+RasgosDeRiesgoCompartidos.h
+RasgosDeRiesgo.c
+RasgosDeRiesgo.h
+CaracteristicasPersona.c
+CaracteristicasPersona.h
+
+

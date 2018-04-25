@@ -1,5 +1,8 @@
 #include "Migraciones.h"
-static int Adquirir_recursos(Queue* q, Contador* personas, Contador* pers_arrestadas, PedidosCaptura* p_captura) {
+static int Adquirir_recursos(Queue *q,
+							 Contador *personas,
+							 Contador *pers_arrestadas,
+							 PedidosCaptura *p_captura) {
 	int error, fd;
 
 	fd = Queue_abrir(q, FIFO_FILE, O_RDONLY);
@@ -18,7 +21,6 @@ static int Adquirir_recursos(Queue* q, Contador* personas, Contador* pers_arrest
 
 	error = PedidosCaptura_crear(p_captura, PCAPTURA_FILE);
 	return error;
-
 }
 int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 	//Adquiero recursos
@@ -102,7 +104,8 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 	}
 
 	if (error)
-		Log_escribir(log, "Hubo un error en la ventanilla n° %d\n", numero_ventanilla);
+		Log_escribir(log, "Hubo un error en la ventanilla n° %d\n",
+					 numero_ventanilla);
 
 	Log_escribir(log, "Cerrando ventanilla n° %d\n", numero_ventanilla);
 

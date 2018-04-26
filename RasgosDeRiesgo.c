@@ -1,27 +1,8 @@
 #include "RasgosDeRiesgo.h"
 
-// Creacion de lista
-void Rasgos_inicializar(RasgosDeRiesgo *rasgos) {
-	rasgos->mascaraCaracteristicasEspeciales = 0;
-	rasgos->mascaraOjos = 0;
-	rasgos->mascaraPelo = 0;
-	rasgos->mascaraSexo = 0;
-}
-
-
 // Chequeo de riesgos
 static int esta_prendido_en_mascara(short int *mascara, unsigned int posicion) {
 	return *mascara & (1 << posicion);
-}
-
-
-int Rasgos_Persona_es_de_riesgo(RasgosDeRiesgo *rasgos, Person *persona) {
-	CaracteristicasPersona *car = &(persona->caracteristicas);
-	return esta_prendido_en_mascara(&(rasgos->mascaraCaracteristicasEspeciales),
-									car->caracteristicasEspeciales) ||
-		   esta_prendido_en_mascara(&(rasgos->mascaraOjos), car->ojos) ||
-		   esta_prendido_en_mascara(&(rasgos->mascaraPelo), car->pelo) ||
-		   esta_prendido_en_mascara(&(rasgos->mascaraSexo), car->sexo);
 }
 
 // Agregado y quitado de caracteristicas
@@ -31,6 +12,24 @@ static void remover_de_mascara(short int *mascara, unsigned int posicion) {
 
 static void aniadir_a_mascara(short int *mascara, unsigned int posicion) {
 	(*mascara) |= 1 << posicion;
+}
+
+
+// Creacion de lista
+void Rasgos_inicializar(RasgosDeRiesgo *rasgos) {
+	rasgos->mascaraCaracteristicasEspeciales = 0;
+	rasgos->mascaraOjos = 0;
+	rasgos->mascaraPelo = 0;
+	rasgos->mascaraSexo = 0;
+}
+
+int Rasgos_Persona_es_de_riesgo(RasgosDeRiesgo *rasgos, Person *persona) {
+	CaracteristicasPersona *car = &(persona->caracteristicas);
+	return esta_prendido_en_mascara(&(rasgos->mascaraCaracteristicasEspeciales),
+									car->caracteristicasEspeciales) ||
+		   esta_prendido_en_mascara(&(rasgos->mascaraOjos), car->ojos) ||
+		   esta_prendido_en_mascara(&(rasgos->mascaraPelo), car->pelo) ||
+		   esta_prendido_en_mascara(&(rasgos->mascaraSexo), car->sexo);
 }
 
 int Rasgos_Aniadir_sexo(RasgosDeRiesgo *rasgos, enum sexos nuevo_sexo) {

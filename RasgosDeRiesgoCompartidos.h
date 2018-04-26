@@ -2,7 +2,6 @@
 #include "RasgosDeRiesgo.h"
 #include "SharedMemory.h"
 
-
 #define RASGOS_DE_RIESGO_SHM_NUMBER 27
 #define RASGOS_DE_RIESGO_SHM_FILENAME "/usr/bin/bash"
 
@@ -19,12 +18,11 @@ int RasgosCompartidos_destruir(RasgosDeRiesgoCompartidos *rasgos);
 // Chequeo (Locks de lectura)
 int RasgosCompartidos_Persona_es_de_riesgo(RasgosDeRiesgoCompartidos *rasgos,
 										   Person *persona);
-
 // Modificacion (Locks de escritura)
 int RasgosCompartidos_Aniadir_sexo(RasgosDeRiesgoCompartidos *rasgos,
 								   enum sexos nuevo_sexo);
-int RasgosCompartidos_Aniadir_sexo_Remover_sexo(
-	RasgosDeRiesgoCompartidos *rasgos, enum sexos sexo);
+int RasgosCompartidos_Remover_sexo(RasgosDeRiesgoCompartidos *rasgos,
+								   enum sexos sexo);
 int RasgosCompartidos_Aniadir_pelo(RasgosDeRiesgoCompartidos *rasgos,
 								   enum tipos_pelos nuevo_pelo);
 int RasgosCompartidos_Remover_pelo(RasgosDeRiesgoCompartidos *rasgos,
@@ -36,6 +34,8 @@ int RasgosCompartidos_Remover_ojos(RasgosDeRiesgoCompartidos *rasgos,
 int RasgosCompartidos_Aniadir_caracteristica_especial(
 	RasgosDeRiesgoCompartidos *rasgos,
 	enum caracteristicas_especiales nueva_caracteristica);
+
 int RasgosCompartidos_Remover_caracteristica_especial(
 	RasgosDeRiesgoCompartidos *rasgos,
 	enum caracteristicas_especiales caracteristica);
+

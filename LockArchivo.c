@@ -1,6 +1,5 @@
 #include "LockArchivo.h"
 
-
 int LockArchivo_inicializar(LockArchivo *lock,
 							char *filename,
 							int modoLectura) {
@@ -27,6 +26,7 @@ int LockArchivo_tomar(LockArchivo *lock) {
 	return_value = fcntl(lock->fd, F_SETLK, &fl);
 	return return_value < 0 ? return_value : 0;
 }
+
 int LockArchivo_liberar(LockArchivo *lock) {
 	struct flock fl;
 	int return_value;
@@ -41,3 +41,4 @@ int LockArchivo_eliminar(LockArchivo *lock) {
 	lock->fd = -1;
 	return return_value;
 }
+

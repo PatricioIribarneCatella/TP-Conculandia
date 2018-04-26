@@ -7,19 +7,24 @@ static int Adquirir_recursos(Queue *q,
 
 	fd = Queue_abrir(q, FIFO_FILE, O_RDONLY);
 	error = fd < 0 ? fd : 0;
+
 	if (error)
 		return error;
+
 	personas->crear_sem = 0;
 	error = Contador_crear(personas, CONT_FILE_1);
+
 	if (error)
 		return error;
 
 	pers_arrestadas->crear_sem = 0;
 	error = Contador_crear(pers_arrestadas, CONT_FILE_2);
+
 	if (error)
 		return error;
 
 	error = PedidosCaptura_crear(p_captura, PCAPTURA_FILE);
+
 	return error;
 }
 int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
@@ -46,7 +51,6 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 				if (error)
 					break;
 
-				//si es un id valido imprimo (aca iria el procesamiento de la persona)
 				Log_escribir(
 					log,
 					"Ventanilla pid: %d, Persona nacionalidad: %d - id: %d \n",
@@ -73,7 +77,7 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 
 				usleep(20000);
 
-				//si tiene pedido va  ala comisaría
+				// si tiene pedido va a la comisaría
 				if (PedidosCaptura_check_persona(&p_captura, &p)) {
 					error = Contador_incrementar(&cont_pers_arrest);
 					if (error)
@@ -90,7 +94,7 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 								 numero_ventanilla, p.id);
 				}
 
-				//incremento el contador de personas procesadas
+				// incremento el contador de personas procesadas
 				error = Contador_incrementar(&cont_personas);
 				if (error)
 					break;

@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <unistd.h>
-
 #include "CmdLine.h"
 #include "Conculandia.h"
 #include "Log.h"
@@ -22,7 +19,6 @@ int main(int argc, char *argv[]) {
 
 	Liberar_recursos(&log, &q, &sellos, &personas, &pers_arrestadas,
 					 &p_captura);
-
 
 	return 0;
 }

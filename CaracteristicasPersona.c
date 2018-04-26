@@ -1,4 +1,3 @@
-
 #include "CaracteristicasPersona.h"
 
 int Cambiar_sexo(CaracteristicasPersona *car, enum sexos nuevo_sexo) {

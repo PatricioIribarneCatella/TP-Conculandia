@@ -1,6 +1,4 @@
 #include "Semaphore.h"
-#include <sys/types.h>
-#include <unistd.h>
 
 // Esta funcion no debe ser ejecutada por dos procesos que traten de crearlo
 // al mismo tiempo, OJO! Si se puede ejecutar si ya fue creado...

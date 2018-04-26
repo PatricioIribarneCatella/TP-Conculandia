@@ -38,4 +38,3 @@ int RasgosCompartidos_Aniadir_caracteristica_especial(
 int RasgosCompartidos_Remover_caracteristica_especial(
 	RasgosDeRiesgoCompartidos *rasgos,
 	enum caracteristicas_especiales caracteristica);
-

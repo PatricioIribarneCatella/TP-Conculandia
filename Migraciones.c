@@ -1,6 +1,5 @@
 #include "Migraciones.h"
-static int Adquirir_recursos(Queue *q,
-							 Contador *personas,
+static int Adquirir_recursos(Queue *q, Contador *personas,
 							 Contador *pers_arrestadas,
 							 PedidosCaptura *p_captura) {
 	int error, fd;

@@ -18,20 +18,11 @@
 #include "Shell.h"
 
 
-int Conculandia_init(CmdLine *cl,
-					 Log *log,
-					 Queue *q,
-					 Sellos *sellos,
-					 Contador *personas,
-					 Contador *pers_arrestadas,
-					 PedidosCaptura *p_captura,
-					 pid_t *frontera);
+int Conculandia_init(CmdLine *cl, Log *log, Queue *q, Sellos *sellos,
+					 Contador *personas, Contador *pers_arrestadas,
+					 PedidosCaptura *p_captura, pid_t *frontera);
 
-void Liberar_recursos(Log *log,
-					  Queue *q,
-					  Sellos *sellos,
-					  Contador *personas,
-					  Contador *pers_arrestadas,
-					  PedidosCaptura *p_captura);
+void Liberar_recursos(Log *log, Queue *q, Sellos *sellos, Contador *personas,
+					  Contador *pers_arrestadas, PedidosCaptura *p_captura);
 
 #endif  //CONCULANDIA_H

@@ -22,12 +22,8 @@ static int Frontera_init(Queue *q, Log *log) {
 	return f;
 }
 
-void Liberar_recursos(Log *log,
-					  Queue *q,
-					  Sellos *sellos,
-					  Contador *personas,
-					  Contador *pers_arrestadas,
-					  PedidosCaptura *p_captura) {
+void Liberar_recursos(Log *log, Queue *q, Sellos *sellos, Contador *personas,
+					  Contador *pers_arrestadas, PedidosCaptura *p_captura) {
 	// Libero recursos
 	PedidosCaptura_eliminar(p_captura);
 	Contador_eliminar(pers_arrestadas);
@@ -37,12 +33,9 @@ void Liberar_recursos(Log *log,
 	Log_cerrar(log);
 }
 
-static int Ventanillas_init(Sellos *sellos,
-							Contador *personas,
+static int Ventanillas_init(Sellos *sellos, Contador *personas,
 							Contador *pers_arrestadas,
-							PedidosCaptura *p_captura,
-							Log *log,
-							CmdLine *cl) {
+							PedidosCaptura *p_captura, Log *log, CmdLine *cl) {
 	int error = 0;
 	int i;
 	pid_t *ventanillas_pids = malloc(sizeof(pid_t) * cl->ventanillas);
@@ -125,14 +118,9 @@ static void Ventanillas_wait(int ventanillas) {
 		wait(NULL);
 }
 
-int Conculandia_init(CmdLine *cl,
-					 Log *log,
-					 Queue *q,
-					 Sellos *sellos,
-					 Contador *personas,
-					 Contador *pers_arrestadas,
-					 PedidosCaptura *p_captura,
-					 pid_t *frontera) {
+int Conculandia_init(CmdLine *cl, Log *log, Queue *q, Sellos *sellos,
+					 Contador *personas, Contador *pers_arrestadas,
+					 PedidosCaptura *p_captura, pid_t *frontera) {
 	int error;
 
 	// Inicializa el Log

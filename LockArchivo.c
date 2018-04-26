@@ -1,7 +1,6 @@
 #include "LockArchivo.h"
 
-int LockArchivo_inicializar(LockArchivo *lock,
-							char *filename,
+int LockArchivo_inicializar(LockArchivo *lock, char *filename,
 							int modoLectura) {
 	int flags;
 	if (modoLectura)
@@ -41,4 +40,3 @@ int LockArchivo_eliminar(LockArchivo *lock) {
 	lock->fd = -1;
 	return return_value;
 }
-

@@ -24,7 +24,9 @@ static char *read_line(const char *promt) {
 	return buffer;
 }
 
-void Shell_run(pid_t f, Log *log, Contador *p, Contador *p_arrest) {
+void Shell_run(pid_t f, Log *log,
+		Contador *p, Contador *p_arrest, Contador *p_deportadas) {
+	
 	char *cmd;
 
 	printf(
@@ -32,7 +34,8 @@ void Shell_run(pid_t f, Log *log, Contador *p, Contador *p_arrest) {
 		" Comandos:\n"
 		"\texit: terminar la simulación\n"
 		"\tgetper: cantidad de personas atendidas hasta el momento\n"
-		"\tgetpera: cantidad de personas derivadas a la Oficina de Policía\n");
+		"\tgetpera: cantidad de personas derivadas a la Oficina de Policía\n"
+		"\tgetperd: cantidad de personas extranjeras deportadas\n");
 
 	while ((cmd = read_line(">")) != NULL) {
 		if (strcmp(cmd, "exit") == 0) {
@@ -57,8 +60,13 @@ void Shell_run(pid_t f, Log *log, Contador *p, Contador *p_arrest) {
 
 		if (strcmp(cmd, "getpera") == 0)
 			printf(
-				"Personas que llegaron fueron derivadas a la Oficina de "
+				"Personas que llegaron y fueron derivadas a la Oficina de "
 				"Policía: %d\n",
 				Contador_get(p_arrest));
+
+		if (strcmp(cmd, "getperd") == 0)
+			printf("Personas extranjeras que llegaron y fueron deportadas: %d",
+				Contador_get(p_deportadas));
 	}
 }
+

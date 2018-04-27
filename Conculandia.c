@@ -22,17 +22,6 @@ static int Frontera_init(Queue *q, Log *log) {
 	return f;
 }
 
-void Liberar_recursos(Log *log, Queue *q, Sellos *sellos, Contador *personas,
-					  Contador *pers_arrestadas, PedidosCaptura *p_captura) {
-	// Libero recursos
-	PedidosCaptura_eliminar(p_captura);
-	Contador_eliminar(pers_arrestadas);
-	Contador_eliminar(personas);
-	Queue_eliminar(q);
-	Sellos_eliminar(sellos);
-	Log_cerrar(log);
-}
-
 static int Ventanillas_init(Sellos *sellos, Contador *personas,
 							Contador *pers_arrestadas,
 							PedidosCaptura *p_captura, Log *log, CmdLine *cl) {
@@ -119,8 +108,9 @@ static void Ventanillas_wait(int ventanillas) {
 }
 
 int Conculandia_init(CmdLine *cl, Log *log, Queue *q, Sellos *sellos,
-					 Contador *personas, Contador *pers_arrestadas,
-					 PedidosCaptura *p_captura, pid_t *frontera) {
+			Contador *personas, Contador *pers_arrestadas, Contador* pers_deportadas,
+			PedidosCaptura *p_captura, RasgosDeRiesgoCompartidos* rasgos_riesgo,
+			pid_t *frontera) {
 	int error;
 
 	// Inicializa el Log
@@ -168,4 +158,18 @@ int Conculandia_init(CmdLine *cl, Log *log, Queue *q, Sellos *sellos,
 	Log_escribir(log, "PERSONAS PROCESADAS :%d \n", Contador_get(personas));
 
 	return 0;
+}
+
+void Liberar_recursos(Log *log, Queue *q, Sellos *sellos,
+			Contador *personas, Contador *pers_arrestadas, Contador* pers_deportadas,
+			PedidosCaptura *p_captura, RasgosDeRiesgoCompartidos* rasgos_riesgo) {
+	// Libero recursos
+	PedidosCaptura_eliminar(p_captura);
+	RasgosCompartidos_eliminar(rasgos_riesgo);
+	Contador_eliminar(pers_deportadas);
+	Contador_eliminar(pers_arrestadas);
+	Contador_eliminar(personas);
+	Queue_eliminar(q);
+	Sellos_eliminar(sellos);
+	Log_cerrar(log);
 }

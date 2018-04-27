@@ -177,7 +177,7 @@ int RasgosCompartidos_Remover_caracteristica_especial(
 	return error ? error : return_value;
 }
 
-int RasgosCompartidos_destruir(RasgosDeRiesgoCompartidos *rasgos) {
+int RasgosCompartidos_eliminar(RasgosDeRiesgoCompartidos *rasgos) {
 	int error_lock = LockArchivo_eliminar(&(rasgos->lock));
 	int error_memoria_compartida = ShareMem_liberar(&(rasgos->shm));
 

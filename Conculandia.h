@@ -10,19 +10,21 @@
 #include "CmdLine.h"
 #include "Contador.h"
 #include "Frontera.h"
-#include "Log.h"
 #include "Migraciones.h"
 #include "PedidosCaptura.h"
+#include "RasgosDeRiesgoCompartidos.h"
 #include "Person.h"
 #include "Queue.h"
 #include "Shell.h"
-
+#include "Log.h"
 
 int Conculandia_init(CmdLine *cl, Log *log, Queue *q, Sellos *sellos,
-					 Contador *personas, Contador *pers_arrestadas,
-					 PedidosCaptura *p_captura, pid_t *frontera);
+			Contador *personas, Contador *pers_arrestadas, Contador* pers_deportadas,
+			PedidosCaptura *p_captura, RasgosDeRiesgoCompartidos* r_riesgos,
+			pid_t *frontera);
 
-void Liberar_recursos(Log *log, Queue *q, Sellos *sellos, Contador *personas,
-					  Contador *pers_arrestadas, PedidosCaptura *p_captura);
+void Liberar_recursos(Log *log, Queue *q, Sellos *sellos,
+			Contador *personas, Contador *pers_arrestadas, Contador* pers_deportadas,
+			PedidosCaptura *p_captura, RasgosDeRiesgoCompartidos* r_riesgos);
 
 #endif  //CONCULANDIA_H

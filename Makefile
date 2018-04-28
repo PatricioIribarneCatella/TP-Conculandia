@@ -25,6 +25,6 @@ format: .clang-files
 	xargs clang-format -style=file -i <$<
 
 clean:
-	rm -f $(EXEC).out *.txt *.o
+	rm -f $(EXEC).out *.txt *.o /tmp/rcomp
 
 .PHONY: clean run

@@ -6,10 +6,10 @@ static int Adquirir_recursos(Queue *q,
 							 PedidosCaptura *p_captura,
 							 RasgosDeRiesgoCompartidos *rasg_r_comp) {
 	int error, fd;
-	
+
 	fd = Queue_abrir(q, FIFO_FILE, O_RDONLY);
 	error = fd < 0 ? fd : 0;
-	
+
 	if (error)
 		return error;
 

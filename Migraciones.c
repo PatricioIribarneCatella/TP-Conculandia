@@ -54,22 +54,23 @@ static void Liberar_recursos(Contador *e_ing, Contador *p_arrest,
 	Queue_cerrar(q);
 }
 
-static int Migraciones_procesar_extranjero(Sellos* s, int ventanilla, 
-			RasgosDeRiesgoCompartidos* rasgos, Person* p,
-			Contador* cont_pers_deport, Contador* cont_extr_ingres,
-			Log* l) {
-
+static int Migraciones_procesar_extranjero(Sellos *s, int ventanilla,
+										   RasgosDeRiesgoCompartidos *rasgos,
+										   Person *p,
+										   Contador *cont_pers_deport,
+										   Contador *cont_extr_ingres, Log *l) {
 	int error;
-	
+
 	// Se chequean alertas de riesgo
 	if (RasgosCompartidos_Persona_es_de_riesgo(rasgos, p)) {
-		
 		error = Contador_incrementar(cont_pers_deport);
-		
+
 		if (error) {
-			Log_escribir(l, "ERROR: fallo al incrementar el "
-					"contador de personas deportadas. "
-					"Ventanilla: %d", ventanilla);
+			Log_escribir(l,
+						 "ERROR: fallo al incrementar el "
+						 "contador de personas deportadas. "
+						 "Ventanilla: %d",
+						 ventanilla);
 			return error;
 		}
 
@@ -83,10 +84,12 @@ static int Migraciones_procesar_extranjero(Sellos* s, int ventanilla,
 
 		//Tomo un sello
 		error = Sellos_tomar_sello(s);
-		
+
 		if (error) {
-			Log_escribir(l, "ERROR: fallo al tomar un sello. "
-					"Ventanilla: %d", ventanilla);
+			Log_escribir(l,
+						 "ERROR: fallo al tomar un sello. "
+						 "Ventanilla: %d",
+						 ventanilla);
 			return error;
 		}
 
@@ -103,48 +106,51 @@ static int Migraciones_procesar_extranjero(Sellos* s, int ventanilla,
 		error = Sellos_liberar_sello(s);
 
 		if (error) {
-			Log_escribir(l, "ERROR: fallo al liberar un sello. "
-					"Ventanilla: %d", ventanilla);
+			Log_escribir(l,
+						 "ERROR: fallo al liberar un sello. "
+						 "Ventanilla: %d",
+						 ventanilla);
 			return error;
 		}
 
 		error = Contador_incrementar(cont_extr_ingres);
-		
+
 		if (error) {
-			Log_escribir(l, "ERROR: fallo al incrementar el contador "
-					"de personas extranjeras ingresadas. "
-					"Ventanilla: %d", ventanilla);
+			Log_escribir(l,
+						 "ERROR: fallo al incrementar el contador "
+						 "de personas extranjeras ingresadas. "
+						 "Ventanilla: %d",
+						 ventanilla);
 			return error;
 		}
 	}
-	
+
 	return 0;
 }
 
 static int Migraciones_procesar_residente(int ventanilla,
-			PedidosCaptura* p_captura, Person* p,
-			Contador* cont_pers_arrest, Log* l) {
-
+										  PedidosCaptura *p_captura, Person *p,
+										  Contador *cont_pers_arrest, Log *l) {
 	int error;
-	
-	Log_escribir(l,
-				 "Ventanilla: %d, Ingreso de Persona con dni: %d\n",
+
+	Log_escribir(l, "Ventanilla: %d, Ingreso de Persona con dni: %d\n",
 				 ventanilla, p->id);
 
 	usleep(20000);
 
 	// Si tiene pedido de captura va a la comisaría
 	if (PedidosCaptura_check_persona(p_captura, p)) {
-		
 		error = Contador_incrementar(cont_pers_arrest);
-		
+
 		if (error) {
-			Log_escribir(l, "ERROR: fallo al incrementar el "
-					"contador de personas arrestadas. "
-					"Ventanilla: %d", ventanilla);
+			Log_escribir(l,
+						 "ERROR: fallo al incrementar el "
+						 "contador de personas arrestadas. "
+						 "Ventanilla: %d",
+						 ventanilla);
 			return error;
 		}
-		
+
 		Log_escribir(l,
 					 "Ventanilla: %d, Persona con dni: %d, "
 					 "derivado a la Oficina de Policía\n",
@@ -173,17 +179,17 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 	stop = Adquirir_recursos(&q, &cont_extr_ingres, &cont_pers_deport,
 							 &cont_pers_arrest, &p_captura, &rasg_r_comp);
 	while (!stop) {
-
 		Person p;
 		r = Queue_leer(&q, &p, sizeof(Person));
 
 		if (r == sizeof(Person)) {
 			if (Person_es_extranjero(&p))
-				error = Migraciones_procesar_extranjero(sellos, numero_ventanilla,
-						&rasg_r_comp, &p, &cont_pers_deport, &cont_extr_ingres, log);
+				error = Migraciones_procesar_extranjero(
+					sellos, numero_ventanilla, &rasg_r_comp, &p,
+					&cont_pers_deport, &cont_extr_ingres, log);
 			else
-				error = Migraciones_procesar_residente(numero_ventanilla, &p_captura,
-						&p, &cont_pers_arrest, log);
+				error = Migraciones_procesar_residente(
+					numero_ventanilla, &p_captura, &p, &cont_pers_arrest, log);
 
 			if (error)
 				break;
@@ -196,8 +202,7 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 	}
 
 	if (error)
-		Log_escribir(log, "ERROR: ventanilla n° %d\n",
-					 numero_ventanilla);
+		Log_escribir(log, "ERROR: ventanilla n° %d\n", numero_ventanilla);
 
 	Log_escribir(log, "Cerrando ventanilla n° %d\n", numero_ventanilla);
 

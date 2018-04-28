@@ -27,7 +27,8 @@ static int Frontera_init(Queue *q, Log *log) {
 	return f;
 }
 
-static int Contador_personas_init(Contador *c, const char *f, char *cont_name, Log* l) {
+static int Contador_personas_init(Contador *c, const char *f, char *cont_name,
+								  Log *l) {
 	int res;
 	char buf[100];
 
@@ -36,7 +37,8 @@ static int Contador_personas_init(Contador *c, const char *f, char *cont_name, L
 	res = Contador_crear(c, f);
 
 	if (res) {
-		snprintf(buf, sizeof buf, "ERROR: Fallo al crear contador %s ", cont_name);
+		snprintf(buf, sizeof buf, "ERROR: Fallo al crear contador %s ",
+				 cont_name);
 		Log_escribir(l, buf);
 		perror(buf);
 		return res;

@@ -105,6 +105,7 @@ int RasgosCompartidos_Remover_pelo(RasgosDeRiesgoCompartidos *rasgos,
 
 	return error ? error : return_value;
 }
+
 int RasgosCompartidos_Aniadir_ojos(RasgosDeRiesgoCompartidos *rasgos,
 								   enum colores_ojos nuevos_ojos) {
 	if (rasgos->lock.modoLectura)

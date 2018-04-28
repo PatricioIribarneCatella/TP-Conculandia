@@ -8,7 +8,7 @@ int LockArchivo_inicializar(LockArchivo *lock,
 		flags = O_RDONLY;
 	else
 		flags = O_WRONLY;
-	lock->fd = open(filename, flags | O_CREAT);
+	lock->fd = open(filename, flags | O_CREAT, 0644);
 	lock->modoLectura = modoLectura;
 	return lock->fd < 0 ? lock->fd : LOCK_OK;
 }

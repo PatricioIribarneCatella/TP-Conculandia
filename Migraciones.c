@@ -6,10 +6,10 @@ static int Adquirir_recursos(Queue *q,
 							 PedidosCaptura *p_captura,
 							 RasgosDeRiesgoCompartidos *rasg_r_comp) {
 	int error, fd;
-
+	
 	fd = Queue_abrir(q, FIFO_FILE, O_RDONLY);
 	error = fd < 0 ? fd : 0;
-
+	
 	if (error)
 		return error;
 
@@ -40,8 +40,8 @@ static int Adquirir_recursos(Queue *q,
 
 	return error;
 }
+
 int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
-	//Adquiero recursos
 	Queue q;
 	Contador cont_extr_ingres;
 	Contador cont_pers_deport;
@@ -50,10 +50,9 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 	RasgosDeRiesgoCompartidos rasg_r_comp;
 	int r, stop = 0, error;
 
-
+	//Adquiero recursos
 	stop = Adquirir_recursos(&q, &cont_extr_ingres, &cont_pers_deport,
 							 &cont_pers_arrest, &p_captura, &rasg_r_comp);
-
 	while (!stop) {
 		Person p;
 		r = Queue_leer(&q, &p, sizeof(Person));

@@ -43,7 +43,6 @@ static int Adquirir_recursos(Queue *q,
 }
 
 int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
-	
 	Queue q;
 	Contador cont_extr_ingres;
 	Contador cont_pers_deport;
@@ -54,8 +53,7 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 
 	//Adquiero recursos
 	stop = Adquirir_recursos(&q, &cont_extr_ingres, &cont_pers_deport,
-				&cont_pers_arrest, &p_captura, &rasg_r_comp);
-
+							 &cont_pers_arrest, &p_captura, &rasg_r_comp);
 	while (!stop) {
 		Person p;
 		r = Queue_leer(&q, &p, sizeof(Person));

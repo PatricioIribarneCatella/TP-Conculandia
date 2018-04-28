@@ -27,7 +27,7 @@ static int Frontera_init(Queue *q, Log *log) {
 	return f;
 }
 
-static int Contador_personas_init(Contador *c, const char *f, char *cont_name) {
+static int Contador_personas_init(Contador *c, const char *f, char *cont_name, Log* l) {
 	int res;
 	char buf[100];
 
@@ -36,7 +36,8 @@ static int Contador_personas_init(Contador *c, const char *f, char *cont_name) {
 	res = Contador_crear(c, f);
 
 	if (res) {
-		snprintf(buf, sizeof buf, "Fallo al crear contador %s ", cont_name);
+		snprintf(buf, sizeof buf, "ERROR: Fallo al crear contador %s ", cont_name);
+		Log_escribir(l, buf);
 		perror(buf);
 		return res;
 	}
@@ -44,8 +45,9 @@ static int Contador_personas_init(Contador *c, const char *f, char *cont_name) {
 	res = Contador_init_to_zero(c);
 
 	if (res) {
-		snprintf(buf, sizeof buf, "Fallo al inicializar contador %s ",
+		snprintf(buf, sizeof buf, "ERROR: Fallo al inicializar contador %s ",
 				 cont_name);
+		Log_escribir(l, buf);
 		perror(buf);
 		return res;
 	}
@@ -65,24 +67,25 @@ static int Ventanillas_init(Sellos *sellos, Contador *extr_ingresados,
 	error = Sellos_crear(sellos, cl->sellos);
 
 	if (error) {
+		Log_escribir(log, "ERROR: Fallo al crear sellos");
 		perror("Fallo al crear sellos");
 		return error;
 	}
 
 	error = Contador_personas_init(pers_deportadas, CONT_FILE_1,
-								   "personas deportadas");
+								   "personas deportadas", log);
 
 	if (error)
 		return error;
 
 	error = Contador_personas_init(pers_arrestadas, CONT_FILE_2,
-								   "personas arrestadas");
+								   "personas arrestadas", log);
 
 	if (error)
 		return error;
 
 	error = Contador_personas_init(extr_ingresados, CONT_FILE_3,
-								   "extranjeros ingresados");
+								   "extranjeros ingresados", log);
 
 	if (error)
 		return error;
@@ -92,6 +95,7 @@ static int Ventanillas_init(Sellos *sellos, Contador *extr_ingresados,
 
 	if (error) {
 		perror("Fallo al crear pedidos de captura");
+		Log_escribir(log, "ERROR: Fallo al crear pedidos de captura");
 		return error;
 	}
 
@@ -99,6 +103,7 @@ static int Ventanillas_init(Sellos *sellos, Contador *extr_ingresados,
 
 	if (error) {
 		perror("Fallo al inicializar pedidos de captura");
+		Log_escribir(log, "ERROR: Fallo al inicializar pedidos de captura");
 		return error;
 	}
 
@@ -124,6 +129,7 @@ static int Ventanillas_init(Sellos *sellos, Contador *extr_ingresados,
 	if (i < cl->ventanillas && ventanillas_pids[i] < 0) {
 		for (int j = 0; j < i; j++)
 			kill(SIGINT, ventanillas_pids[j]);
+		Log_escribir(log, "ERROR: Fallo al inicializar las ventanillas");
 		perror("Error al inicializar las ventanillas");
 		error = ventanillas_pids[i];
 	}
@@ -165,6 +171,7 @@ int Conculandia_init(CmdLine *cl, Log *log, Queue *q, Sellos *sellos,
 	frontera = Frontera_init(q, log);
 
 	if (frontera <= 0) {
+		Log_escribir(log, "ERROR: Fallo al inicializar la frontera");
 		perror("Fallo al inicializar la frontera. Error");
 		return error;
 	}

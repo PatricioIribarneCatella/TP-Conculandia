@@ -65,8 +65,13 @@ static int Migraciones_procesar_extranjero(Sellos* s, int ventanilla,
 	if (RasgosCompartidos_Persona_es_de_riesgo(rasgos, p)) {
 		
 		error = Contador_incrementar(cont_pers_deport);
-		if (error)
+		
+		if (error) {
+			Log_escribir(l, "ERROR: fallo al incrementar el "
+					"contador de personas deportadas. "
+					"Ventanilla: %d", ventanilla);
 			return error;
+		}
 
 		Log_escribir(l,
 					 "Ventanilla: %d, Persona con pasaporte: %d, "
@@ -78,8 +83,12 @@ static int Migraciones_procesar_extranjero(Sellos* s, int ventanilla,
 
 		//Tomo un sello
 		error = Sellos_tomar_sello(s);
-		if (error)
+		
+		if (error) {
+			Log_escribir(l, "ERROR: fallo al tomar un sello. "
+					"Ventanilla: %d", ventanilla);
 			return error;
+		}
 
 		// Se simula tiempo de procesamiento (0.02 seg)
 		// Sellar el pasaporte
@@ -92,12 +101,21 @@ static int Migraciones_procesar_extranjero(Sellos* s, int ventanilla,
 
 		//Libero el sello
 		error = Sellos_liberar_sello(s);
-		if (error)
+
+		if (error) {
+			Log_escribir(l, "ERROR: fallo al liberar un sello. "
+					"Ventanilla: %d", ventanilla);
 			return error;
+		}
 
 		error = Contador_incrementar(cont_extr_ingres);
-		if (error)
+		
+		if (error) {
+			Log_escribir(l, "ERROR: fallo al incrementar el contador "
+					"de personas extranjeras ingresadas. "
+					"Ventanilla: %d", ventanilla);
 			return error;
+		}
 	}
 	
 	return 0;
@@ -120,8 +138,12 @@ static int Migraciones_procesar_residente(int ventanilla,
 		
 		error = Contador_incrementar(cont_pers_arrest);
 		
-		if (error)
+		if (error) {
+			Log_escribir(l, "ERROR: fallo al incrementar el "
+					"contador de personas arrestadas. "
+					"Ventanilla: %d", ventanilla);
 			return error;
+		}
 		
 		Log_escribir(l,
 					 "Ventanilla: %d, Persona con dni: %d, "
@@ -174,7 +196,7 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 	}
 
 	if (error)
-		Log_escribir(log, "Hubo un error en la ventanilla n° %d\n",
+		Log_escribir(log, "ERROR: ventanilla n° %d\n",
 					 numero_ventanilla);
 
 	Log_escribir(log, "Cerrando ventanilla n° %d\n", numero_ventanilla);

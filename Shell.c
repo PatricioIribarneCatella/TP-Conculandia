@@ -24,10 +24,7 @@ static char *read_line(const char *promt) {
 	return buffer;
 }
 
-void Shell_run(pid_t f,
-			   Log *log,
-			   Contador *e_ingres,
-			   Contador *p_deport,
+void Shell_run(pid_t f, Log *log, Contador *e_ingres, Contador *p_deport,
 			   Contador *p_arrest) {
 	char *cmd;
 
@@ -58,17 +55,16 @@ void Shell_run(pid_t f,
 
 		if (strcmp(cmd, "getperd") == 0)
 			printf("Extranjeros que fueron deportadas: %d\n",
-					Contador_get(p_deport));
+				   Contador_get(p_deport));
 
 		if (strcmp(cmd, "getpera") == 0)
 			printf(
 				"Residentes que llegaron y fueron derivadas a la Oficina de "
 				"Policía: %d\n",
-					Contador_get(p_arrest));
+				Contador_get(p_arrest));
 
 		if (strcmp(cmd, "geteing") == 0)
 			printf("Extranjeros que ingresarosn a Conculandia: %d\n",
-					Contador_get(e_ingres));
+				   Contador_get(e_ingres));
 	}
 }
-

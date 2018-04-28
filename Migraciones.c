@@ -1,7 +1,6 @@
 #include "Migraciones.h"
 
-static int Adquirir_recursos(Queue *q,
-							 Contador *extr_ingresados,
+static int Adquirir_recursos(Queue *q, Contador *extr_ingresados,
 							 Contador *pers_deportadas,
 							 Contador *pers_arrestadas,
 							 PedidosCaptura *p_captura,
@@ -40,6 +39,19 @@ static int Adquirir_recursos(Queue *q,
 	error = RasgosCompartidos_crear(rasg_r_comp, O_RDONLY);
 
 	return error;
+}
+
+static void Liberar_recursos(Contador *e_ing, Contador *p_arrest,
+							 Contador *p_deport, RasgosDeRiesgoCompartidos *r,
+							 PedidosCaptura *p, Queue *q) {
+	Contador_eliminar(e_ing);
+	Contador_eliminar(p_arrest);
+	Contador_eliminar(p_deport);
+
+	RasgosCompartidos_eliminar(r);
+	PedidosCaptura_eliminar(p);
+
+	Queue_cerrar(q);
 }
 
 int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
@@ -139,15 +151,8 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 
 	Log_escribir(log, "Cerrando ventanilla n° %d\n", numero_ventanilla);
 
-	//Libero recursos
-	Contador_eliminar(&cont_extr_ingres);
-	Contador_eliminar(&cont_pers_arrest);
-	Contador_eliminar(&cont_pers_deport);
-	
-	RasgosCompartidos_eliminar(&rasg_r_comp);
-	PedidosCaptura_eliminar(&p_captura);
-
-	Queue_cerrar(&q);
+	Liberar_recursos(&cont_extr_ingres, &cont_pers_arrest, &cont_pers_deport,
+					 &rasg_r_comp, &p_captura, &q);
 
 	return 0;
 }

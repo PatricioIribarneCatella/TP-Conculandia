@@ -2,7 +2,6 @@
 #include "Conculandia.h"
 
 int main(int argc, char *argv[]) {
-	
 	CmdLine cl;
 	Log log;
 	Queue q;

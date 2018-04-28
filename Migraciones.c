@@ -54,6 +54,90 @@ static void Liberar_recursos(Contador *e_ing, Contador *p_arrest,
 	Queue_cerrar(q);
 }
 
+static int Migraciones_procesar_extranjero(Sellos* s, int ventanilla, 
+			RasgosDeRiesgoCompartidos* rasgos, Person* p,
+			Contador* cont_pers_deport, Contador* cont_extr_ingres,
+			Log* l) {
+
+	int error;
+	
+	// Se chequean alertas de riesgo
+	if (RasgosCompartidos_Persona_es_de_riesgo(rasgos, p)) {
+		
+		error = Contador_incrementar(cont_pers_deport);
+		if (error)
+			return error;
+
+		Log_escribir(l,
+					 "Ventanilla: %d, Persona con pasaporte: %d, "
+					 "deportado \n",
+					 ventanilla, p->id);
+	}
+	else {
+		//Si no fue deportado
+
+		//Tomo un sello
+		error = Sellos_tomar_sello(s);
+		if (error)
+			return error;
+
+		// Se simula tiempo de procesamiento (0.02 seg)
+		// Sellar el pasaporte
+		usleep(20000);
+
+		Log_escribir(l,
+					 "Ventanilla: %d, Persona con pasaporte: %d, "
+					 "Bienvenido a Conculandia \n",
+					 getpid(), p->nacionalidad, p->id);
+
+		//Libero el sello
+		error = Sellos_liberar_sello(s);
+		if (error)
+			return error;
+
+		error = Contador_incrementar(cont_extr_ingres);
+		if (error)
+			return error;
+	}
+	
+	return 0;
+}
+
+static int Migraciones_procesar_residente(int ventanilla,
+			PedidosCaptura* p_captura, Person* p,
+			Contador* cont_pers_arrest, Log* l) {
+
+	int error;
+	
+	Log_escribir(l,
+				 "Ventanilla: %d, Ingreso de Persona con dni: %d\n",
+				 ventanilla, p->id);
+
+	usleep(20000);
+
+	// Si tiene pedido de captura va a la comisaría
+	if (PedidosCaptura_check_persona(p_captura, p)) {
+		
+		error = Contador_incrementar(cont_pers_arrest);
+		
+		if (error)
+			return error;
+		
+		Log_escribir(l,
+					 "Ventanilla: %d, Persona con dni: %d, "
+					 "derivado a la Oficina de Policía\n",
+					 ventanilla, p->id);
+	}
+	else {
+		Log_escribir(l,
+					 "Ventanilla: %d, Persona con dni: %d, Feliz "
+					 "regreso a Conculandia\n",
+					 ventanilla, p->id);
+	}
+
+	return 0;
+}
+
 int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 	Queue q;
 	Contador cont_extr_ingres;
@@ -67,76 +151,20 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 	stop = Adquirir_recursos(&q, &cont_extr_ingres, &cont_pers_deport,
 							 &cont_pers_arrest, &p_captura, &rasg_r_comp);
 	while (!stop) {
+
 		Person p;
 		r = Queue_leer(&q, &p, sizeof(Person));
 
 		if (r == sizeof(Person)) {
-			//ENTRANJERO
-			if (Person_es_extranjero(&p)) {
-				//Chequeo alertas
-				if (RasgosCompartidos_Persona_es_de_riesgo(&rasg_r_comp, &p)) {
-					//incremento el contador de extranjeros deportados
-					error = Contador_incrementar(&cont_pers_deport);
-					if (error)
-						break;
+			if (Person_es_extranjero(&p))
+				error = Migraciones_procesar_extranjero(sellos, numero_ventanilla,
+						&rasg_r_comp, &p, &cont_pers_deport, &cont_extr_ingres, log);
+			else
+				error = Migraciones_procesar_residente(numero_ventanilla, &p_captura,
+						&p, &cont_pers_arrest, log);
 
-					Log_escribir(log,
-								 "Ventanilla: %d, Persona con pasaporte: %d, "
-								 "deportado \n",
-								 numero_ventanilla, p.id);
-				}
-				else {
-					//Si no fue deportado
-
-					//Tomo un sello
-					error = Sellos_tomar_sello(sellos);
-					if (error)
-						break;
-
-					//Simulo tiempo de procesamiento (0.02 seg)
-					//Sellar el pasaporte
-					usleep(20000);
-
-					Log_escribir(log,
-								 "Ventanilla: %d, Persona con pasaporte: %d, "
-								 "Bienvenido a Conculandia \n",
-								 getpid(), p.nacionalidad, p.id);
-
-					//Libero el sello
-					error = Sellos_liberar_sello(sellos);
-					if (error)
-						break;
-
-					error = Contador_incrementar(&cont_extr_ingres);
-					if (error)
-						break;
-				}
-			}
-			else {
-				//NATIVO
-				Log_escribir(log,
-							 "Ventanilla: %d, Ingreso de Persona con dni: %d\n",
-							 numero_ventanilla, p.id);
-
-				usleep(20000);
-
-				// si tiene pedido va a la comisaría
-				if (PedidosCaptura_check_persona(&p_captura, &p)) {
-					error = Contador_incrementar(&cont_pers_arrest);
-					if (error)
-						break;
-					Log_escribir(log,
-								 "Ventanilla: %d, Persona con dni: %d, "
-								 "derivado a la Oficina de Policía\n",
-								 numero_ventanilla, p.id);
-				}
-				else {
-					Log_escribir(log,
-								 "Ventanilla: %d, Persona con dni: %d, Feliz "
-								 "regreso a Conculandia\n",
-								 numero_ventanilla, p.id);
-				}
-			}
+			if (error)
+				break;
 		}
 		else {
 			if (r > 0)

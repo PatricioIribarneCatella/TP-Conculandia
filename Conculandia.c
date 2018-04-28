@@ -25,13 +25,13 @@ static int Frontera_init(Queue *q, Log *log) {
 void Liberar_recursos(Log *log,
 					  Queue *q,
 					  Sellos *sellos,
-                      Contador *extr_ingresados,
-                      Contador *pers_deportadas,
-                      Contador *pers_arrestadas,
+					  Contador *extr_ingresados,
+					  Contador *pers_deportadas,
+					  Contador *pers_arrestadas,
 					  PedidosCaptura *p_captura) {
 	// Libero recursos
 	PedidosCaptura_eliminar(p_captura);
-    Contador_eliminar(pers_arrestadas);
+	Contador_eliminar(pers_arrestadas);
 	Contador_eliminar(pers_deportadas);
 	Contador_eliminar(extr_ingresados);
 	Queue_eliminar(q);
@@ -40,9 +40,9 @@ void Liberar_recursos(Log *log,
 }
 
 static int Ventanillas_init(Sellos *sellos,
-                            Contador *extr_ingresados,
-                            Contador *pers_deportadas,
-                            Contador *pers_arrestadas,
+							Contador *extr_ingresados,
+							Contador *pers_deportadas,
+							Contador *pers_arrestadas,
 							PedidosCaptura *p_captura,
 							Log *log,
 							CmdLine *cl) {
@@ -60,7 +60,7 @@ static int Ventanillas_init(Sellos *sellos,
 	}
 
 	// Inicializa el contador de extranjeros deportados
-    pers_deportadas->crear_sem = 1;
+	pers_deportadas->crear_sem = 1;
 	error = Contador_crear(pers_deportadas, CONT_FILE_1);
 	if (error) {
 		perror("Fallo al crear contador personas deportadas");
@@ -86,18 +86,18 @@ static int Ventanillas_init(Sellos *sellos,
 		return error;
 	}
 
-    // Inicializa el contador de extranjeros ingresados
-    extr_ingresados->crear_sem = 1;
-    error = Contador_crear(extr_ingresados, CONT_FILE_3);
-    if (error) {
-        perror("Fallo al crear contador extranjeros ingresados");
-        return error;
-    }
-    error = Contador_init_to_zero(extr_ingresados);
-    if (error) {
-        perror("Fallo al inicializar contador extranjeros ingresados");
-        return error;
-    }
+	// Inicializa el contador de extranjeros ingresados
+	extr_ingresados->crear_sem = 1;
+	error = Contador_crear(extr_ingresados, CONT_FILE_3);
+	if (error) {
+		perror("Fallo al crear contador extranjeros ingresados");
+		return error;
+	}
+	error = Contador_init_to_zero(extr_ingresados);
+	if (error) {
+		perror("Fallo al inicializar contador extranjeros ingresados");
+		return error;
+	}
 
 	// Inicializa los pedidos de captura
 	error = PedidosCaptura_crear(p_captura, PCAPTURA_FILE);
@@ -145,9 +145,9 @@ int Conculandia_init(CmdLine *cl,
 					 Log *log,
 					 Queue *q,
 					 Sellos *sellos,
-                     Contador *extr_ingresados,
-                     Contador *pers_deportadas,
-                     Contador *pers_arrestadas,
+					 Contador *extr_ingresados,
+					 Contador *pers_deportadas,
+					 Contador *pers_arrestadas,
 					 PedidosCaptura *p_captura,
 					 pid_t *frontera) {
 	int error;
@@ -180,8 +180,8 @@ int Conculandia_init(CmdLine *cl,
 
 
 	// Inicializa y ejecuta las Ventanillas
-	error =
-		Ventanillas_init(sellos, extr_ingresados, pers_deportadas, pers_arrestadas, p_captura, log, cl);
+	error = Ventanillas_init(sellos, extr_ingresados, pers_deportadas,
+							 pers_arrestadas, p_captura, log, cl);
 
 	if (error) {
 		kill(*frontera, SIGINT);
@@ -190,11 +190,13 @@ int Conculandia_init(CmdLine *cl,
 
 
 	// Ejecuta la Shell
-	Shell_run(*frontera, log, extr_ingresados, pers_deportadas, pers_arrestadas);
+	Shell_run(*frontera, log, extr_ingresados, pers_deportadas,
+			  pers_arrestadas);
 
 	Ventanillas_wait(cl->ventanillas);
 
-	Log_escribir(log, "PERSONAS PROCESADAS :%d \n", Contador_get(pers_deportadas));
+	Log_escribir(log, "PERSONAS PROCESADAS :%d \n",
+				 Contador_get(pers_deportadas));
 
 	return 0;
 }

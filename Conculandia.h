@@ -23,7 +23,7 @@ int Conculandia_init(CmdLine *cl,
 					 Queue *q,
 					 Sellos *sellos,
 					 Contador *extr_ingresados,
-                     Contador *pers_deportadas,
+					 Contador *pers_deportadas,
 					 Contador *pers_arrestadas,
 					 PedidosCaptura *p_captura,
 					 pid_t *frontera);
@@ -31,9 +31,9 @@ int Conculandia_init(CmdLine *cl,
 void Liberar_recursos(Log *log,
 					  Queue *q,
 					  Sellos *sellos,
-                      Contador *extr_ingresados,
-                      Contador *pers_deportadas,
-                      Contador *pers_arrestadas,
+					  Contador *extr_ingresados,
+					  Contador *pers_deportadas,
+					  Contador *pers_arrestadas,
 					  PedidosCaptura *p_captura);
 
 #endif  //CONCULANDIA_H

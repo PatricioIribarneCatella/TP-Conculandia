@@ -24,7 +24,11 @@ static char *read_line(const char *promt) {
 	return buffer;
 }
 
-void Shell_run(pid_t f, Log *log, Contador *e_ingres, Contador *p_deport, Contador *p_arrest) {
+void Shell_run(pid_t f,
+			   Log *log,
+			   Contador *e_ingres,
+			   Contador *p_deport,
+			   Contador *p_arrest) {
 	char *cmd;
 
 	printf(
@@ -63,8 +67,7 @@ void Shell_run(pid_t f, Log *log, Contador *e_ingres, Contador *p_deport, Contad
 				Contador_get(p_arrest));
 
 		if (strcmp(cmd, "geteing") == 0)
-			printf(
-					"Extranjeros que ingresarosn a Conculandia: %d\n",
-					Contador_get(e_ingres));
+			printf("Extranjeros que ingresarosn a Conculandia: %d\n",
+				   Contador_get(e_ingres));
 	}
 }

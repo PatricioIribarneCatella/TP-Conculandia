@@ -41,4 +41,3 @@ int LockArchivo_eliminar(LockArchivo *lock) {
 	lock->fd = -1;
 	return return_value;
 }
-

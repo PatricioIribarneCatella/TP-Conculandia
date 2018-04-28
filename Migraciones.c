@@ -4,8 +4,7 @@ static int Adquirir_recursos(Queue *q,
 							 Contador *pers_deportadas,
 							 Contador *pers_arrestadas,
 							 PedidosCaptura *p_captura,
-                             RasgosDeRiesgoCompartidos *rasg_r_comp
-) {
+							 RasgosDeRiesgoCompartidos *rasg_r_comp) {
 	int error, fd;
 
 	fd = Queue_abrir(q, FIFO_FILE, O_RDONLY);
@@ -14,7 +13,7 @@ static int Adquirir_recursos(Queue *q,
 	if (error)
 		return error;
 
-    pers_deportadas->crear_sem = 0;
+	pers_deportadas->crear_sem = 0;
 	error = Contador_crear(pers_deportadas, CONT_FILE_1);
 
 	if (error)
@@ -34,10 +33,10 @@ static int Adquirir_recursos(Queue *q,
 
 	error = PedidosCaptura_crear(p_captura, PCAPTURA_FILE);
 
-    if (error)
-        return error;
+	if (error)
+		return error;
 
-    error = RasgosCompartidos_crear(rasg_r_comp, O_RDONLY);
+	error = RasgosCompartidos_crear(rasg_r_comp, O_RDONLY);
 
 	return error;
 }
@@ -48,11 +47,12 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 	Contador cont_pers_deport;
 	Contador cont_pers_arrest;
 	PedidosCaptura p_captura;
-    RasgosDeRiesgoCompartidos rasg_r_comp;
+	RasgosDeRiesgoCompartidos rasg_r_comp;
 	int r, stop = 0, error;
 
 
-	stop = Adquirir_recursos(&q, &cont_extr_ingres, &cont_pers_deport, &cont_pers_arrest, &p_captura, &rasg_r_comp);
+	stop = Adquirir_recursos(&q, &cont_extr_ingres, &cont_pers_deport,
+							 &cont_pers_arrest, &p_captura, &rasg_r_comp);
 
 	while (!stop) {
 		Person p;
@@ -62,44 +62,44 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 			if (Person_es_extranjero(&p)) {
 				//ENTRANJERO
 
-                //Chequeo alertas
-                if (RasgosCompartidos_Persona_es_de_riesgo(&rasg_r_comp, &p)){
+				//Chequeo alertas
+				if (RasgosCompartidos_Persona_es_de_riesgo(&rasg_r_comp, &p)) {
+					//incremento el contador de extranjeros deportados
+					error = Contador_incrementar(&cont_pers_deport);
+					if (error)
+						break;
 
-                    //incremento el contador de extranjeros deportados
-                    error = Contador_incrementar(&cont_pers_deport);
-                    if (error)
-                        break;
+					Log_escribir(log,
+								 "Ventanilla: %d, Persona con pasaporte: %d, "
+								 "deportado \n",
+								 numero_ventanilla, p.id);
+				}
+				else {
+					//Si no lo fue deportado
 
-                    Log_escribir(
-                            log,
-                            "Ventanilla: %d, Persona con pasaporte: %d, deportado \n",
-                            numero_ventanilla, p.id);
-                } else {
-                    //Si no lo fue deportado
+					//Tomo un sello
+					error = Sellos_tomar_sello(sellos);
+					if (error)
+						break;
 
-                    //Tomo un sello
-                    error = Sellos_tomar_sello(sellos);
-                    if (error)
-                        break;
+					//Simulo tiempo de procesamiento (0.02 seg)
+					//Sellar el pasaporte
+					usleep(20000);
 
-                    //Simulo tiempo de procesamiento (0.02 seg)
-                    //Sellar el pasaporte
-                    usleep(20000);
+					Log_escribir(log,
+								 "Ventanilla: %d, Persona con pasaporte: %d, "
+								 "Bienvenido a Conculandia \n",
+								 getpid(), p.nacionalidad, p.id);
 
-                    Log_escribir(
-                        log,
-                        "Ventanilla: %d, Persona con pasaporte: %d, Bienvenido a Conculandia \n",
-                        getpid(), p.nacionalidad, p.id);
-
-                    //Libero el sello
-                    error = Sellos_liberar_sello(sellos);
-                    if (error)
-                        break;
+					//Libero el sello
+					error = Sellos_liberar_sello(sellos);
+					if (error)
+						break;
 
 					error = Contador_incrementar(&cont_extr_ingres);
 					if (error)
 						break;
-                }
+				}
 			}
 			else {
 				//NATIVO
@@ -141,7 +141,7 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 	Log_escribir(log, "Cerrando ventanilla n° %d\n", numero_ventanilla);
 
 	//Libero recursos
-    RasgosCompartidos_destruir(&rasg_r_comp);
+	RasgosCompartidos_destruir(&rasg_r_comp);
 	PedidosCaptura_eliminar(&p_captura);
 	Contador_eliminar(&cont_extr_ingres);
 	Contador_eliminar(&cont_pers_arrest);

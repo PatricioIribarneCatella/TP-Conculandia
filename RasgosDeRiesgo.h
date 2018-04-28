@@ -1,6 +1,4 @@
-
 #include "Person.h"
-
 
 typedef struct {
 	short int mascaraOjos;

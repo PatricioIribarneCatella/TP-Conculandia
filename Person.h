@@ -1,8 +1,9 @@
 #ifndef PERSON_H
 #define PERSON_H
 
-#include "CaracteristicasPersona.h"
 #include <stdlib.h>
+
+#include "CaracteristicasPersona.h"
 
 //Puntos de partida para los dni/pasaport de las personas
 #define DNI_START 12045660

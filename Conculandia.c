@@ -27,70 +27,71 @@ static int Frontera_init(Queue *q, Log *log) {
 	return f;
 }
 
+static int Contador_personas_init(Contador* c, const char* f, char* cont_name) {
+
+	int res;
+	char buf[100];
+
+	// Inicializa el contador de extranjeros deportados
+	c->crear_sem = 1;
+	res = Contador_crear(c, f);
+	
+	if (res) {
+		snprintf(buf, sizeof buf, "Fallo al crear contador %s ", cont_name);
+		perror(buf);
+		return res;
+	}
+	
+	res = Contador_init_to_zero(c);
+	
+	if (res) {
+		snprintf(buf, sizeof buf, "Fallo al inicializar contador %s ", cont_name);
+		perror(buf);
+		return res;
+	}
+
+	return res;
+}
+
 static int Ventanillas_init(Sellos *sellos,
-			Contador *personas, Contador *pers_arrestadas, Contador* pers_deportadas,
-			PedidosCaptura *p_captura, RasgosDeRiesgoCompartidos* r_riesgo,
-			 Log *log, CmdLine *cl) {
+							Contador *extr_ingresados,
+							Contador *pers_deportadas,
+							Contador *pers_arrestadas,
+							PedidosCaptura *p_captura,
+							Log *log,
+							CmdLine *cl) {
 	int error = 0;
 	int i;
-	
-	pid_t *ventanillas_pids = malloc(sizeof(pid_t) * cl->ventanillas);
-	
-	if (ventanillas_pids == NULL)
-		return errno;
-	
-	// Inicializo sellos (para las ventanillas)
+	pid_t *ventanillas_pids;
+
+	// Inicializo sellos
 	error = Sellos_crear(sellos, cl->sellos);
 
 	if (error) {
 		perror("Fallo al crear sellos");
-		free(ventanillas_pids);
 		return error;
 	}
 
-	// Inicializa el contador de personas
-	personas->crear_sem = 1;
-	error = Contador_crear(personas, CONT_FILE_1);
+	error = Contador_personas_init(pers_deportadas, CONT_FILE_1, "personas deportadas");
 	
-	if (error) {
-		perror("Fallo al crear contador personas");
-		free(ventanillas_pids);
+	if (error)
 		return error;
-	}
+
+	error = Contador_personas_init(pers_arrestadas, CONT_FILE_2, "personas arrestadas");
 	
-	error = Contador_init_to_zero(personas);
-	
-	if (error) {
-		perror("Fallo al inicializar contador personas");
-		free(ventanillas_pids);
+	if (error)
 		return error;
-	}
 
-	// Inicializa el contador de residentes arrestadas
-	pers_arrestadas->crear_sem = 1;
-
-	error = Contador_crear(pers_arrestadas, CONT_FILE_2);
+	error = Contador_personas_init(extr_ingresados, CONT_FILE_3, "extranjeros ingresados");
 	
-	if (error) {
-		perror("Fallo al crear contador personas arrestadas");
-		free(ventanillas_pids);
+	if (error)
 		return error;
-	}
 	
-	error = Contador_init_to_zero(pers_arrestadas);
-
-	if (error) {
-		perror("Fallo al inicializar contador personas arrestadas");
-		free(ventanillas_pids);
-		return error;
-	}
-
 	// Inicializa los pedidos de captura
 	error = PedidosCaptura_crear(p_captura, PCAPTURA_FILE);
 	
 	if (error) {
 		perror("Fallo al crear pedidos de captura");
-		free(ventanillas_pids);
 		return error;
 	}
 	
@@ -98,17 +99,24 @@ static int Ventanillas_init(Sellos *sellos,
 	
 	if (error) {
 		perror("Fallo al inicializar pedidos de captura");
-		free(ventanillas_pids);
 		return error;
 	}
+	
+	ventanillas_pids = malloc(sizeof(pid_t) * cl->ventanillas);
+	
+	if (ventanillas_pids == NULL)
+		return errno;
 
 	// Ventanillas
 	for (i = 0; i < cl->ventanillas; i++) {
+		
 		ventanillas_pids[i] = fork();
+		
 		if (ventanillas_pids[i] == 0) {
 			Migraciones_run(sellos, i + 1, log);
 			exit(EXIT_SUCCESS);
 		}
+		
 		if (ventanillas_pids[i] < 0)
 			break;
 	}
@@ -132,11 +140,16 @@ static void Ventanillas_wait(int ventanillas) {
 		wait(NULL);
 }
 
-int Conculandia_init(CmdLine *cl, Log *log, Queue *q, Sellos *sellos,
-			Contador *personas, Contador *pers_arrestadas, Contador* pers_deportadas,
-			PedidosCaptura *p_captura, RasgosDeRiesgoCompartidos* rasgos_riesgo,
-			pid_t *frontera) {
+int Conculandia_init(CmdLine *cl,
+					 Log *log,
+					 Queue *q,
+					 Sellos *sellos,
+					 Contador *extr_ingresados,
+					 Contador *pers_deportadas,
+					 Contador *pers_arrestadas,
+					 PedidosCaptura *p_captura) {
 	int error;
+	pid_t frontera;
 
 	// Inicializa el Log
 	error = Log_abrir(log, (const char *) &cl->log_filename, cl->debug);
@@ -155,44 +168,48 @@ int Conculandia_init(CmdLine *cl, Log *log, Queue *q, Sellos *sellos,
 	}
 
 	// Inicializa y ejecuta la Frontera
-	*frontera = Frontera_init(q, log);
+	frontera = Frontera_init(q, log);
 
-	if (*frontera <= 0) {
+	if (frontera <= 0) {
 		perror("Fallo al inicializar la frontera. Error");
 		return error;
 	}
 
 	// Inicializa y ejecuta las Ventanillas
 	error = Ventanillas_init(sellos,
-				personas, pers_arrestadas, pers_deportadas,
-				p_captura, rasgos_riesgo,
-				log, cl);
+			extr_ingresados, pers_deportadas, pers_arrestadas,
+			p_captura, log, cl);
 
 	if (error) {
-		kill(*frontera, SIGINT);
+		kill(frontera, SIGINT);
 		return error;
 	}
 
 	// Ejecuta la Shell
-	Shell_run(*frontera, log, personas, pers_arrestadas, pers_deportadas);
+	Shell_run(frontera, log, extr_ingresados, pers_deportadas,
+			  pers_arrestadas);
 
 	Ventanillas_wait(cl->ventanillas);
 
-	Log_escribir(log, "PERSONAS PROCESADAS :%d \n", Contador_get(personas));
+	Log_escribir(log, "PERSONAS PROCESADAS :%d \n",
+				 Contador_get(pers_deportadas));
 
 	return 0;
 }
 
-void Liberar_recursos(Log *log, Queue *q, Sellos *sellos,
-			Contador *personas, Contador *pers_arrestadas, Contador* pers_deportadas,
-			PedidosCaptura *p_captura, RasgosDeRiesgoCompartidos* rasgos_riesgo) {
+void Liberar_recursos(Log *log,
+					  Queue *q,
+					  Sellos *sellos,
+					  Contador *extr_ingresados,
+					  Contador *pers_deportadas,
+					  Contador *pers_arrestadas,
+					  PedidosCaptura *p_captura) {
 	// Libero recursos
-	PedidosCaptura_eliminar(p_captura);
-	RasgosCompartidos_eliminar(rasgos_riesgo);
-	Contador_eliminar(pers_deportadas);
 	Contador_eliminar(pers_arrestadas);
-	Contador_eliminar(personas);
-	Queue_eliminar(q);
+	Contador_eliminar(pers_deportadas);
+	Contador_eliminar(extr_ingresados);
+	PedidosCaptura_eliminar(p_captura);
 	Sellos_eliminar(sellos);
+	Queue_eliminar(q);
 	Log_cerrar(log);
 }

@@ -3,7 +3,7 @@
 #include "SharedMemory.h"
 
 #define RASGOS_DE_RIESGO_SHM_NUMBER 27
-#define RASGOS_DE_RIESGO_SHM_FILENAME "/usr/bin/bash"
+#define RASGOS_DE_RIESGO_SHM_FILENAME "/tmp/rcomp"
 
 typedef struct {
 	RasgosDeRiesgo rasgos;

@@ -7,22 +7,18 @@ int main(int argc, char *argv[]) {
 	Log log;
 	Queue q;
 	Sellos sellos;
-	Contador personas;
-	Contador pers_arrestadas;
+	Contador extr_ingresados;
 	Contador pers_deportadas;
+	Contador pers_arrestadas;
 	PedidosCaptura p_captura;
-	RasgosDeRiesgoCompartidos rasgos_riesgo;
-	pid_t frontera;
 
 	CmdLine_parse(argc, argv, &cl);
 
-	Conculandia_init(&cl, &log, &q, &sellos,
-				&personas, &pers_arrestadas, &pers_deportadas, 
-				&p_captura, &rasgos_riesgo, &frontera);
+	Conculandia_init(&cl, &log, &q, &sellos, &extr_ingresados, &pers_deportadas,
+					 &pers_arrestadas, &p_captura);
 
-	Liberar_recursos(&log, &q, &sellos,
-				&personas, &pers_arrestadas, &pers_deportadas,
-				&p_captura, &rasgos_riesgo);
+	Liberar_recursos(&log, &q, &sellos, &extr_ingresados, &pers_deportadas,
+					 &pers_arrestadas, &p_captura);
 
 	return 0;
 }

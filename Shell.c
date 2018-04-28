@@ -24,15 +24,16 @@ static char *read_line(const char *promt) {
 	return buffer;
 }
 
-void Shell_run(pid_t f, Log *log, Contador *p, Contador *p_arrest) {
+void Shell_run(pid_t f, Log *log, Contador *e_ingres, Contador *p_deport, Contador *p_arrest) {
 	char *cmd;
 
 	printf(
 		"\tConculandia - Shell\n"
 		" Comandos:\n"
 		"\texit: terminar la simulación\n"
-		"\tgetper: cantidad de personas atendidas hasta el momento\n"
-		"\tgetpera: cantidad de personas derivadas a la Oficina de Policía\n");
+		"\tgetperd: cantidad de extranjeros deportadas\n"
+		"\tgetpera: cantidad de residentes derivados a la Oficina de Policía\n"
+		"\tgeteing: cantidad de extranjeros que ingresaron a Conculandia\n");
 
 	while ((cmd = read_line(">")) != NULL) {
 		if (strcmp(cmd, "exit") == 0) {
@@ -51,14 +52,19 @@ void Shell_run(pid_t f, Log *log, Contador *p, Contador *p_arrest) {
 			return;
 		}
 
-		if (strcmp(cmd, "getper") == 0)
-			printf("Personas que llegaron a Conculandia: %d\n",
-				   Contador_get(p));
+		if (strcmp(cmd, "getperd") == 0)
+			printf("Extranjeros que fueron deportadas: %d\n",
+				   Contador_get(p_deport));
 
 		if (strcmp(cmd, "getpera") == 0)
 			printf(
-				"Personas que llegaron fueron derivadas a la Oficina de "
+				"Rsidentes que llegaron fueron derivadas a la Oficina de "
 				"Policía: %d\n",
 				Contador_get(p_arrest));
+
+		if (strcmp(cmd, "geteing") == 0)
+			printf(
+					"Extranjeros que ingresarosn a Conculandia: %d\n",
+					Contador_get(e_ingres));
 	}
 }

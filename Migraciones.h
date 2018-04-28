@@ -9,6 +9,7 @@
 #include "PedidosCaptura.h"
 #include "Person.h"
 #include "Queue.h"
+#include "RasgosDeRiesgoCompartidos.h"
 #include "Sellos.h"
 
 int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log);

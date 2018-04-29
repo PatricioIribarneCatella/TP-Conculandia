@@ -13,6 +13,7 @@
 #include "Log.h"
 #include "Migraciones.h"
 #include "PedidosCaptura.h"
+#include "MinisterioSeguridad.h"
 #include "Person.h"
 #include "Queue.h"
 #include "Shell.h"

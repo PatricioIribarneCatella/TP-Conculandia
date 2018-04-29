@@ -1,3 +1,6 @@
+#ifndef RASGOS_DE_RIESGO_H
+#define RASGOS_DE_RIESGO_H
+
 #include "Person.h"
 
 typedef struct {
@@ -25,3 +28,5 @@ int Rasgos_Aniadir_caracteristica_especial(
 	enum caracteristicas_especiales nueva_caracteristica);
 int Rasgos_Remover_caracteristica_especial(
 	RasgosDeRiesgo *rasgos, enum caracteristicas_especiales caracteristica);
+
+#endif // RASGOS_DE_RIESGO_H

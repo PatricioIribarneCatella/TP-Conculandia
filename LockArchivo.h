@@ -1,3 +1,6 @@
+#ifndef LOCK_ARCHIVO_H
+#define LOCK_ARCHIVO_H
+
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -16,3 +19,5 @@ int LockArchivo_tomar(LockArchivo *lock);
 int LockArchivo_liberar(LockArchivo *lock);
 
 int LockArchivo_eliminar(LockArchivo *lock);
+
+#endif // LOCK_ARCHIVO_H

@@ -1,3 +1,6 @@
+#ifndef CARACTERISTICAS_PERSONA_H
+#define CARACTERISTICAS_PERSONA_H
+
 // Unico por persona
 enum colores_ojos {
 	OJOS_VERDES,
@@ -7,7 +10,6 @@ enum colores_ojos {
 	OTRO_OJOS
 };
 #define MAX_COLOR_OJO OTRO_OJOS
-
 
 // Unico por persona
 enum tipos_pelos {
@@ -58,3 +60,6 @@ int Quitar_caracteristica_especial(
 	CaracteristicasPersona *car,
 	enum caracteristicas_especiales caracteristica);
 int Vaciar_caracteristicas_especiales(CaracteristicasPersona *car);
+
+#endif // CARACTERISTICAS_PERSONA_H
+

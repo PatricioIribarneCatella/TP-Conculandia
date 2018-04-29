@@ -24,7 +24,7 @@ static char *read_line(const char *promt) {
 	return buffer;
 }
 
-void Shell_run(pid_t f, Log *log, Contador *e_ingres, Contador *p_deport,
+void Shell_run(pid_t f, pid_t m, Log *log, Contador *e_ingres, Contador *p_deport,
 			   Contador *p_arrest) {
 	char *cmd;
 
@@ -44,9 +44,17 @@ void Shell_run(pid_t f, Log *log, Contador *e_ingres, Contador *p_deport,
 			// terminar de producir gente
 			kill(f, SIGINT);
 
+			// Signal al ministerio para 
+			// terminar de producir alertas
+			kill(m, SIGINT);
+
 			// Se espera el término
 			// del proceso Frontera
 			waitpid(f, NULL, 0);
+
+			// Se espera al término
+			// del proceso Ministerio
+			waitpid(m, NULL, 0);
 
 			printf("Saliendo de la simulación\n");
 

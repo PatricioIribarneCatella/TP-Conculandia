@@ -19,8 +19,8 @@ int MinisterioSeguridad_run(Log *log){
     sigaction(SIGINT, &act, NULL);
 
     //Adquiero recursos
-    RasgosDeRiesgoCompartidos RasC;
-    error = RasgosCompartidos_crear(&RasC, O_WRONLY);
+    RasgosDeRiesgoCompartidos ras_riesgo;
+    error = RasgosCompartidos_crear(&ras_riesgo, 0);
 
     while (!quit && !error) {
 
@@ -30,6 +30,6 @@ int MinisterioSeguridad_run(Log *log){
     }
 
     //Libero recursos
-    RasgosCompartidos_eliminar(&RasC);
+    RasgosCompartidos_eliminar(&ras_riesgo);
     return 0;
 }

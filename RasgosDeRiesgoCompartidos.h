@@ -1,3 +1,6 @@
+#ifndef RASGOS_DE_RIESGO_COMPARTIDOS_H
+#define RASGOS_DE_RIESGO_COMPARTIDOS_H
+
 #include <stdio.h>
 
 #include "LockArchivo.h"
@@ -42,3 +45,6 @@ int RasgosCompartidos_Aniadir_caracteristica_especial(
 int RasgosCompartidos_Remover_caracteristica_especial(
 	RasgosDeRiesgoCompartidos *rasgos,
 	enum caracteristicas_especiales caracteristica);
+
+#endif // RASGOS_DE_RIESGO_COMPARTIDOS_H
+

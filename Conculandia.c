@@ -21,12 +21,31 @@ static int Frontera_init(Queue *q, Log *log) {
 		return f;
 	}
 
-	error = Log_escribir(log, "PROUCTOR PID: %d \n", f);
+	error = Log_escribir(log, "PROUCTOR PERSONAS PID: %d\n", f);
 
 	if (error)
 		return error;
 
 	return f;
+}
+
+static int Ministerio_init(Log *log) {
+
+	pid_t m;
+	int error;
+
+	// Generador de alertas
+	if ((m = fork()) == 0) {
+		MinisterioSeguridad_run(log);
+		exit(EXIT_SUCCESS);
+	}
+	
+	if (m < 0)
+		return m;
+
+	error = Log_escribir(log, "PRODUCTOR ALERTAS PID: %d\n", m);
+
+	return error ? error : m;
 }
 
 static int Contador_personas_init(Contador *c, const char *f, char *cont_name,
@@ -182,7 +201,7 @@ static void Ventanillas_wait(int ventanillas) {
 }
 
 
-static int Conculandia_init(pid_t *frontera, CmdLine *cl, Log *log, Queue *q,
+static int Conculandia_init(pid_t *frontera, pid_t* ministerio, CmdLine *cl, Log *log, Queue *q,
 							Sellos *sellos, Contador *extr_ingresados,
 							Contador *pers_deportadas,
 							Contador *pers_arrestadas,
@@ -210,10 +229,22 @@ static int Conculandia_init(pid_t *frontera, CmdLine *cl, Log *log, Queue *q,
 	*frontera = Frontera_init(q, log);
 
 	if (*frontera < 0) {
-		Log_escribir(log, "ERROR: Fallo al inicializar la frontera\n");
-		perror("ERROR: Fallo al inicializar la frontera ");
+		Log_escribir(log, "ERROR: Fallo al crear la Frontera\n");
+		perror("ERROR: Fallo al crear la Frontera ");
 		Log_cerrar(log);
 		return (*frontera);
+	}
+
+	// Inicializa y ejecuta el
+	// Ministerio de Seguridad
+	*ministerio = Ministerio_init(log);
+
+	if (*ministerio < 0) {
+		kill(*frontera, SIGINT);
+		Log_escribir(log, "ERROR: Fallo al crear el Ministerio de Seguridad\n");
+		perror("ERROR: Fallo al crear el Ministerio de Seguridad ");
+		Log_cerrar(log);
+		return error;
 	}
 
 	// Inicializa y ejecuta las Ventanillas
@@ -222,6 +253,7 @@ static int Conculandia_init(pid_t *frontera, CmdLine *cl, Log *log, Queue *q,
 
 	if (error) {
 		kill(*frontera, SIGINT);
+		kill(*ministerio, SIGINT);
 		Log_cerrar(log);
 		return error;
 	}
@@ -246,7 +278,7 @@ static void Liberar_recursos(Log *log, Queue *q, Sellos *sellos,
 
 void Conculandia_run(CmdLine *cl) {
 	int error;
-	pid_t frontera;
+	pid_t frontera, ministerio;
 	Log log;
 	Queue q;
 	Sellos sellos;
@@ -259,14 +291,14 @@ void Conculandia_run(CmdLine *cl) {
 	// - Frontera
 	// - Ventanillas
 	// Liberar los recursos en caso de error
-	error = Conculandia_init(&frontera, cl, &log, &q, &sellos, &extr_ingresados,
+	error = Conculandia_init(&frontera, &ministerio, cl, &log, &q, &sellos, &extr_ingresados,
 							 &pers_deportadas, &pers_arrestadas, &p_captura);
 
 	if (error)
 		return;
 
 	// Ejecuta la Shell
-	Shell_run(frontera, &log, &extr_ingresados, &pers_deportadas,
+	Shell_run(frontera, ministerio, &log, &extr_ingresados, &pers_deportadas,
 			  &pers_arrestadas);
 
 	Ventanillas_wait(cl->ventanillas);

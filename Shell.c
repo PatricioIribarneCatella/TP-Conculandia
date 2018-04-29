@@ -44,6 +44,8 @@ void Shell_run(pid_t f, pid_t m, Log *log, Contador *e_ingres,
 			// terminar de producir gente
 			kill(f, SIGINT);
 
+			Log_escribir(log, "KILL MINISTERIO\n");
+
 			// Signal al ministerio para
 			// terminar de producir alertas
 			kill(m, SIGINT);
@@ -76,3 +78,4 @@ void Shell_run(pid_t f, pid_t m, Log *log, Contador *e_ingres,
 				   Contador_get(e_ingres));
 	}
 }
+

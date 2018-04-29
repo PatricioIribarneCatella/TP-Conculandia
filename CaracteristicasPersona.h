@@ -61,5 +61,4 @@ int Quitar_caracteristica_especial(
 	enum caracteristicas_especiales caracteristica);
 int Vaciar_caracteristicas_especiales(CaracteristicasPersona *car);
 
-#endif // CARACTERISTICAS_PERSONA_H
-
+#endif  // CARACTERISTICAS_PERSONA_H

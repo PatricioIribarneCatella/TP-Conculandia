@@ -24,8 +24,8 @@ static char *read_line(const char *promt) {
 	return buffer;
 }
 
-void Shell_run(pid_t f, pid_t m, Log *log, Contador *e_ingres, Contador *p_deport,
-			   Contador *p_arrest) {
+void Shell_run(pid_t f, pid_t m, Log *log, Contador *e_ingres,
+			   Contador *p_deport, Contador *p_arrest) {
 	char *cmd;
 
 	printf(
@@ -44,7 +44,7 @@ void Shell_run(pid_t f, pid_t m, Log *log, Contador *e_ingres, Contador *p_depor
 			// terminar de producir gente
 			kill(f, SIGINT);
 
-			// Signal al ministerio para 
+			// Signal al ministerio para
 			// terminar de producir alertas
 			kill(m, SIGINT);
 

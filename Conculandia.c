@@ -30,7 +30,6 @@ static int Frontera_init(Queue *q, Log *log) {
 }
 
 static int Ministerio_init(Log *log) {
-
 	pid_t m;
 	int error;
 
@@ -39,7 +38,7 @@ static int Ministerio_init(Log *log) {
 		MinisterioSeguridad_run(log);
 		exit(EXIT_SUCCESS);
 	}
-	
+
 	if (m < 0)
 		return m;
 
@@ -201,8 +200,9 @@ static void Ventanillas_wait(int ventanillas) {
 }
 
 
-static int Conculandia_init(pid_t *frontera, pid_t* ministerio, CmdLine *cl, Log *log, Queue *q,
-							Sellos *sellos, Contador *extr_ingresados,
+static int Conculandia_init(pid_t *frontera, pid_t *ministerio, CmdLine *cl,
+							Log *log, Queue *q, Sellos *sellos,
+							Contador *extr_ingresados,
 							Contador *pers_deportadas,
 							Contador *pers_arrestadas,
 							PedidosCaptura *p_captura) {
@@ -291,8 +291,9 @@ void Conculandia_run(CmdLine *cl) {
 	// - Frontera
 	// - Ventanillas
 	// Liberar los recursos en caso de error
-	error = Conculandia_init(&frontera, &ministerio, cl, &log, &q, &sellos, &extr_ingresados,
-							 &pers_deportadas, &pers_arrestadas, &p_captura);
+	error = Conculandia_init(&frontera, &ministerio, cl, &log, &q, &sellos,
+							 &extr_ingresados, &pers_deportadas,
+							 &pers_arrestadas, &p_captura);
 
 	if (error)
 		return;

@@ -41,10 +41,10 @@ int Frontera_run(Log *log) {
 	}
 
 	if (quit)
-		Log_escribir(log, "Frontera SIGINT received\n");
+		Log_escribir(log, "Frontera SIGINT recibido\n");
 
-	Log_escribir(log, "PRODUCTOR TERMINANDO \n");
-	Log_escribir(log, "%d PERSONAS ENTRARON POR LA FRONTERA \n\n", p_created);
+	Log_escribir(log, "PRODUCTOR PERSONAS TERMINANDO\n");
+	Log_escribir(log, "%d PERSONAS ENTRARON POR LA FRONTERA\n\n", p_created);
 
 	//Libero recursos
 	Queue_cerrar(&q);

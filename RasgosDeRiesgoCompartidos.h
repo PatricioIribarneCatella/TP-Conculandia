@@ -46,5 +46,4 @@ int RasgosCompartidos_Remover_caracteristica_especial(
 	RasgosDeRiesgoCompartidos *rasgos,
 	enum caracteristicas_especiales caracteristica);
 
-#endif // RASGOS_DE_RIESGO_COMPARTIDOS_H
-
+#endif  // RASGOS_DE_RIESGO_COMPARTIDOS_H

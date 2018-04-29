@@ -29,4 +29,4 @@ int Rasgos_Aniadir_caracteristica_especial(
 int Rasgos_Remover_caracteristica_especial(
 	RasgosDeRiesgo *rasgos, enum caracteristicas_especiales caracteristica);
 
-#endif // RASGOS_DE_RIESGO_H
+#endif  // RASGOS_DE_RIESGO_H

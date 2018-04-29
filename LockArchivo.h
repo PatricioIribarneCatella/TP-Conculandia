@@ -20,4 +20,4 @@ int LockArchivo_liberar(LockArchivo *lock);
 
 int LockArchivo_eliminar(LockArchivo *lock);
 
-#endif // LOCK_ARCHIVO_H
+#endif  // LOCK_ARCHIVO_H

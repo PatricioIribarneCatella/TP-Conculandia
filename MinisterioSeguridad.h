@@ -9,4 +9,4 @@
 
 int MinisterioSeguridad_run(Log *log);
 
-#endif //MINISTERIOSEGURIDAD_H
+#endif  //MINISTERIOSEGURIDAD_H

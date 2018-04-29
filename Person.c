@@ -22,6 +22,8 @@ void Person_random_generate(Person *p) {
 		p->id = pasaport_n;
 		pasaport_n = pasaport_n + 1;
 	}
+
+	memset(&(p->caracteristicas), 0, sizeof(CaracteristicasPersona));
 }
 
 int Person_es_extranjero(Person *p) {

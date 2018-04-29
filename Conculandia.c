@@ -192,8 +192,12 @@ int Conculandia_init(CmdLine *cl, Log *log, Queue *q, Sellos *sellos,
 
 	Ventanillas_wait(cl->ventanillas);
 
-	Log_escribir(log, "PERSONAS PROCESADAS :%d \n",
-				 Contador_get(pers_deportadas));
+	Log_escribir(log, "PERSONAS DEPORTADAS: %d\n"
+			  "PERSONAS ARRESTADAS: %d\n"
+			  "PERSONAS EXTRANJERAS INGRESADAS: %d\n",
+				Contador_get(pers_deportadas),
+				Contador_get(pers_arrestadas),
+				Contador_get(extr_ingresados));
 
 	return 0;
 }

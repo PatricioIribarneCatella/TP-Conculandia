@@ -1,7 +1,5 @@
 #include "RasgosDeRiesgoCompartidos.h"
 
-#define RASGOS_PTR(X) X->shm.mem_ptr
-
 // Creacion
 int RasgosCompartidos_crear(RasgosDeRiesgoCompartidos *rasgos,
 							int modoLectura) {
@@ -20,20 +18,32 @@ int RasgosCompartidos_crear(RasgosDeRiesgoCompartidos *rasgos,
 
 // Chequeo (Locks de lectura)
 int RasgosCompartidos_Persona_es_de_riesgo(RasgosDeRiesgoCompartidos *rasgos,
-										   Person *persona) {
+						Person *persona) {
+
 	if (!rasgos->lock.modoLectura)
 		return -1;
 
-	int return_value;
-	int error = LockArchivo_tomar(&(rasgos->lock));
+	int return_value, error;
+	
+	// Adquirir lock
+	error = LockArchivo_tomar(&(rasgos->lock));
 
-	if (!error)
-		return_value = Rasgos_Persona_es_de_riesgo(RASGOS_PTR(rasgos), persona);
+	if (error) {	
+		perror("ERROR: adquirir lock - rasgos de riesgo ");
+		return error;
+	}
 
-	if (!error)
-		error = LockArchivo_liberar(&(rasgos->lock));
+	return_value = Rasgos_Persona_es_de_riesgo(RASGOS_PTR(rasgos), persona);
+	
+	// Liberar lock
+	error = LockArchivo_liberar(&(rasgos->lock));
 
-	return error ? error : return_value;
+	if (error) {
+		perror("ERROR: liberar lock - rasgos de riesgo ");
+		return error;
+	}
+	
+	return return_value;
 }
 
 // Modificacion (Locks de escritura)

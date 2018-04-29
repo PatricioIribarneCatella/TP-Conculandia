@@ -36,7 +36,7 @@ static int Adquirir_recursos(Queue *q, Contador *extr_ingresados,
 	if (error)
 		return error;
 
-	error = RasgosCompartidos_crear(rasg_r_comp, O_RDONLY);
+	error = RasgosCompartidos_crear(rasg_r_comp, 1);
 
 	return error;
 }
@@ -60,11 +60,11 @@ static int Migraciones_procesar_extranjero(Sellos *s, int ventanilla,
 										   Contador *cont_pers_deport,
 										   Contador *cont_extr_ingres, Log *l) {
 	int error;
-
 	// Se chequean alertas de riesgo
 	if (RasgosCompartidos_Persona_es_de_riesgo(rasgos, p)) {
+		
 		error = Contador_incrementar(cont_pers_deport);
-
+		
 		if (error) {
 			Log_escribir(l,
 						 "ERROR: fallo al incrementar el "
@@ -80,8 +80,6 @@ static int Migraciones_procesar_extranjero(Sellos *s, int ventanilla,
 					 ventanilla, p->id);
 	}
 	else {
-		//Si no fue deportado
-
 		//Tomo un sello
 		error = Sellos_tomar_sello(s);
 

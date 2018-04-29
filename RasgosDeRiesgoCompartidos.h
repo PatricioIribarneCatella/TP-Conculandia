@@ -1,9 +1,13 @@
+#include <stdio.h>
+
 #include "LockArchivo.h"
 #include "RasgosDeRiesgo.h"
 #include "SharedMemory.h"
 
 #define RASGOS_DE_RIESGO_SHM_NUMBER 27
 #define RASGOS_DE_RIESGO_SHM_FILENAME "/tmp/rcomp"
+
+#define RASGOS_PTR(X) X->shm.mem_ptr
 
 typedef struct {
 	RasgosDeRiesgo rasgos;

@@ -9,7 +9,7 @@ int Log_abrir(Log *LG, const char *filename, int debug) {
 		LG->fl.l_start = 0;
 		LG->fl.l_len = 0;
 
-		LG->fd = open(filename, O_CREAT | O_WRONLY, 0777);
+		LG->fd = open(filename, O_CREAT | O_WRONLY, 0644);
 
 		if (LG->fd == -1)
 			return ERROR_LOG_OPEN;

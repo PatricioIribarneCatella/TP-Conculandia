@@ -98,7 +98,7 @@ static int Migraciones_procesar_extranjero(Sellos *s, int ventanilla,
 		Log_escribir(l,
 					 "Ventanilla: %d, Persona con pasaporte: %d, "
 					 "Bienvenido a Conculandia \n",
-					 getpid(), p->nacionalidad, p->id);
+					 ventanilla,  p->id);
 
 		//Libero el sello
 		error = Sellos_liberar_sello(s);

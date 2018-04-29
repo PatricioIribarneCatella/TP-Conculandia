@@ -78,4 +78,3 @@ void Shell_run(pid_t f, pid_t m, Log *log, Contador *e_ingres,
 				   Contador_get(e_ingres));
 	}
 }
-

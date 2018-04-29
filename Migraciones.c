@@ -62,9 +62,8 @@ static int Migraciones_procesar_extranjero(Sellos *s, int ventanilla,
 	int error;
 	// Se chequean alertas de riesgo
 	if (RasgosCompartidos_Persona_es_de_riesgo(rasgos, p)) {
-		
 		error = Contador_incrementar(cont_pers_deport);
-		
+
 		if (error) {
 			Log_escribir(l,
 						 "ERROR: fallo al incrementar el "
@@ -98,7 +97,7 @@ static int Migraciones_procesar_extranjero(Sellos *s, int ventanilla,
 		Log_escribir(l,
 					 "Ventanilla: %d, Persona con pasaporte: %d, "
 					 "Bienvenido a Conculandia \n",
-					 ventanilla,  p->id);
+					 ventanilla, p->id);
 
 		//Libero el sello
 		error = Sellos_liberar_sello(s);

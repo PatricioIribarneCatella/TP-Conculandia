@@ -156,14 +156,13 @@ static int Ventanillas_init(Sellos *sellos, Contador *extr_ingresados,
 
 	// Termino las ventanillas que fueron creadas correctamente y seteo error
 	if (i < cl->ventanillas && ventanillas_pids[i] < 0) {
-		
 		for (int j = 0; j < i; j++)
 			kill(SIGINT, ventanillas_pids[j]);
-		
+
 		Log_escribir(log, "ERROR: Fallo al inicializar las ventanillas");
 		perror("Error al inicializar las ventanillas");
 		error = ventanillas_pids[i];
-		
+
 		Sellos_eliminar(sellos);
 		Contador_eliminar(pers_deportadas);
 		Contador_eliminar(pers_arrestadas);
@@ -183,11 +182,12 @@ static void Ventanillas_wait(int ventanillas) {
 }
 
 
-static int Conculandia_init(pid_t* frontera, CmdLine* cl, Log *log, Queue *q, Sellos *sellos,
-					 Contador *extr_ingresados, Contador *pers_deportadas,
-					 Contador *pers_arrestadas, PedidosCaptura *p_captura) {
-
-	int error;	
+static int Conculandia_init(pid_t *frontera, CmdLine *cl, Log *log, Queue *q,
+							Sellos *sellos, Contador *extr_ingresados,
+							Contador *pers_deportadas,
+							Contador *pers_arrestadas,
+							PedidosCaptura *p_captura) {
+	int error;
 
 	// Inicializa el Log
 	error = Log_abrir(log, (const char *) &cl->log_filename, cl->debug);
@@ -197,8 +197,8 @@ static int Conculandia_init(pid_t* frontera, CmdLine* cl, Log *log, Queue *q, Se
 		return error;
 	}
 
-	error = Log_escribir(log, "Sellos: %d, ventanillas: %d\n",
-					cl->sellos, cl->ventanillas);
+	error = Log_escribir(log, "Sellos: %d, ventanillas: %d\n", cl->sellos,
+						 cl->ventanillas);
 
 	if (error) {
 		perror("ERROR: Fallo al escribir en el log ");
@@ -230,8 +230,10 @@ static int Conculandia_init(pid_t* frontera, CmdLine* cl, Log *log, Queue *q, Se
 }
 
 static void Liberar_recursos(Log *log, Queue *q, Sellos *sellos,
-					  Contador *extr_ingresados, Contador *pers_deportadas,
-					  Contador *pers_arrestadas, PedidosCaptura *p_captura) {
+							 Contador *extr_ingresados,
+							 Contador *pers_deportadas,
+							 Contador *pers_arrestadas,
+							 PedidosCaptura *p_captura) {
 	// Libero recursos
 	Contador_eliminar(pers_arrestadas);
 	Contador_eliminar(pers_deportadas);
@@ -243,7 +245,6 @@ static void Liberar_recursos(Log *log, Queue *q, Sellos *sellos,
 }
 
 void Conculandia_run(CmdLine *cl) {
-	
 	int error;
 	pid_t frontera;
 	Log log;
@@ -258,26 +259,25 @@ void Conculandia_run(CmdLine *cl) {
 	// - Frontera
 	// - Ventanillas
 	// Liberar los recursos en caso de error
-	error = Conculandia_init(&frontera, cl, &log, &q, &sellos,
-				&extr_ingresados, &pers_deportadas, &pers_arrestadas,
-				&p_captura);
+	error = Conculandia_init(&frontera, cl, &log, &q, &sellos, &extr_ingresados,
+							 &pers_deportadas, &pers_arrestadas, &p_captura);
 
 	if (error)
 		return;
 
 	// Ejecuta la Shell
-	Shell_run(frontera, &log, &extr_ingresados, &pers_deportadas, &pers_arrestadas);
+	Shell_run(frontera, &log, &extr_ingresados, &pers_deportadas,
+			  &pers_arrestadas);
 
 	Ventanillas_wait(cl->ventanillas);
 
-	Log_escribir(&log, "PERSONAS DEPORTADAS: %d\n"
-			  "PERSONAS ARRESTADAS: %d\n"
-			  "PERSONAS EXTRANJERAS INGRESADAS: %d\n",
-				Contador_get(&pers_deportadas),
-				Contador_get(&pers_arrestadas),
-				Contador_get(&extr_ingresados));
+	Log_escribir(&log,
+				 "PERSONAS DEPORTADAS: %d\n"
+				 "PERSONAS ARRESTADAS: %d\n"
+				 "PERSONAS EXTRANJERAS INGRESADAS: %d\n",
+				 Contador_get(&pers_deportadas), Contador_get(&pers_arrestadas),
+				 Contador_get(&extr_ingresados));
 
 	Liberar_recursos(&log, &q, &sellos, &extr_ingresados, &pers_deportadas,
 					 &pers_arrestadas, &p_captura);
 }
-

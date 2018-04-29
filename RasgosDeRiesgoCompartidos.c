@@ -18,23 +18,22 @@ int RasgosCompartidos_crear(RasgosDeRiesgoCompartidos *rasgos,
 
 // Chequeo (Locks de lectura)
 int RasgosCompartidos_Persona_es_de_riesgo(RasgosDeRiesgoCompartidos *rasgos,
-						Person *persona) {
-
+										   Person *persona) {
 	if (!rasgos->lock.modoLectura)
 		return -1;
 
 	int return_value, error;
-	
+
 	// Adquirir lock
 	error = LockArchivo_tomar(&(rasgos->lock));
 
-	if (error) {	
+	if (error) {
 		perror("ERROR: adquirir lock - rasgos de riesgo ");
 		return error;
 	}
 
 	return_value = Rasgos_Persona_es_de_riesgo(RASGOS_PTR(rasgos), persona);
-	
+
 	// Liberar lock
 	error = LockArchivo_liberar(&(rasgos->lock));
 
@@ -42,7 +41,7 @@ int RasgosCompartidos_Persona_es_de_riesgo(RasgosDeRiesgoCompartidos *rasgos,
 		perror("ERROR: liberar lock - rasgos de riesgo ");
 		return error;
 	}
-	
+
 	return return_value;
 }
 

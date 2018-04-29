@@ -257,6 +257,7 @@ void Conculandia_run(CmdLine *cl) {
 	// Inicializa las estructuras y procesos de Conculandia:
 	// - Frontera
 	// - Ventanillas
+	// Liberar los recursos en caso de error
 	error = Conculandia_init(&frontera, cl, &log, &q, &sellos,
 				&extr_ingresados, &pers_deportadas, &pers_arrestadas,
 				&p_captura);

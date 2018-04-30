@@ -20,7 +20,7 @@ int MinisterioSeguridad_run(Log *log) {
 
 	//Adquiero recursos
 	RasgosDeRiesgoCompartidos ras_riesgo;
-	error = RasgosCompartidos_crear(&ras_riesgo, 0);
+	error = RasgosCompartidos_crear(&ras_riesgo, WRITE);
 
 	while (!quit && !error) {
 		//FUNCION QUE AÑADA O REMUEVA AL AZAR;

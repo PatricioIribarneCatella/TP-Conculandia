@@ -7,6 +7,8 @@
 #include <unistd.h>
 
 #define LOCK_OK 0
+#define WRITE 0
+#define READ 1
 
 typedef struct {
 	int fd;

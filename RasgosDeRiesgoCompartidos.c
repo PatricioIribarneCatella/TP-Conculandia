@@ -46,17 +46,16 @@ int RasgosCompartidos_Persona_es_de_riesgo(RasgosDeRiesgoCompartidos *rasgos,
 }
 
 // Modificacion (Locks de escritura)
-int RasgosCompartidos_tomar_lock_escritura(RasgosDeRiesgoCompartidos *rasgos) {
-
-	if (rasgos->lock.modoLectura)
+int RasgosCompartidos_tomar_lock(RasgosDeRiesgoCompartidos *rasgos, int modo) {
+	if (rasgos->lock.modoLectura != modo)
 		return -1;
 
 	return LockArchivo_tomar(&(rasgos->lock));
 }
 
-int RasgosCompartidos_liberar_lock_escritura(RasgosDeRiesgoCompartidos *rasgos) {
-
-	if (rasgos->lock.modoLectura)
+int RasgosCompartidos_liberar_lock(RasgosDeRiesgoCompartidos *rasgos,
+								   int modo) {
+	if (rasgos->lock.modoLectura != modo)
 		return -1;
 
 	return LockArchivo_liberar(&(rasgos->lock));
@@ -95,17 +94,15 @@ int RasgosCompartidos_Remover_ojos(RasgosDeRiesgoCompartidos *rasgos,
 int RasgosCompartidos_Aniadir_caracteristica_especial(
 	RasgosDeRiesgoCompartidos *rasgos,
 	enum caracteristicas_especiales nueva_caracteristica) {
-
-	return Rasgos_Aniadir_caracteristica_especial(
-			RASGOS_PTR(rasgos), nueva_caracteristica);
+	return Rasgos_Aniadir_caracteristica_especial(RASGOS_PTR(rasgos),
+												  nueva_caracteristica);
 }
 
 int RasgosCompartidos_Remover_caracteristica_especial(
 	RasgosDeRiesgoCompartidos *rasgos,
 	enum caracteristicas_especiales caracteristica) {
-	
-	return Rasgos_Remover_caracteristica_especial(
-			RASGOS_PTR(rasgos), caracteristica);
+	return Rasgos_Remover_caracteristica_especial(RASGOS_PTR(rasgos),
+												  caracteristica);
 }
 
 int RasgosCompartidos_eliminar(RasgosDeRiesgoCompartidos *rasgos) {

@@ -1,10 +1,5 @@
 #include "Person.h"
 
-#define NAT_U_LIM 35
-//1 si x > NAT_U_LIM, 0 caso contrario
-//para regular el porcentage de nativos/extranjeros
-#define NAT(X) (X > NAT_U_LIM ? 1 : 0)
-
 // Verifica si está en el rango [a, b)
 #define IN_RANGE(X, a, b) (X >= a && X < b)
 

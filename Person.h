@@ -5,9 +5,13 @@
 
 #include "CaracteristicasPersona.h"
 
-//Puntos de partida para los dni/pasaport de las personas
+// Puntos de partida para los dni/pasaport de las personas
 #define DNI_START 12045660
 #define PASAPORT_START 1050360
+
+#define NAT_U_LIM 35
+// Regular el porcentage de nativos/extranjeros
+#define NAT(X) (X > NAT_U_LIM ? 1 : 0)
 
 enum nacionalidades { NATIVO, EXTRANJERO };
 

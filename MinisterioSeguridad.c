@@ -82,8 +82,9 @@ static int generar_nueva_alerta(RasgosDeRiesgoCompartidos *rasgos, Log *l) {
 	RasgosCompartidos_Aniadir_sexo(rasgos, get_tipo_sexo(rs_nuevo));
 	RasgosCompartidos_Remover_sexo(rasgos, get_tipo_sexo(rs_quitar));
 
-	RasgosCompartidos_Aniadir_caracteristica_especial(rasgos,
-													  get_carac_esp(rce_nuevo));
+	RasgosCompartidos_Aniadir_caracteristica_especial(
+		rasgos, get_carac_esp(rce_nuevo));
+
 	RasgosCompartidos_Remover_caracteristica_especial(
 		rasgos, get_carac_esp(rce_quitar));
 

@@ -46,145 +46,66 @@ int RasgosCompartidos_Persona_es_de_riesgo(RasgosDeRiesgoCompartidos *rasgos,
 }
 
 // Modificacion (Locks de escritura)
-int RasgosCompartidos_Aniadir_sexo(RasgosDeRiesgoCompartidos *rasgos,
-								   enum sexos nuevo_sexo) {
+int RasgosCompartidos_tomar_lock_escritura(RasgosDeRiesgoCompartidos *rasgos) {
+
 	if (rasgos->lock.modoLectura)
 		return -1;
 
-	int return_value;
-	int error = LockArchivo_tomar(&(rasgos->lock));
+	return LockArchivo_tomar(&(rasgos->lock));
+}
 
+int RasgosCompartidos_liberar_lock_escritura(RasgosDeRiesgoCompartidos *rasgos) {
 
-	if (!error)
-		return_value = Rasgos_Aniadir_sexo(RASGOS_PTR(rasgos), nuevo_sexo);
+	if (rasgos->lock.modoLectura)
+		return -1;
 
-	if (!error)
-		error = LockArchivo_liberar(&(rasgos->lock));
+	return LockArchivo_liberar(&(rasgos->lock));
+}
 
-	return error ? error : return_value;
+int RasgosCompartidos_Aniadir_sexo(RasgosDeRiesgoCompartidos *rasgos,
+								   enum sexos nuevo_sexo) {
+	return Rasgos_Aniadir_sexo(RASGOS_PTR(rasgos), nuevo_sexo);
 }
 
 int RasgosCompartidos_Remover_sexo(RasgosDeRiesgoCompartidos *rasgos,
 								   enum sexos sexo) {
-	if (rasgos->lock.modoLectura)
-		return -1;
-
-	int return_value;
-	int error = LockArchivo_tomar(&(rasgos->lock));
-
-	if (!error)
-		return_value = Rasgos_Remover_sexo(RASGOS_PTR(rasgos), sexo);
-
-	if (!error)
-		error = LockArchivo_liberar(&(rasgos->lock));
-
-	return error ? error : return_value;
+	return Rasgos_Remover_sexo(RASGOS_PTR(rasgos), sexo);
 }
 
 int RasgosCompartidos_Aniadir_pelo(RasgosDeRiesgoCompartidos *rasgos,
 								   enum tipos_pelos nuevo_pelo) {
-	if (rasgos->lock.modoLectura)
-		return -1;
-
-	int return_value;
-	int error = LockArchivo_tomar(&(rasgos->lock));
-
-	if (!error)
-		return_value = Rasgos_Aniadir_pelo(RASGOS_PTR(rasgos), nuevo_pelo);
-
-	if (!error)
-		error = LockArchivo_liberar(&(rasgos->lock));
-
-	return error ? error : return_value;
+	return Rasgos_Aniadir_pelo(RASGOS_PTR(rasgos), nuevo_pelo);
 }
 
 int RasgosCompartidos_Remover_pelo(RasgosDeRiesgoCompartidos *rasgos,
 								   enum tipos_pelos pelo) {
-	if (rasgos->lock.modoLectura)
-		return -1;
-
-	int return_value;
-	int error = LockArchivo_tomar(&(rasgos->lock));
-
-	if (!error)
-		return_value = Rasgos_Remover_pelo(RASGOS_PTR(rasgos), pelo);
-
-	if (!error)
-		error = LockArchivo_liberar(&(rasgos->lock));
-
-	return error ? error : return_value;
+	return Rasgos_Remover_pelo(RASGOS_PTR(rasgos), pelo);
 }
 
 int RasgosCompartidos_Aniadir_ojos(RasgosDeRiesgoCompartidos *rasgos,
 								   enum colores_ojos nuevos_ojos) {
-	if (rasgos->lock.modoLectura)
-		return -1;
-
-	int return_value;
-	int error = LockArchivo_tomar(&(rasgos->lock));
-
-	if (!error)
-		return_value = Rasgos_Aniadir_ojos(RASGOS_PTR(rasgos), nuevos_ojos);
-
-	if (!error)
-		error = LockArchivo_liberar(&(rasgos->lock));
-
-	return error ? error : return_value;
+	return Rasgos_Aniadir_ojos(RASGOS_PTR(rasgos), nuevos_ojos);
 }
 
 int RasgosCompartidos_Remover_ojos(RasgosDeRiesgoCompartidos *rasgos,
 								   enum colores_ojos ojos) {
-	if (rasgos->lock.modoLectura)
-		return -1;
-
-	int return_value;
-	int error = LockArchivo_tomar(&(rasgos->lock));
-
-	if (!error)
-		return_value = Rasgos_Remover_ojos(RASGOS_PTR(rasgos), ojos);
-
-	if (!error)
-		error = LockArchivo_liberar(&(rasgos->lock));
-
-	return error ? error : return_value;
+	return Rasgos_Remover_ojos(RASGOS_PTR(rasgos), ojos);
 }
 
 int RasgosCompartidos_Aniadir_caracteristica_especial(
 	RasgosDeRiesgoCompartidos *rasgos,
 	enum caracteristicas_especiales nueva_caracteristica) {
-	if (rasgos->lock.modoLectura)
-		return -1;
 
-	int return_value;
-	int error = LockArchivo_tomar(&(rasgos->lock));
-
-	if (!error)
-		return_value = Rasgos_Aniadir_caracteristica_especial(
+	return Rasgos_Aniadir_caracteristica_especial(
 			RASGOS_PTR(rasgos), nueva_caracteristica);
-
-	if (!error)
-		error = LockArchivo_liberar(&(rasgos->lock));
-
-	return error ? error : return_value;
 }
 
 int RasgosCompartidos_Remover_caracteristica_especial(
 	RasgosDeRiesgoCompartidos *rasgos,
 	enum caracteristicas_especiales caracteristica) {
-	if (rasgos->lock.modoLectura)
-		return -1;
-
-	int return_value;
-	int error = LockArchivo_tomar(&(rasgos->lock));
-
-	if (!error)
-		return_value = Rasgos_Remover_caracteristica_especial(
+	
+	return Rasgos_Remover_caracteristica_especial(
 			RASGOS_PTR(rasgos), caracteristica);
-
-	if (!error)
-		error = LockArchivo_liberar(&(rasgos->lock));
-
-	return error ? error : return_value;
 }
 
 int RasgosCompartidos_eliminar(RasgosDeRiesgoCompartidos *rasgos) {

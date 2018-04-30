@@ -75,7 +75,7 @@ static int Migraciones_procesar_extranjero(Sellos *s, int ventanilla,
 
 		Log_escribir(l,
 					 "Ventanilla: %d, Persona con pasaporte: %d, "
-					 "deportado \n",
+					 "DEPORTADO \n",
 					 ventanilla, p->id);
 	}
 	else {
@@ -150,7 +150,7 @@ static int Migraciones_procesar_residente(int ventanilla,
 
 		Log_escribir(l,
 					 "Ventanilla: %d, Persona con dni: %d, "
-					 "derivado a la Oficina de Policía\n",
+					 "ARRESTADA -> Oficina de Policía\n",
 					 ventanilla, p->id);
 	}
 	else {
@@ -208,3 +208,4 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 
 	return 0;
 }
+

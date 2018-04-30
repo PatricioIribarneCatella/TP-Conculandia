@@ -51,11 +51,8 @@ static enum caracteristicas_especiales get_carac_esp(int r) {
 	return PIERCING_EN_BOCA;
 }
 
-static int generar_nueva_alerta(RasgosDeRiesgoCompartidos* rasgos, Log *l) {
-
-	int rp_nuevo, rp_quitar,
-		ro_nuevo, ro_quitar,
-		rs_nuevo, rs_quitar,
+static int generar_nueva_alerta(RasgosDeRiesgoCompartidos *rasgos, Log *l) {
+	int rp_nuevo, rp_quitar, ro_nuevo, ro_quitar, rs_nuevo, rs_quitar,
 		rce_nuevo, rce_quitar;
 	int error;
 
@@ -71,7 +68,8 @@ static int generar_nueva_alerta(RasgosDeRiesgoCompartidos* rasgos, Log *l) {
 	error = RasgosCompartidos_tomar_lock_escritura(rasgos);
 
 	if (error) {
-		Log_escribir(l, "ERROR: fallo al adquirir lock - Ministerio Seguridad\n");
+		Log_escribir(l,
+					 "ERROR: fallo al adquirir lock - Ministerio Seguridad\n");
 		return error;
 	}
 
@@ -84,13 +82,16 @@ static int generar_nueva_alerta(RasgosDeRiesgoCompartidos* rasgos, Log *l) {
 	RasgosCompartidos_Aniadir_sexo(rasgos, get_tipo_sexo(rs_nuevo));
 	RasgosCompartidos_Remover_sexo(rasgos, get_tipo_sexo(rs_quitar));
 
-	RasgosCompartidos_Aniadir_caracteristica_especial(rasgos, get_carac_esp(rce_nuevo));
-	RasgosCompartidos_Remover_caracteristica_especial(rasgos, get_carac_esp(rce_quitar));
+	RasgosCompartidos_Aniadir_caracteristica_especial(rasgos,
+													  get_carac_esp(rce_nuevo));
+	RasgosCompartidos_Remover_caracteristica_especial(
+		rasgos, get_carac_esp(rce_quitar));
 
 	error = RasgosCompartidos_liberar_lock_escritura(rasgos);
 
 	if (error)
-		Log_escribir(l, "ERROR: fallo al liberar lock - Ministerio Seguridad\n");
+		Log_escribir(l,
+					 "ERROR: fallo al liberar lock - Ministerio Seguridad\n");
 
 	return error ? error : 0;
 }
@@ -112,7 +113,6 @@ int MinisterioSeguridad_run(Log *log) {
 	error = RasgosCompartidos_crear(&ras_riesgo, WRITE);
 
 	while (!quit && !error) {
-
 		error = generar_nueva_alerta(&ras_riesgo, log);
 
 		// Simula tiempo entre cada alerta
@@ -130,5 +130,5 @@ int MinisterioSeguridad_run(Log *log) {
 	//Libero recursos
 	RasgosCompartidos_eliminar(&ras_riesgo);
 
-	return error ? error: 0;
+	return error ? error : 0;
 }

@@ -24,7 +24,7 @@ int RasgosCompartidos_eliminar(RasgosDeRiesgoCompartidos *rasgos);
 
 // Chequeo (Locks de lectura)
 int RasgosCompartidos_Persona_es_de_riesgo(RasgosDeRiesgoCompartidos *rasgos,
-								   Person *persona);
+										   Person *persona);
 // Modificacion (Locks de escritura)
 int RasgosCompartidos_tomar_lock_escritura(RasgosDeRiesgoCompartidos *rasgos);
 int RasgosCompartidos_liberar_lock_escritura(RasgosDeRiesgoCompartidos *rasgos);

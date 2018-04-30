@@ -208,4 +208,3 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 
 	return 0;
 }
-

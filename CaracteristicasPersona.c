@@ -1,6 +1,6 @@
 #include "CaracteristicasPersona.h"
 
-void CaracteristicasPersona_init(CaracteristicasPersona* car) {
+void CaracteristicasPersona_init(CaracteristicasPersona *car) {
 	memset(car, 0, sizeof(CaracteristicasPersona));
 }
 

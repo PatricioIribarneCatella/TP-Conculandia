@@ -65,7 +65,7 @@ static int generar_nueva_alerta(RasgosDeRiesgoCompartidos *rasgos, Log *l) {
 	rce_nuevo = random() % 100;
 	rce_quitar = random() % 100;
 
-	error = RasgosCompartidos_tomar_lock_escritura(rasgos);
+	error = RasgosCompartidos_tomar_lock(rasgos, WRITE);
 
 	if (error) {
 		Log_escribir(l,
@@ -87,7 +87,7 @@ static int generar_nueva_alerta(RasgosDeRiesgoCompartidos *rasgos, Log *l) {
 	RasgosCompartidos_Remover_caracteristica_especial(
 		rasgos, get_carac_esp(rce_quitar));
 
-	error = RasgosCompartidos_liberar_lock_escritura(rasgos);
+	error = RasgosCompartidos_liberar_lock(rasgos, WRITE);
 
 	if (error)
 		Log_escribir(l,

@@ -45,22 +45,22 @@ int RasgosCompartidos_Persona_es_de_riesgo(RasgosDeRiesgoCompartidos *rasgos,
 	return return_value;
 }
 
-// Modificacion (Locks de escritura)
-int RasgosCompartidos_tomar_lock_escritura(RasgosDeRiesgoCompartidos *rasgos) {
-	if (rasgos->lock.modoLectura)
+int RasgosCompartidos_tomar_lock(RasgosDeRiesgoCompartidos *rasgos, int modo) {
+	if (rasgos->lock.modoLectura != modo)
 		return -1;
 
 	return LockArchivo_tomar(&(rasgos->lock));
 }
 
-int RasgosCompartidos_liberar_lock_escritura(
-	RasgosDeRiesgoCompartidos *rasgos) {
-	if (rasgos->lock.modoLectura)
+int RasgosCompartidos_liberar_lock(RasgosDeRiesgoCompartidos *rasgos,
+								   int modo) {
+	if (rasgos->lock.modoLectura != modo)
 		return -1;
 
 	return LockArchivo_liberar(&(rasgos->lock));
 }
 
+// Modificación (Locks de escritura)
 int RasgosCompartidos_Aniadir_sexo(RasgosDeRiesgoCompartidos *rasgos,
 								   enum sexos nuevo_sexo) {
 	return Rasgos_Aniadir_sexo(RASGOS_PTR(rasgos), nuevo_sexo);

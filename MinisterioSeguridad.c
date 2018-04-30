@@ -1,3 +1,4 @@
+// clang-format off
 #include "MinisterioSeguridad.h"
 
 // Verifica si está en el rango [a, b)

@@ -13,6 +13,7 @@
 typedef struct {
 	int fd;
 	int modoLectura;
+	struct flock fl;
 } LockArchivo;
 
 int LockArchivo_inicializar(LockArchivo *lock, char *filename, int modoLectura);

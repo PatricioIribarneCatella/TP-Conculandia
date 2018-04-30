@@ -1,5 +1,9 @@
 #include "CaracteristicasPersona.h"
 
+void CaracteristicasPersona_init(CaracteristicasPersona* car) {
+	memset(car, 0, sizeof(CaracteristicasPersona));
+}
+
 int Cambiar_sexo(CaracteristicasPersona *car, enum sexos nuevo_sexo) {
 	if (nuevo_sexo > MAX_SEXO)
 		return ARGUMENTO_INVALIDO;

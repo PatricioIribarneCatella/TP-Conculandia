@@ -73,9 +73,8 @@ void Person_random_generate(Person *p) {
 		pasaport_n = pasaport_n + 1;
 	}
 
-	memset(&(p->caracteristicas), 0, sizeof(CaracteristicasPersona));
-
 	// Generar caracteristicas
+	CaracteristicasPersona_init(&(p->caracteristicas));
 	Cambiar_ojos(&(p->caracteristicas), get_color_ojos(r));
 	Cambiar_pelo(&(p->caracteristicas), get_color_pelo(r));
 	Cambiar_sexo(&(p->caracteristicas), get_tipo_sexo(r));

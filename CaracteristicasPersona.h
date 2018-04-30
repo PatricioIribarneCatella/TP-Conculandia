@@ -1,6 +1,8 @@
 #ifndef CARACTERISTICAS_PERSONA_H
 #define CARACTERISTICAS_PERSONA_H
 
+#include <string.h>
+
 // Unico por persona
 enum colores_ojos {
 	OJOS_VERDES,
@@ -50,6 +52,7 @@ typedef struct {
 	enum sexos sexo;
 } CaracteristicasPersona;
 
+void CaracteristicasPersona_init(CaracteristicasPersona *car);
 int Cambiar_ojos(CaracteristicasPersona *car, enum colores_ojos nuevos_ojos);
 int Cambiar_sexo(CaracteristicasPersona *car, enum sexos nuevo_sexo);
 int Cambiar_pelo(CaracteristicasPersona *car, enum tipos_pelos nuevo_pelo);

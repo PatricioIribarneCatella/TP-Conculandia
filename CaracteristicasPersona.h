@@ -50,7 +50,7 @@ typedef struct {
 	enum sexos sexo;
 } CaracteristicasPersona;
 
-
+int Cambiar_ojos(CaracteristicasPersona *car, enum colores_ojos nuevos_ojos);
 int Cambiar_sexo(CaracteristicasPersona *car, enum sexos nuevo_sexo);
 int Cambiar_pelo(CaracteristicasPersona *car, enum tipos_pelos nuevo_pelo);
 int Aniadir_caracteristica_especial(

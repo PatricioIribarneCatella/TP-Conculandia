@@ -2,6 +2,7 @@
 #define LOG_H
 
 #include <fcntl.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -11,18 +12,17 @@
 #define ERROR_LOG_WRITE -2
 #define ERROR_LOG_WRITE_MSGTOOLONG -3
 
-#define MSG_MAX_SIZE 256
-
-#define LOG_FILE "log.txt"
+#define MSG_MAX_SIZE 512
 
 typedef struct {
 	struct flock fl;
 	int fd;
+	int debug;
 } Log;
 
-int Log_abrir(Log *LG);
+int Log_abrir(Log *LG, const char *filename, int debug);
 
-int Log_escribir(Log *LG, char *msg);
+int Log_escribir(Log *LG, const char *msg, ...);
 
 int Log_cerrar(Log *LG);
 

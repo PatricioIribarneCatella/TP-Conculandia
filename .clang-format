@@ -3,7 +3,8 @@ BasedOnStyle:  Google
 AllowShortFunctionsOnASingleLine: None
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
-BinPackParameters: false
+AllowAllParametersOfDeclarationOnNextLine: true
+BinPackParameters: true
 BreakBeforeBraces: Custom
 # BreakBeforeTernaryOperators: true
 BraceWrapping:   

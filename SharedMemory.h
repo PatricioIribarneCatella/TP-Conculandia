@@ -1,7 +1,8 @@
 #ifndef SHAREDMEMORY_H
 #define SHAREDMEMORY_H
 
-#include <lzma.h>
+#include <stddef.h>
+#include <string.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <sys/types.h>
@@ -17,7 +18,8 @@ typedef struct {
 	size_t size;	//tamaño de la memoria (bytes)
 } SharedMemory;
 
-int ShareMem_crear(SharedMemory *SHM, size_t size, const char *, int);
+int ShareMem_crear(SharedMemory *SHM, size_t size, const char *filename,
+				   int num);
 
 int ShareMem_cantProcesosAdosados(SharedMemory *SM);
 

@@ -1,23 +1,26 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include <lzma.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #define MAX_FILE_NAME 128
 #define QUEUE_OK 0
 #define ERROR_MKNOD -1
 
+//FIFO default file
+#define FIFO_FILE "/tmp/fifo_f"
+
 //FIFO usado como cola
 
 typedef struct {
-    char f_name[MAX_FILE_NAME];
-    int fd;
+	char f_name[MAX_FILE_NAME];
+	struct flock fl;
+	int fd;
 } Queue;
 
 
@@ -38,4 +41,4 @@ int Queue_cerrar(Queue *Q);
 int Queue_eliminar(Queue *Q);
 
 
-#endif //QUEUE_H
+#endif  //QUEUE_H

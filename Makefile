@@ -4,17 +4,19 @@ EXEC := main
 BIN := $(filter-out $(EXEC).c, $(wildcard *.c))
 BINFILES := $(BIN:.c=.o)
 
-all: $(EXEC)
+all: $(EXEC).out
 
 %.o: %.c %.h
 	$(CC) $(CFLAGS) -c $<
 
-main: $(BINFILES) $(EXEC).c
+$(EXEC).out: $(BINFILES) $(EXEC).c
 	$(CC) $(CFLAGS) $^ -o $@
-	mv $(EXEC) $(EXEC).out
 
 run: all
 	bash run.sh
+
+run-debug: all
+	bash run-debug.sh
 
 valgrind: all
 	valgrind --leak-check=full ./$(EXEC).out
@@ -23,6 +25,6 @@ format: .clang-files
 	xargs clang-format -style=file -i <$<
 
 clean:
-	rm -f $(EXEC).out *.o
+	rm -f $(EXEC).out *.txt *.o /tmp/rcomp
 
 .PHONY: clean run

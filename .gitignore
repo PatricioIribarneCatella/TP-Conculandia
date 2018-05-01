@@ -33,3 +33,10 @@
 
 # vi swap files
 .*.swp
+
+# log files
+log*.txt
+
+.idea
+cmake-build-debug
+

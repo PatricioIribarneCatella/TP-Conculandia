@@ -50,4 +50,11 @@ int RasgosCompartidos_Remover_caracteristica_especial(
 	RasgosDeRiesgoCompartidos *rasgos,
 	enum caracteristicas_especiales caracteristica);
 
+// Getters
+int RasgosCompartidos_get_ojos(RasgosDeRiesgoCompartidos *rasgos);
+int RasgosCompartidos_get_pelo(RasgosDeRiesgoCompartidos *rasgos);
+int RasgosCompartidos_get_sexo(RasgosDeRiesgoCompartidos *rasgos);
+char *RasgosCompartidos_get_caracteristica_especial(
+	RasgosDeRiesgoCompartidos *rasgos);
+
 #endif  // RASGOS_DE_RIESGO_COMPARTIDOS_H

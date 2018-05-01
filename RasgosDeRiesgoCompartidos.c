@@ -1,3 +1,4 @@
+// clang-format off
 #include "RasgosDeRiesgoCompartidos.h"
 
 // Creacion
@@ -94,17 +95,41 @@ int RasgosCompartidos_Remover_ojos(RasgosDeRiesgoCompartidos *rasgos,
 int RasgosCompartidos_Aniadir_caracteristica_especial(
 	RasgosDeRiesgoCompartidos *rasgos,
 	enum caracteristicas_especiales nueva_caracteristica) {
-	return Rasgos_Aniadir_caracteristica_especial(RASGOS_PTR(rasgos),
-												  nueva_caracteristica);
+
+	return Rasgos_Aniadir_caracteristica_especial(
+		RASGOS_PTR(rasgos), nueva_caracteristica);
 }
 
 int RasgosCompartidos_Remover_caracteristica_especial(
 	RasgosDeRiesgoCompartidos *rasgos,
 	enum caracteristicas_especiales caracteristica) {
-	return Rasgos_Remover_caracteristica_especial(RASGOS_PTR(rasgos),
-												  caracteristica);
+	
+	return Rasgos_Remover_caracteristica_especial(
+		RASGOS_PTR(rasgos), caracteristica);
 }
 
+// Getters
+int RasgosCompartidos_get_ojos(RasgosDeRiesgoCompartidos* rasgos) {
+
+	return Rasgos_get_ojos(RASGOS_PTR(rasgos));
+}
+
+int RasgosCompartidos_get_pelo(RasgosDeRiesgoCompartidos* rasgos) {
+
+	return Rasgos_get_pelo(RASGOS_PTR(rasgos));
+}
+
+int RasgosCompartidos_get_sexo(RasgosDeRiesgoCompartidos* rasgos) {
+
+	return Rasgos_get_sexo(RASGOS_PTR(rasgos));
+}
+
+char* RasgosCompartidos_get_caracteristica_especial(RasgosDeRiesgoCompartidos* rasgos) {
+
+	return Rasgos_get_caracteristica_especial(RASGOS_PTR(rasgos));
+}
+
+// Eliminación
 int RasgosCompartidos_eliminar(RasgosDeRiesgoCompartidos *rasgos) {
 	int error_lock = LockArchivo_eliminar(&(rasgos->lock));
 	int error_memoria_compartida = ShareMem_liberar(&(rasgos->shm));

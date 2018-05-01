@@ -80,3 +80,19 @@ void Person_random_generate(Person *p) {
 int Person_es_extranjero(Person *p) {
 	return (p->nacionalidad == EXTRANJERO);
 }
+
+int Person_get_ojos(Person *p) {
+	return p->caracteristicas.ojos;
+}
+
+int Person_get_pelo(Person *p) {
+	return p->caracteristicas.pelo;
+}
+
+int Person_get_sexo(Person *p) {
+	return p->caracteristicas.sexo;
+}
+
+char *Person_get_caracteristica_especial(Person *p) {
+	return itoa(p->caracteristicas.caracteristicasEspeciales, 2);
+}

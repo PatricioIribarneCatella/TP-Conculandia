@@ -12,7 +12,7 @@
 #define ERROR_LOG_WRITE -2
 #define ERROR_LOG_WRITE_MSGTOOLONG -3
 
-#define MSG_MAX_SIZE 256
+#define MSG_MAX_SIZE 512
 
 typedef struct {
 	struct flock fl;

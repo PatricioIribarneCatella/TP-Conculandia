@@ -92,3 +92,19 @@ int Rasgos_Remover_caracteristica_especial(
 					   caracteristica);
 	return CAMBIO_OK;
 }
+
+int Rasgos_get_ojos(RasgosDeRiesgo *rasgos) {
+	return rasgos->mascaraOjos;
+}
+
+int Rasgos_get_pelo(RasgosDeRiesgo *rasgos) {
+	return rasgos->mascaraPelo;
+}
+
+int Rasgos_get_sexo(RasgosDeRiesgo *rasgos) {
+	return rasgos->mascaraSexo;
+}
+
+char *Rasgos_get_caracteristica_especial(RasgosDeRiesgo *rasgos) {
+	return itoa(rasgos->mascaraCaracteristicasEspeciales, 2);
+}

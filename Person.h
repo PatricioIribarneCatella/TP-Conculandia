@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "CaracteristicasPersona.h"
+#include "utils.h"
 
 // Puntos de partida para los dni/pasaport de las personas
 #define DNI_START 12045660
@@ -24,5 +25,10 @@ typedef struct {
 void Person_random_generate(Person *p);
 
 int Person_es_extranjero(Person *p);
+
+int Person_get_ojos(Person *p);
+int Person_get_pelo(Person *p);
+int Person_get_sexo(Person *p);
+char *Person_get_caracteristica_especial(Person *p);
 
 #endif  //PERSON_H

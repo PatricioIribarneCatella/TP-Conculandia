@@ -2,6 +2,7 @@
 #define RASGOS_DE_RIESGO_H
 
 #include "Person.h"
+#include "utils.h"
 
 typedef struct {
 	short int mascaraOjos;
@@ -28,5 +29,11 @@ int Rasgos_Aniadir_caracteristica_especial(
 	enum caracteristicas_especiales nueva_caracteristica);
 int Rasgos_Remover_caracteristica_especial(
 	RasgosDeRiesgo *rasgos, enum caracteristicas_especiales caracteristica);
+
+// Getters
+int Rasgos_get_ojos(RasgosDeRiesgo *rasgos);
+int Rasgos_get_pelo(RasgosDeRiesgo *rasgos);
+int Rasgos_get_sexo(RasgosDeRiesgo *rasgos);
+char *Rasgos_get_caracteristica_especial(RasgosDeRiesgo *rasgos);
 
 #endif  // RASGOS_DE_RIESGO_H

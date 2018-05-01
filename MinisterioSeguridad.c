@@ -89,6 +89,12 @@ static int generar_nueva_alerta(RasgosDeRiesgoCompartidos *rasgos, Log *l) {
 	RasgosCompartidos_Remover_caracteristica_especial(
 		rasgos, get_carac_esp(rce_quitar));
 
+	Log_escribir(l, "ALERTA GENERADA: [ojos: %d, pelo: %d, sexo: %d, esp: %s]\n",
+			RasgosCompartidos_get_ojos(rasgos),
+			RasgosCompartidos_get_pelo(rasgos),
+			RasgosCompartidos_get_sexo(rasgos),
+			RasgosCompartidos_get_caracteristica_especial(rasgos));
+
 	error = RasgosCompartidos_liberar_lock(rasgos, WRITE);
 
 	if (error)

@@ -73,10 +73,12 @@ static int Migraciones_procesar_extranjero(Sellos *s, int ventanilla,
 			return error;
 		}
 
-		Log_escribir(l,
-					 "Ventanilla: %d, Persona con pasaporte: %d, "
-					 "DEPORTADO \n",
-					 ventanilla, p->id);
+		Log_escribir(
+			l,
+			"Ventanilla: %d, Persona con pasaporte: %d, DEPORTADO - "
+			"Características: [ojos: %d, pelo: %d, sexo: %d, esp: %s]\n",
+			ventanilla, p->id, Person_get_ojos(p), Person_get_pelo(p),
+			Person_get_sexo(p), Person_get_caracteristica_especial(p));
 	}
 	else {
 		//Tomo un sello

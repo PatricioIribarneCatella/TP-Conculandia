@@ -118,7 +118,8 @@ int MinisterioSeguridad_run(Log *log) {
 		error = generar_nueva_alerta(&ras_riesgo, log);
 
 		// Simula tiempo entre cada alerta
-		sleep(5);
+		// dentro de un uniforme (1, 10)
+		sleep(random() % 10);
 	}
 
 	if (error)

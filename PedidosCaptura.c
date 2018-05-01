@@ -1,5 +1,4 @@
 #include "PedidosCaptura.h"
-#include <stdio.h>
 
 static int cant_capturas = 0;
 
@@ -20,7 +19,6 @@ int PedidosCaptura_inicializar(PedidosCaptura *PC){
     int dni = DNI_START;
     for (i = 0; i < PC->cant_pedidos; i++){
         dni = dni + random() % 55;
-        //printf("dni captura %d\n", dni);
         ShareMem_escribir(&(PC->shm_pcaptura), &dni, i, sizeof(int));
     }
     return PCAPTURA_OK;

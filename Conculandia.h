@@ -12,26 +12,12 @@
 #include "Frontera.h"
 #include "Log.h"
 #include "Migraciones.h"
+#include "MinisterioSeguridad.h"
 #include "PedidosCaptura.h"
 #include "Person.h"
 #include "Queue.h"
 #include "Shell.h"
 
-
-int Conculandia_init(CmdLine* cl,
-                      Log* log,
-                      Queue* q,
-                      Sellos* sellos,
-                      Contador* personas,
-                      Contador* pers_arrestadas,
-                      PedidosCaptura* p_captura,
-                      pid_t* frontera);
-
-void Liberar_recursos(Log* log,
-                     Queue* q,
-                     Sellos* sellos,
-                     Contador* personas,
-                     Contador* pers_arrestadas,
-                     PedidosCaptura* p_captura);
+void Conculandia_run(CmdLine *cl);
 
 #endif  //CONCULANDIA_H

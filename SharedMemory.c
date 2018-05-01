@@ -1,8 +1,6 @@
 #include "SharedMemory.h"
 
-int ShareMem_crear(SharedMemory *SHM,
-				   size_t size,
-				   const char *filename,
+int ShareMem_crear(SharedMemory *SHM, size_t size, const char *filename,
 				   int num) {
 	//Creo la key
 	key_t key = ftok(filename, num);
@@ -56,9 +54,7 @@ int ShareMem_leer(SharedMemory *SHM, void *ptr, int offset, size_t s) {
 	return SHM_OK;
 }
 
-int ShareMem_escribir(SharedMemory *SHM,
-					  const void *ptr,
-					  int offset,
+int ShareMem_escribir(SharedMemory *SHM, const void *ptr, int offset,
 					  size_t s) {
 	memcpy(((char *) SHM->mem_ptr) + offset * s, ptr, s);
 	return SHM_OK;

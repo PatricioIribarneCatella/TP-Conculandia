@@ -2,11 +2,12 @@
 #define SEMAPHORE_H
 
 #include <errno.h>
+#include <string.h>
+#include <stdio.h>
 #include <sys/ipc.h>
 #include <sys/sem.h>
 #include <sys/types.h>
-#include <string.h>
-#include <stdio.h>
+#include <unistd.h>
 
 #define SEMAPHORE_OK 0
 #define ERROR_FTOK -1
@@ -19,13 +20,11 @@ typedef struct {
     int init_val;
 } Semaphore;
 
-
 union semun {
     int val;
     struct semid_ds *buf;
     ushort *array;
 };
-
 
 int Semaphore_init(Semaphore *S, const char *filename, int init_val, int crear);
 

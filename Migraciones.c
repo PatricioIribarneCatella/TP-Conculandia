@@ -60,7 +60,11 @@ static int Migraciones_procesar_extranjero(Sellos *s, int ventanilla,
 										   Contador *cont_pers_deport,
 										   Contador *cont_extr_ingres, Log *l) {
 	int error;
-	char buffer[MAX_CHARS + 1];
+	char buf_ojos[MAX_CHARS + 1];
+	char buf_pelo[MAX_CHARS + 1];
+	char buf_sexo[MAX_CHARS + 1];
+	char buf_esp[MAX_CHARS + 1];
+
 	// Se chequean alertas de riesgo
 	if (RasgosCompartidos_Persona_es_de_riesgo(rasgos, p)) {
 		error = Contador_incrementar(cont_pers_deport);
@@ -73,13 +77,16 @@ static int Migraciones_procesar_extranjero(Sellos *s, int ventanilla,
 						 ventanilla);
 			return error;
 		}
-		itoa(Person_get_caracteristica_especial(p), buffer, 2);
-		Log_escribir(
-			l,
+		
+		itoa(Person_get_caracteristica_especial(p), buf_esp, 2);
+		itoa(1 << Person_get_ojos(p), buf_ojos, 2);
+		itoa(1 << Person_get_pelo(p), buf_pelo, 2);
+		itoa(1 << Person_get_sexo(p), buf_sexo, 2);
+		
+		Log_escribir(l,
 			"Ventanilla: %d, Persona con pasaporte: %d, DEPORTADO - "
-			"Características: [ojos: %d, pelo: %d, sexo: %d, esp: %s]\n",
-			ventanilla, p->id, Person_get_ojos(p), Person_get_pelo(p),
-			Person_get_sexo(p), buffer);
+			"Características: [ojos: %s, pelo: %s, sexo: %s, esp: %s]\n",
+			ventanilla, p->id, buf_ojos, buf_pelo, buf_sexo, buf_esp);
 	}
 	else {
 		//Tomo un sello
@@ -97,14 +104,16 @@ static int Migraciones_procesar_extranjero(Sellos *s, int ventanilla,
 		// Sellar el pasaporte
 		usleep(20000);
 
-		itoa(Person_get_caracteristica_especial(p), buffer, 2);
+		itoa(Person_get_caracteristica_especial(p), buf_esp, 2);
+		itoa(1 << Person_get_ojos(p), buf_ojos, 2);
+		itoa(1 << Person_get_pelo(p), buf_pelo, 2);
+		itoa(1 << Person_get_sexo(p), buf_sexo, 2);
 
 		Log_escribir(l,
-					 "Ventanilla: %d, Persona con pasaporte: %d, "
-					 "Características: [ojos: %d, pelo: %d, sexo: %d, esp: %s] "
-					 "Bienvenido a Conculandia \n",
-					 ventanilla, p->id, Person_get_ojos(p), Person_get_pelo(p),
-					 Person_get_sexo(p), buffer);
+			"Ventanilla: %d, Persona con pasaporte: %d, "
+			"Características: [ojos: %s, pelo: %s, sexo: %s, esp: %s] "
+			"Bienvenido a Conculandia \n",
+			ventanilla, p->id, buf_ojos, buf_pelo, buf_sexo, buf_esp);
 
 		//Libero el sello
 		error = Sellos_liberar_sello(s);

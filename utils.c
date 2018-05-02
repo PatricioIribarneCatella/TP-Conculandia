@@ -5,8 +5,10 @@ static char numeros[] = "0123456789ABCDEF";
 void itoa(short int val, char* buf, int radix) {
 	char aux_buf[MAX_CHARS + 1];
 
-	if (val == 0)
+	if (val == 0) {
+		strcpy(buf, "0");
 		return;
+	}
 
 	memset(aux_buf, 0, sizeof(char) * (MAX_CHARS + 1));
 

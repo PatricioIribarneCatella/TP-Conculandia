@@ -12,8 +12,10 @@ $ make
 
 - Modo normal
 ```bash
-$ make run
+$ make run [V=v | S=s | D=-d]
 ```
+ **V**, **S**, **D** son opcionales y por default tiene valores **V=4, S=2, D=""**
+
 
 - Modo debug
 ```bash

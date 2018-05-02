@@ -8,27 +8,32 @@ V := 4
 S := 2
 D := 
 
-all: $(EXEC).out
+OBJDIR = build
 
-%.o: %.c %.h
-	$(CC) $(CFLAGS) -c $<
+$(OBJDIR)/%.o: %.c %.h
+	@mkdir -p $(OBJDIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-$(EXEC).out: $(BINFILES) $(EXEC).c
+OBJEXEC = $(addprefix $(OBJDIR)/, $(EXEC).out)
+
+all: $(OBJEXEC)
+
+$(OBJEXEC): $(addprefix $(OBJDIR)/, $(BINFILES)) $(EXEC).c
 	$(CC) $(CFLAGS) $^ -o $@
 
 run: all
-	./$(EXEC).out -v $(V) -s $(S) $(D)
+	./$(OBJDIR)/$(EXEC).out -v $(V) -s $(S) $(D)
 
 run-debug: all
 	bash run-debug.sh
 
 valgrind: all
-	valgrind --leak-check=full ./$(EXEC).out
+	valgrind --leak-check=full ./$(OBJDIR)/$(EXEC).out
 
 format: .clang-files
 	xargs clang-format -style=file -i <$<
 
 clean:
-	rm -f $(EXEC).out *.txt *.o /tmp/rcomp
+	rm -rf $(OBJDIR)/ *.txt *.o /tmp/rcomp
 
 .PHONY: clean run

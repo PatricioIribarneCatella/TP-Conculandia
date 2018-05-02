@@ -8,18 +8,19 @@
 #include "SharedMemory.h"
 
 #define RASGOS_DE_RIESGO_SHM_NUMBER 27
-#define RASGOS_DE_RIESGO_SHM_FILENAME "/tmp/rcomp"
+#define RASGOS_DE_RIESGO_SHM_FILENAME "/bin/ls"
+#define RASGOS_DE_RIESGO_LOCK_FILENAME "/tmp/rcomp"
 
 #define RASGOS_PTR(X) X->shm.mem_ptr
 
 typedef struct {
-	RasgosDeRiesgo rasgos;
 	SharedMemory shm;
 	LockArchivo lock;
 } RasgosDeRiesgoCompartidos;
 
 // Ciclo de vida
-int RasgosCompartidos_crear(RasgosDeRiesgoCompartidos *rasgos, int modoLectura);
+int RasgosCompartidos_crear(RasgosDeRiesgoCompartidos *rasgos);
+int RasgosCompartidos_inicializar(RasgosDeRiesgoCompartidos* rasgos, int modo);
 int RasgosCompartidos_eliminar(RasgosDeRiesgoCompartidos *rasgos);
 
 // modo: {READ = 1, WRITE = 0}

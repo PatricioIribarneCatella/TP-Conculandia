@@ -1,8 +1,8 @@
 #include "RasgosDeRiesgo.h"
 
 // Chequeo de riesgos
-static int esta_prendido_en_mascara(short int *mascara, unsigned int posicion) {
-	return *mascara & (1 << posicion);
+static int esta_prendido_en_mascara(short int mascara, unsigned int posicion) {
+	return mascara & (1 << posicion);
 }
 
 // Agregado y quitado de caracteristicas
@@ -24,11 +24,10 @@ void Rasgos_inicializar(RasgosDeRiesgo *rasgos) {
 }
 
 int Rasgos_Persona_es_de_riesgo(RasgosDeRiesgo *rasgos, Person *persona) {
-	CaracteristicasPersona *car = &(persona->caracteristicas);
-	return (rasgos->mascaraCaracteristicasEspeciales & car->caracteristicasEspeciales) ||
-		   esta_prendido_en_mascara(&(rasgos->mascaraOjos), car->ojos) ||
-		   esta_prendido_en_mascara(&(rasgos->mascaraPelo), car->pelo) ||
-		   esta_prendido_en_mascara(&(rasgos->mascaraSexo), car->sexo);
+	return rasgos->mascaraCaracteristicasEspeciales & Person_get_caracteristica_especial(persona) ||
+		   esta_prendido_en_mascara(rasgos->mascaraOjos, Person_get_ojos(persona)) ||
+		   esta_prendido_en_mascara(rasgos->mascaraPelo, Person_get_pelo(persona)) ||
+		   esta_prendido_en_mascara(rasgos->mascaraSexo, Person_get_sexo(persona));
 }
 
 int Rasgos_Aniadir_sexo(RasgosDeRiesgo *rasgos, enum sexos nuevo_sexo) {

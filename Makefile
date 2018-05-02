@@ -4,6 +4,10 @@ EXEC := main
 BIN := $(filter-out $(EXEC).c, $(wildcard *.c))
 BINFILES := $(BIN:.c=.o)
 
+V := 4
+S := 2
+D := 
+
 all: $(EXEC).out
 
 %.o: %.c %.h
@@ -13,10 +17,7 @@ $(EXEC).out: $(BINFILES) $(EXEC).c
 	$(CC) $(CFLAGS) $^ -o $@
 
 run: all
-	bash run.sh
-
-run-debug: all
-	bash run-debug.sh
+	./$(EXEC).out -v $(V) -s $(S) $(D)
 
 valgrind: all
 	valgrind --leak-check=full ./$(EXEC).out

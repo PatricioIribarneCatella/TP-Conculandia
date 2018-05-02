@@ -16,13 +16,11 @@
 #define FIFO_FILE "/tmp/fifo_f"
 
 //FIFO usado como cola
-
 typedef struct {
 	char f_name[MAX_FILE_NAME];
 	struct flock fl;
 	int fd;
 } Queue;
-
 
 //Para el mismo archivo fifo un solo proceso debe llamar a crear
 int Queue_crear(Queue *Q, char *file_name);
@@ -36,9 +34,8 @@ int Queue_escribir(Queue *Q, void *ptr, size_t s);
 
 int Queue_cerrar(Queue *Q);
 
-//El proceso que llamo a crear deberia llamar a eliminiar
-//aunque si otro lo llama no deberia haber problema
+// El proceso que creó el FIFO debe
+// eliminarlo
 int Queue_eliminar(Queue *Q);
-
 
 #endif  //QUEUE_H

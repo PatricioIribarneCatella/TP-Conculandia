@@ -14,6 +14,7 @@ int RasgosCompartidos_crear(RasgosDeRiesgoCompartidos *rasgos) {
 	return error < 0 ? error : 0;
 }
 
+// Inicialización del Lock
 int RasgosCompartidos_inicializar(RasgosDeRiesgoCompartidos* rasgos,
 		int modoLectura) {
 

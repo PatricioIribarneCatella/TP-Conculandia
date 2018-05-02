@@ -13,9 +13,9 @@
 #define ERROR_SHMAT -3
 
 typedef struct {
-	void *mem_ptr;  //puntero a la memoria
-	int mem_id;		//id del segmento de memoria
-	size_t size;	//tamaño de la memoria (bytes)
+	void *mem_ptr;  // puntero a la memoria
+	int mem_id;	// id del segmento de memoria
+	size_t size;	// tamaño de la memoria (bytes)
 } SharedMemory;
 
 int ShareMem_crear(SharedMemory *SHM, size_t size, const char *filename,

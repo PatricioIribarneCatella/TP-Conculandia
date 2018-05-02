@@ -26,6 +26,7 @@ void Person_random_generate(Person *p);
 
 int Person_es_extranjero(Person *p);
 
+// Getters
 int Person_get_ojos(Person *p);
 int Person_get_pelo(Person *p);
 int Person_get_sexo(Person *p);

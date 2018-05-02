@@ -51,7 +51,10 @@ static enum caracteristicas_especiales get_carac_esp(int r) {
 }
 
 void Person_random_generate(Person *p) {
-	int r_ojos, r_pelo, r_sexo, r_una_caracteristica_especial, r_otra_caracteristica_especial, r_nat;
+	
+	int r_ojos, r_pelo, r_sexo,
+	r_una_caracteristica_especial,
+	r_otra_caracteristica_especial, r_nat;
 
 	r_ojos = random() % 100;
 	r_pelo = random() % 100;
@@ -77,10 +80,13 @@ void Person_random_generate(Person *p) {
 	Cambiar_ojos(&(p->caracteristicas), get_color_ojos(r_ojos));
 	Cambiar_pelo(&(p->caracteristicas), get_color_pelo(r_pelo));
 	Cambiar_sexo(&(p->caracteristicas), get_tipo_sexo(r_sexo));
-	Aniadir_caracteristica_especial(&(p->caracteristicas), get_carac_esp(r_una_caracteristica_especial));
-	Aniadir_caracteristica_especial(&(p->caracteristicas), get_carac_esp(r_otra_caracteristica_especial));
+	Aniadir_caracteristica_especial(&(p->caracteristicas),
+		get_carac_esp(r_una_caracteristica_especial));
+	Aniadir_caracteristica_especial(&(p->caracteristicas),
+		get_carac_esp(r_otra_caracteristica_especial));
 }
 
+// Getters
 int Person_es_extranjero(Person *p) {
 	return (p->nacionalidad == EXTRANJERO);
 }

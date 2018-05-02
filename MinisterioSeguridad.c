@@ -56,16 +56,15 @@ static int generar_nueva_alerta(RasgosDeRiesgoCompartidos *rasgos, Log *l) {
 	int rp_nuevo, rp_quitar, ro_nuevo, ro_quitar, rs_nuevo, rs_quitar,
 		rce_nuevo, rce_quitar;
 	int error;
-	char buffer_mascara_ojos[MAX_CHARS + 1],
-	 buffer_mascara_pelo[MAX_CHARS + 1],
-	 buffer_mascara_sexo[MAX_CHARS + 1],
-	 buffer_mascara_caracteristicas_especiales[MAX_CHARS + 1];
+	char buf_masc_ojos[MAX_CHARS + 1],
+	 buf_masc_pelo[MAX_CHARS + 1],
+	 buf_masc_sexo[MAX_CHARS + 1],
+	 buf_masc_esp[MAX_CHARS + 1];
 	
-	memset(buffer_mascara_ojos, 0, sizeof buffer_mascara_ojos);
-	memset(buffer_mascara_pelo, 0, sizeof buffer_mascara_pelo);
-	memset(buffer_mascara_sexo, 0, sizeof buffer_mascara_sexo);
-	memset(buffer_mascara_caracteristicas_especiales, 0,
-		sizeof buffer_mascara_caracteristicas_especiales);
+	memset(buf_masc_ojos, 0, sizeof buf_masc_ojos);
+	memset(buf_masc_pelo, 0, sizeof buf_masc_pelo);
+	memset(buf_masc_sexo, 0, sizeof buf_masc_sexo);
+	memset(buf_masc_esp, 0, sizeof buf_masc_esp);
 
 	rp_nuevo = random() % 100;
 	rp_quitar = random() % 100;
@@ -80,7 +79,7 @@ static int generar_nueva_alerta(RasgosDeRiesgoCompartidos *rasgos, Log *l) {
 
 	if (error) {
 		Log_escribir(l,
-					 "ERROR: fallo al adquirir lock - Ministerio Seguridad\n");
+			"ERROR: fallo al adquirir lock - Ministerio Seguridad\n");
 		return error;
 	}
 
@@ -99,16 +98,16 @@ static int generar_nueva_alerta(RasgosDeRiesgoCompartidos *rasgos, Log *l) {
 	RasgosCompartidos_Remover_caracteristica_especial(
 		rasgos, get_carac_esp(rce_quitar));
 	
-	itoa(RasgosCompartidos_get_ojos(rasgos), buffer_mascara_ojos, 2);
-	itoa(RasgosCompartidos_get_pelo(rasgos), buffer_mascara_pelo, 2);
-	itoa(RasgosCompartidos_get_sexo(rasgos), buffer_mascara_sexo, 2);
-	itoa(RasgosCompartidos_get_caracteristica_especial(rasgos), buffer_mascara_caracteristicas_especiales, 2);
+	itoa(RasgosCompartidos_get_ojos(rasgos), buf_masc_ojos, 2);
+	itoa(RasgosCompartidos_get_pelo(rasgos), buf_masc_pelo, 2);
+	itoa(RasgosCompartidos_get_sexo(rasgos), buf_masc_sexo, 2);
+	itoa(RasgosCompartidos_get_caracteristica_especial(rasgos), buf_masc_esp, 2);
 	
 	Log_escribir(l, "ALERTA MODIFICADA: [ojos: %s, pelo: %s, sexo: %s, esp: %s]\n",
-			buffer_mascara_ojos,
-			buffer_mascara_pelo,
-			buffer_mascara_sexo,
-			buffer_mascara_caracteristicas_especiales);
+			buf_masc_ojos,
+			buf_masc_pelo,
+			buf_masc_sexo,
+			buf_masc_esp);
 
 	error = RasgosCompartidos_liberar_lock(rasgos, WRITE);
 

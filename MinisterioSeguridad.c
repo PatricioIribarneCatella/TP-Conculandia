@@ -104,7 +104,7 @@ static int generar_nueva_alerta(RasgosDeRiesgoCompartidos *rasgos, Log *l) {
 	itoa(RasgosCompartidos_get_sexo(rasgos), buffer_mascara_sexo, 2);
 	itoa(RasgosCompartidos_get_caracteristica_especial(rasgos), buffer_mascara_caracteristicas_especiales, 2);
 	
-	Log_escribir(l, "ALERTA MODIFICADO: [ojos: %s, pelo: %s, sexo: %s, esp: %s]\n",
+	Log_escribir(l, "ALERTA MODIFICADA: [ojos: %s, pelo: %s, sexo: %s, esp: %s]\n",
 			buffer_mascara_ojos,
 			buffer_mascara_pelo,
 			buffer_mascara_sexo,

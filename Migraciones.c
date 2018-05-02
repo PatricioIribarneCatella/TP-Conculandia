@@ -97,10 +97,14 @@ static int Migraciones_procesar_extranjero(Sellos *s, int ventanilla,
 		// Sellar el pasaporte
 		usleep(20000);
 
+		itoa(Person_get_caracteristica_especial(p), buffer, 2);
+
 		Log_escribir(l,
 					 "Ventanilla: %d, Persona con pasaporte: %d, "
+					 "Características: [ojos: %d, pelo: %d, sexo: %d, esp: %s]"
 					 "Bienvenido a Conculandia \n",
-					 ventanilla, p->id);
+					 ventanilla, p->id, Person_get_ojos(p), Person_get_pelo(p),
+					 Person_get_sexo(p), buffer);
 
 		//Libero el sello
 		error = Sellos_liberar_sello(s);

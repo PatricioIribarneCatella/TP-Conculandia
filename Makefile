@@ -33,7 +33,10 @@ valgrind: all
 format: .clang-files
 	xargs clang-format -style=file -i <$<
 
+view-log: log.txt
+	cat log.txt | less
+
 clean:
 	rm -rf $(OBJDIR)/ *.txt *.o /tmp/rcomp
 
-.PHONY: clean run
+.PHONY: clean run valgrind 

@@ -37,6 +37,9 @@
 # log files
 log*.txt
 
+
+# ide files
 .idea
+.vscode
 cmake-build-debug
 

@@ -34,6 +34,6 @@ int Rasgos_Remover_caracteristica_especial(
 int Rasgos_get_ojos(RasgosDeRiesgo *rasgos);
 int Rasgos_get_pelo(RasgosDeRiesgo *rasgos);
 int Rasgos_get_sexo(RasgosDeRiesgo *rasgos);
-char *Rasgos_get_caracteristica_especial(RasgosDeRiesgo *rasgos);
+int Rasgos_get_caracteristica_especial(RasgosDeRiesgo *rasgos);
 
 #endif  // RASGOS_DE_RIESGO_H

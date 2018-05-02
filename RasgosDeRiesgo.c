@@ -25,8 +25,7 @@ void Rasgos_inicializar(RasgosDeRiesgo *rasgos) {
 
 int Rasgos_Persona_es_de_riesgo(RasgosDeRiesgo *rasgos, Person *persona) {
 	CaracteristicasPersona *car = &(persona->caracteristicas);
-	return esta_prendido_en_mascara(&(rasgos->mascaraCaracteristicasEspeciales),
-									car->caracteristicasEspeciales) ||
+	return (rasgos->mascaraCaracteristicasEspeciales & car->caracteristicasEspeciales) ||
 		   esta_prendido_en_mascara(&(rasgos->mascaraOjos), car->ojos) ||
 		   esta_prendido_en_mascara(&(rasgos->mascaraPelo), car->pelo) ||
 		   esta_prendido_en_mascara(&(rasgos->mascaraSexo), car->sexo);
@@ -105,6 +104,6 @@ int Rasgos_get_sexo(RasgosDeRiesgo *rasgos) {
 	return rasgos->mascaraSexo;
 }
 
-char *Rasgos_get_caracteristica_especial(RasgosDeRiesgo *rasgos) {
-	return itoa(rasgos->mascaraCaracteristicasEspeciales, 2);
+int Rasgos_get_caracteristica_especial(RasgosDeRiesgo *rasgos) {
+	return rasgos->mascaraCaracteristicasEspeciales;
 }

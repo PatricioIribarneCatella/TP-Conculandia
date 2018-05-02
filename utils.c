@@ -1,21 +1,25 @@
 #include "utils.h"
 
-static char buf[32];
-static char numeros[] = "0123456789";
+static char numeros[] = "0123456789ABCDEF";
 
-char* itoa(short int val, int radix) {
+void itoa(short int val, char* buf, int radix) {
+	char aux_buf[MAX_CHARS + 1];
 
-	if (val == 0)
-		return "0";
+	if (val == 0) {
+		strcpy(buf, "0");
+		return;
+	}
+
+	memset(aux_buf, 0, sizeof(char) * (MAX_CHARS + 1));
 
 	int i;
 
-	for (i = 30; val > 0 ; --i) {
+	for (i = MAX_CHARS - 2; val > 0 ; --i) {
 
-		buf[i] = numeros[val % radix];
+		aux_buf[i] = numeros[val % radix];
 		val /= radix;
 	}
-
-	return &buf[i+1];
+	
+	strcpy(buf, &(aux_buf[i+1]));
 }
 

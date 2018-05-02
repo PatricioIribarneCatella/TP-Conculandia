@@ -133,7 +133,7 @@ int MinisterioSeguridad_run(Log *log) {
 
 	//Adquiero recursos
 	RasgosDeRiesgoCompartidos ras_riesgo;
-	error = RasgosCompartidos_crear(&ras_riesgo, WRITE);
+	error = RasgosCompartidos_crear(&ras_riesgo, WRITE, 0);
 
 	while (!quit && !error) {
 		error = generar_nueva_alerta(&ras_riesgo, log);

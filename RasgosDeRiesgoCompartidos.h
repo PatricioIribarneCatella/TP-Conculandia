@@ -18,7 +18,7 @@ typedef struct {
 } RasgosDeRiesgoCompartidos;
 
 // Ciclo de vida
-int RasgosCompartidos_crear(RasgosDeRiesgoCompartidos *rasgos, int modoLectura);
+int RasgosCompartidos_crear(RasgosDeRiesgoCompartidos *rasgos, int modoLectura, int inicializar_rasgos);
 int RasgosCompartidos_eliminar(RasgosDeRiesgoCompartidos *rasgos);
 
 // modo: {READ = 1, WRITE = 0}

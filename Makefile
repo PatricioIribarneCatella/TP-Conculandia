@@ -19,6 +19,9 @@ $(EXEC).out: $(BINFILES) $(EXEC).c
 run: all
 	./$(EXEC).out -v $(V) -s $(S) $(D)
 
+run-debug: all
+	bash run-debug.sh
+
 valgrind: all
 	valgrind --leak-check=full ./$(EXEC).out
 

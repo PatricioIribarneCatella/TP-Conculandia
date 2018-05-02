@@ -124,7 +124,7 @@ int RasgosCompartidos_get_sexo(RasgosDeRiesgoCompartidos* rasgos) {
 	return Rasgos_get_sexo(RASGOS_PTR(rasgos));
 }
 
-char* RasgosCompartidos_get_caracteristica_especial(RasgosDeRiesgoCompartidos* rasgos) {
+int RasgosCompartidos_get_caracteristica_especial(RasgosDeRiesgoCompartidos* rasgos) {
 
 	return Rasgos_get_caracteristica_especial(RASGOS_PTR(rasgos));
 }

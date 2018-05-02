@@ -60,6 +60,7 @@ static int Migraciones_procesar_extranjero(Sellos *s, int ventanilla,
 										   Contador *cont_pers_deport,
 										   Contador *cont_extr_ingres, Log *l) {
 	int error;
+	char buffer[MAX_CHARS + 1];
 	// Se chequean alertas de riesgo
 	if (RasgosCompartidos_Persona_es_de_riesgo(rasgos, p)) {
 		error = Contador_incrementar(cont_pers_deport);
@@ -72,13 +73,13 @@ static int Migraciones_procesar_extranjero(Sellos *s, int ventanilla,
 						 ventanilla);
 			return error;
 		}
-
+		itoa(Person_get_caracteristica_especial(p), buffer, 2);
 		Log_escribir(
 			l,
 			"Ventanilla: %d, Persona con pasaporte: %d, DEPORTADO - "
 			"Características: [ojos: %d, pelo: %d, sexo: %d, esp: %s]\n",
 			ventanilla, p->id, Person_get_ojos(p), Person_get_pelo(p),
-			Person_get_sexo(p), Person_get_caracteristica_especial(p));
+			Person_get_sexo(p), buffer);
 	}
 	else {
 		//Tomo un sello

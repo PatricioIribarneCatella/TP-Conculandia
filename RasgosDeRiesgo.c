@@ -105,6 +105,6 @@ int Rasgos_get_sexo(RasgosDeRiesgo *rasgos) {
 	return rasgos->mascaraSexo;
 }
 
-char *Rasgos_get_caracteristica_especial(RasgosDeRiesgo *rasgos) {
-	return itoa(rasgos->mascaraCaracteristicasEspeciales, 2);
+int Rasgos_get_caracteristica_especial(RasgosDeRiesgo *rasgos) {
+	return rasgos->mascaraCaracteristicasEspeciales;
 }

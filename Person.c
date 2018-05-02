@@ -93,6 +93,6 @@ int Person_get_sexo(Person *p) {
 	return p->caracteristicas.sexo;
 }
 
-char *Person_get_caracteristica_especial(Person *p) {
-	return itoa(p->caracteristicas.caracteristicasEspeciales, 2);
+int Person_get_caracteristica_especial(Person *p) {
+	return p->caracteristicas.caracteristicasEspeciales;
 }

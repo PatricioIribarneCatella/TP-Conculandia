@@ -60,6 +60,12 @@ static int generar_nueva_alerta(RasgosDeRiesgoCompartidos *rasgos, Log *l) {
 	 buffer_mascara_pelo[MAX_CHARS + 1],
 	 buffer_mascara_sexo[MAX_CHARS + 1],
 	 buffer_mascara_caracteristicas_especiales[MAX_CHARS + 1];
+	
+	memset(buffer_mascara_ojos, 0, sizeof buffer_mascara_ojos);
+	memset(buffer_mascara_pelo, 0, sizeof buffer_mascara_pelo);
+	memset(buffer_mascara_sexo, 0, sizeof buffer_mascara_sexo);
+	memset(buffer_mascara_caracteristicas_especiales, 0,
+		sizeof buffer_mascara_caracteristicas_especiales);
 
 	rp_nuevo = random() % 100;
 	rp_quitar = random() % 100;

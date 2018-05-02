@@ -29,6 +29,7 @@ int Rasgos_Persona_es_de_riesgo(RasgosDeRiesgo *rasgos, Person *persona) {
 		   esta_prendido_en_mascara(rasgos->mascaraOjos, car->ojos) ||
 		   esta_prendido_en_mascara(rasgos->mascaraPelo, car->pelo) ||
 		   esta_prendido_en_mascara(rasgos->mascaraSexo, car->sexo);
+
 }
 
 int Rasgos_Aniadir_sexo(RasgosDeRiesgo *rasgos, enum sexos nuevo_sexo) {

@@ -91,6 +91,7 @@ int Rasgos_Remover_caracteristica_especial(
 	return CAMBIO_OK;
 }
 
+// Getters
 int Rasgos_get_ojos(RasgosDeRiesgo *rasgos) {
 	return rasgos->mascaraOjos;
 }

@@ -16,6 +16,7 @@ typedef struct {
 int PedidosCaptura_crear(PedidosCaptura *PC, const char *filename);
 
 int PedidosCaptura_inicializar(PedidosCaptura *PC);
+
 //retorna 1 si el dni de la persona esta en la lista
 //0 caso contrario
 int PedidosCaptura_check_persona(PedidosCaptura *PC, Person *P);

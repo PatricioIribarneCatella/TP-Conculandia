@@ -9,7 +9,6 @@
 
 #define LOG_DEFAULT_FILENAME "log.txt"
 
-
 typedef struct {
 	int sellos;
 	int ventanillas;

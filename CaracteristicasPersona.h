@@ -41,7 +41,6 @@ enum caracteristicas_especiales {
 enum sexos { MUJER, HOMBRE, OTRO_SEXO };
 #define MAX_SEXO OTRO_SEXO
 
-
 #define CAMBIO_OK 0
 #define ARGUMENTO_INVALIDO -1
 

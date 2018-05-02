@@ -52,7 +52,6 @@ static int Contador_personas_init(Contador *c, const char *f, char *cont_name,
 	int res;
 	char buf[100];
 
-	// Inicializa el contador de extranjeros deportados
 	c->crear_sem = 1;
 	res = Contador_crear(c, f);
 
@@ -206,7 +205,8 @@ static int Conculandia_init(pid_t *frontera, pid_t *ministerio, CmdLine *cl,
 		perror("ERROR: Fallo al crear la Frontera ");
 		return (*frontera);
 	}
-	
+
+	// Crea e Inicializa los Rasgos de Riesgo	
 	error = RasgosCompartidos_crear(rasgos_riesgo);
 	
 	if (error) {

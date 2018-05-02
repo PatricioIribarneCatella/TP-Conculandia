@@ -3,7 +3,7 @@
 
 // Creacion
 int RasgosCompartidos_crear(RasgosDeRiesgoCompartidos *rasgos,
-							int modoLectura) {
+							int modoLectura, int inicializar_rasgos) {
 	int error = LockArchivo_inicializar(
 		&(rasgos->lock), RASGOS_DE_RIESGO_SHM_FILENAME, modoLectura);
 
@@ -11,7 +11,7 @@ int RasgosCompartidos_crear(RasgosDeRiesgoCompartidos *rasgos,
 		error = ShareMem_crear(&(rasgos->shm), sizeof(RasgosDeRiesgo),
 							   RASGOS_DE_RIESGO_SHM_FILENAME,
 							   RASGOS_DE_RIESGO_SHM_NUMBER);
-	if (!error)
+	if (!error && inicializar_rasgos)
 		Rasgos_inicializar(RASGOS_PTR(rasgos));
 
 	return error < 0 ? error : 0;

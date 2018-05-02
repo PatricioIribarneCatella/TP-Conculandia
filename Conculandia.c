@@ -205,7 +205,8 @@ static int Conculandia_init(pid_t *frontera, pid_t *ministerio, CmdLine *cl,
 							Contador *extr_ingresados,
 							Contador *pers_deportadas,
 							Contador *pers_arrestadas,
-							PedidosCaptura *p_captura) {
+							PedidosCaptura *p_captura,
+							RasgosDeRiesgoCompartidos* rasgos_riesgo) {
 	int error;
 
 	// Inicializa el Log
@@ -225,6 +226,14 @@ static int Conculandia_init(pid_t *frontera, pid_t *ministerio, CmdLine *cl,
 		return error;
 	}
 
+	error = RasgosCompartidos_crear(rasgos_riesgo, READ, 1);
+	
+	if (error) {
+		Log_escribir(log, "ERROR: Fallo al inicializar los rasgos compartidos ");
+		Log_cerrar(log);
+		return error;
+	}
+
 	// Inicializa y ejecuta la Frontera
 	*frontera = Frontera_init(q, log);
 
@@ -232,6 +241,7 @@ static int Conculandia_init(pid_t *frontera, pid_t *ministerio, CmdLine *cl,
 		Log_escribir(log, "ERROR: Fallo al crear la Frontera\n");
 		perror("ERROR: Fallo al crear la Frontera ");
 		Log_cerrar(log);
+		RasgosCompartidos_eliminar(rasgos_riesgo);
 		return (*frontera);
 	}
 
@@ -244,6 +254,7 @@ static int Conculandia_init(pid_t *frontera, pid_t *ministerio, CmdLine *cl,
 		Log_escribir(log, "ERROR: Fallo al crear el Ministerio de Seguridad\n");
 		perror("ERROR: Fallo al crear el Ministerio de Seguridad ");
 		Log_cerrar(log);
+		RasgosCompartidos_eliminar(rasgos_riesgo);
 		return error;
 	}
 
@@ -255,6 +266,7 @@ static int Conculandia_init(pid_t *frontera, pid_t *ministerio, CmdLine *cl,
 		kill(*frontera, SIGINT);
 		kill(*ministerio, SIGINT);
 		Log_cerrar(log);
+		RasgosCompartidos_eliminar(rasgos_riesgo);
 		return error;
 	}
 
@@ -265,12 +277,14 @@ static void Liberar_recursos(Log *log, Queue *q, Sellos *sellos,
 							 Contador *extr_ingresados,
 							 Contador *pers_deportadas,
 							 Contador *pers_arrestadas,
-							 PedidosCaptura *p_captura) {
+							 PedidosCaptura *p_captura,
+							 RasgosDeRiesgoCompartidos* rasgos_riesgo) {
 	// Libero recursos
 	Contador_eliminar(pers_arrestadas);
 	Contador_eliminar(pers_deportadas);
 	Contador_eliminar(extr_ingresados);
 	PedidosCaptura_eliminar(p_captura);
+	RasgosCompartidos_eliminar(rasgos_riesgo);
 	Sellos_eliminar(sellos);
 	Queue_eliminar(q);
 	Log_cerrar(log);
@@ -286,6 +300,7 @@ void Conculandia_run(CmdLine *cl) {
 	Contador pers_deportadas;
 	Contador pers_arrestadas;
 	PedidosCaptura p_captura;
+	RasgosDeRiesgoCompartidos rasgos_riesgo;
 
 	// Inicializa las estructuras y procesos de Conculandia:
 	// - Frontera
@@ -293,7 +308,7 @@ void Conculandia_run(CmdLine *cl) {
 	// Liberar los recursos en caso de error
 	error = Conculandia_init(&frontera, &ministerio, cl, &log, &q, &sellos,
 							 &extr_ingresados, &pers_deportadas,
-							 &pers_arrestadas, &p_captura);
+							 &pers_arrestadas, &p_captura, &rasgos_riesgo);
 
 	if (error)
 		return;
@@ -312,5 +327,5 @@ void Conculandia_run(CmdLine *cl) {
 				 Contador_get(&extr_ingresados));
 
 	Liberar_recursos(&log, &q, &sellos, &extr_ingresados, &pers_deportadas,
-					 &pers_arrestadas, &p_captura);
+					 &pers_arrestadas, &p_captura, &rasgos_riesgo);
 }

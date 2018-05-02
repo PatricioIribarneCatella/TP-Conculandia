@@ -36,7 +36,7 @@ static int Adquirir_recursos(Queue *q, Contador *extr_ingresados,
 	if (error)
 		return error;
 
-	error = RasgosCompartidos_crear(rasg_r_comp, READ);
+	error = RasgosCompartidos_crear(rasg_r_comp, READ, 0);
 
 	return error;
 }

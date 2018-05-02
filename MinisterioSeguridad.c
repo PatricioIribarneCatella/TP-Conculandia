@@ -119,7 +119,7 @@ static int generar_nueva_alerta(RasgosDeRiesgoCompartidos *rasgos, Log *l) {
 	return error ? error : 0;
 }
 
-int MinisterioSeguridad_run(Log *log) {
+int MinisterioSeguridad_run(Log *log, RasgosDeRiesgoCompartidos* ras_riesgo) {
 	int error;
 	quit = 0;
 
@@ -132,11 +132,10 @@ int MinisterioSeguridad_run(Log *log) {
 	sigaction(SIGINT, &act, NULL);
 
 	//Adquiero recursos
-	RasgosDeRiesgoCompartidos ras_riesgo;
-	error = RasgosCompartidos_crear(&ras_riesgo, WRITE, 0);
+	error = RasgosCompartidos_inicializar(ras_riesgo, WRITE);
 
 	while (!quit && !error) {
-		error = generar_nueva_alerta(&ras_riesgo, log);
+		error = generar_nueva_alerta(ras_riesgo, log);
 
 		// Simula tiempo entre cada alerta
 		// dentro de un uniforme (1, 10)
@@ -152,7 +151,8 @@ int MinisterioSeguridad_run(Log *log) {
 	Log_escribir(log, "PRODUCTOR ALERTAS TERMINADO\n");
 
 	//Libero recursos
-	RasgosCompartidos_eliminar(&ras_riesgo);
+	RasgosCompartidos_eliminar(ras_riesgo);
 
 	return error ? error : 0;
 }
+

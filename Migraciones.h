@@ -12,6 +12,7 @@
 #include "RasgosDeRiesgoCompartidos.h"
 #include "Sellos.h"
 
-int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log);
+int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla,
+		Log *log, RasgosDeRiesgoCompartidos* rasgos);
 
-#endif  //MIGRACIONES_H
+#endif //MIGRACIONES_H

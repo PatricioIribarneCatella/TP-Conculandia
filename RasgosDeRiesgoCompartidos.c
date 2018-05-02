@@ -2,19 +2,23 @@
 #include "RasgosDeRiesgoCompartidos.h"
 
 // Creacion
-int RasgosCompartidos_crear(RasgosDeRiesgoCompartidos *rasgos,
-							int modoLectura, int inicializar_rasgos) {
-	int error = LockArchivo_inicializar(
-		&(rasgos->lock), RASGOS_DE_RIESGO_SHM_FILENAME, modoLectura);
+int RasgosCompartidos_crear(RasgosDeRiesgoCompartidos *rasgos) {
+	int error;
 
-	if (!error)
-		error = ShareMem_crear(&(rasgos->shm), sizeof(RasgosDeRiesgo),
+	error = ShareMem_crear(&(rasgos->shm), sizeof(RasgosDeRiesgo),
 							   RASGOS_DE_RIESGO_SHM_FILENAME,
 							   RASGOS_DE_RIESGO_SHM_NUMBER);
-	if (!error && inicializar_rasgos)
+	if (!error)
 		Rasgos_inicializar(RASGOS_PTR(rasgos));
 
 	return error < 0 ? error : 0;
+}
+
+int RasgosCompartidos_inicializar(RasgosDeRiesgoCompartidos* rasgos,
+		int modoLectura) {
+
+	return LockArchivo_inicializar(
+		&(rasgos->lock), RASGOS_DE_RIESGO_LOCK_FILENAME, modoLectura);
 }
 
 // Chequeo (Locks de lectura)

@@ -29,13 +29,13 @@ static int Frontera_init(Queue *q, Log *log) {
 	return f;
 }
 
-static int Ministerio_init(Log *log) {
+static int Ministerio_init(Log *log, RasgosDeRiesgoCompartidos* rasgos) {
 	pid_t m;
 	int error;
 
 	// Generador de alertas
 	if ((m = fork()) == 0) {
-		MinisterioSeguridad_run(log);
+		MinisterioSeguridad_run(log, rasgos);
 		exit(EXIT_SUCCESS);
 	}
 
@@ -78,9 +78,10 @@ static int Contador_personas_init(Contador *c, const char *f, char *cont_name,
 }
 
 static int Ventanillas_init(Sellos *sellos, Contador *extr_ingresados,
-							Contador *pers_deportadas,
-							Contador *pers_arrestadas,
-							PedidosCaptura *p_captura, Log *log, CmdLine *cl) {
+					Contador *pers_deportadas,
+					Contador *pers_arrestadas,
+					PedidosCaptura *p_captura, RasgosDeRiesgoCompartidos* rasgos,
+					Log *log, CmdLine *cl) {
 	int i, error = 0;
 	pid_t *ventanillas_pids;
 
@@ -142,7 +143,7 @@ static int Ventanillas_init(Sellos *sellos, Contador *extr_ingresados,
 		ventanillas_pids[i] = fork();
 
 		if (ventanillas_pids[i] == 0) {
-			Migraciones_run(sellos, i + 1, log);
+			Migraciones_run(sellos, i + 1, log, rasgos);
 			exit(EXIT_SUCCESS);
 		}
 
@@ -197,13 +198,6 @@ static int Conculandia_init(pid_t *frontera, pid_t *ministerio, CmdLine *cl,
 		return error;
 	}
 
-	error = RasgosCompartidos_crear(rasgos_riesgo, READ, 1);
-	
-	if (error) {
-		Log_escribir(log, "ERROR: Fallo al inicializar los rasgos compartidos ");
-		return error;
-	}
-
 	// Inicializa y ejecuta la Frontera
 	*frontera = Frontera_init(q, log);
 
@@ -212,10 +206,17 @@ static int Conculandia_init(pid_t *frontera, pid_t *ministerio, CmdLine *cl,
 		perror("ERROR: Fallo al crear la Frontera ");
 		return (*frontera);
 	}
+	
+	error = RasgosCompartidos_crear(rasgos_riesgo);
+	
+	if (error) {
+		Log_escribir(log, "ERROR: Fallo al inicializar los rasgos compartidos ");
+		return error;
+	}
 
 	// Inicializa y ejecuta el
 	// Ministerio de Seguridad
-	*ministerio = Ministerio_init(log);
+	*ministerio = Ministerio_init(log, rasgos_riesgo);
 
 	if (*ministerio < 0) {
 		kill(*frontera, SIGINT);
@@ -225,8 +226,9 @@ static int Conculandia_init(pid_t *frontera, pid_t *ministerio, CmdLine *cl,
 	}
 
 	// Inicializa y ejecuta las Ventanillas
-	error = Ventanillas_init(sellos, extr_ingresados, pers_deportadas,
-							 pers_arrestadas, p_captura, log, cl);
+	error = Ventanillas_init(sellos,
+			extr_ingresados, pers_deportadas, pers_arrestadas,
+			p_captura, rasgos_riesgo, log, cl);
 
 	if (error) {
 		kill(*frontera, SIGINT);

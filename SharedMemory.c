@@ -2,19 +2,19 @@
 
 int ShareMem_crear(SharedMemory *SHM, size_t size, const char *filename,
 				   int num) {
-	//Creo la key
+	// Creo la key
 	key_t key = ftok(filename, num);
 	if (key == ERROR_FTOK) {
 		return ERROR_FTOK;
 	}
 
-	//Reservo el segmento de memoria (no usar IPC_EXCL, si ya fue creado hay que seguir de la misma forma)
+	// Reservo el segmento de memoria
 	SHM->mem_id = shmget(key, size, 0644 | IPC_CREAT);
 	if (SHM->mem_id == ERROR_SHMGET) {
 		return ERROR_SHMGET;
 	}
 
-	//Hago el attach
+	// Hago el attach
 	SHM->mem_ptr = shmat(SHM->mem_id, NULL, 0);
 	if (SHM->mem_ptr == (void *) -1) {
 		return ERROR_SHMAT;

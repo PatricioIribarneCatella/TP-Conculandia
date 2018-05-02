@@ -101,7 +101,7 @@ static int Migraciones_procesar_extranjero(Sellos *s, int ventanilla,
 
 		Log_escribir(l,
 					 "Ventanilla: %d, Persona con pasaporte: %d, "
-					 "Características: [ojos: %d, pelo: %d, sexo: %d, esp: %s]"
+					 "Características: [ojos: %d, pelo: %d, sexo: %d, esp: %s] "
 					 "Bienvenido a Conculandia \n",
 					 ventanilla, p->id, Person_get_ojos(p), Person_get_pelo(p),
 					 Person_get_sexo(p), buffer);

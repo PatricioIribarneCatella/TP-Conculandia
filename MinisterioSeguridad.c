@@ -56,6 +56,10 @@ static int generar_nueva_alerta(RasgosDeRiesgoCompartidos *rasgos, Log *l) {
 	int rp_nuevo, rp_quitar, ro_nuevo, ro_quitar, rs_nuevo, rs_quitar,
 		rce_nuevo, rce_quitar;
 	int error;
+	char buffer_mascara_ojos[MAX_CHARS + 1],
+	 buffer_mascara_pelo[MAX_CHARS + 1],
+	 buffer_mascara_sexo[MAX_CHARS + 1],
+	 buffer_mascara_caracteristicas_especiales[MAX_CHARS + 1];
 
 	rp_nuevo = random() % 100;
 	rp_quitar = random() % 100;
@@ -88,12 +92,17 @@ static int generar_nueva_alerta(RasgosDeRiesgoCompartidos *rasgos, Log *l) {
 
 	RasgosCompartidos_Remover_caracteristica_especial(
 		rasgos, get_carac_esp(rce_quitar));
-
-	Log_escribir(l, "ALERTA GENERADA: [ojos: %d, pelo: %d, sexo: %d, esp: %s]\n",
-			RasgosCompartidos_get_ojos(rasgos),
-			RasgosCompartidos_get_pelo(rasgos),
-			RasgosCompartidos_get_sexo(rasgos),
-			RasgosCompartidos_get_caracteristica_especial(rasgos));
+	
+	itoa(RasgosCompartidos_get_ojos(rasgos), buffer_mascara_ojos, 2);
+	itoa(RasgosCompartidos_get_pelo(rasgos), buffer_mascara_pelo, 2);
+	itoa(RasgosCompartidos_get_sexo(rasgos), buffer_mascara_sexo, 2);
+	itoa(RasgosCompartidos_get_caracteristica_especial(rasgos), buffer_mascara_caracteristicas_especiales, 2);
+	
+	Log_escribir(l, "ALERTA MODIFICADO: [ojos: %s, pelo: %s, sexo: %s, esp: %s]\n",
+			buffer_mascara_ojos,
+			buffer_mascara_pelo,
+			buffer_mascara_sexo,
+			buffer_mascara_caracteristicas_especiales);
 
 	error = RasgosCompartidos_liberar_lock(rasgos, WRITE);
 
@@ -125,7 +134,7 @@ int MinisterioSeguridad_run(Log *log) {
 
 		// Simula tiempo entre cada alerta
 		// dentro de un uniforme (1, 10)
-		sleep(random() % 10);
+		sleep(random() % 10 + 1);
 	}
 
 	if (error)

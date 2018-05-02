@@ -7,6 +7,6 @@
 #include "Log.h"
 #include "RasgosDeRiesgoCompartidos.h"
 
-int MinisterioSeguridad_run(Log *log);
+int MinisterioSeguridad_run(Log *log, RasgosDeRiesgoCompartidos* r);
 
 #endif  //MINISTERIOSEGURIDAD_H

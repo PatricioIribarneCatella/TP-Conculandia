@@ -36,7 +36,7 @@ static int Adquirir_recursos(Queue *q, Contador *extr_ingresados,
 	if (error)
 		return error;
 
-	error = RasgosCompartidos_crear(rasg_r_comp, READ, 0);
+	error = RasgosCompartidos_inicializar(rasg_r_comp, READ);
 
 	return error;
 }
@@ -170,18 +170,18 @@ static int Migraciones_procesar_residente(int ventanilla,
 	return 0;
 }
 
-int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
+int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla,
+		Log *log, RasgosDeRiesgoCompartidos* rasg_r_comp) {
 	Queue q;
 	Contador cont_extr_ingres;
 	Contador cont_pers_deport;
 	Contador cont_pers_arrest;
 	PedidosCaptura p_captura;
-	RasgosDeRiesgoCompartidos rasg_r_comp;
 	int r, stop = 0, error;
 
 	//Adquiero recursos
 	stop = Adquirir_recursos(&q, &cont_extr_ingres, &cont_pers_deport,
-							 &cont_pers_arrest, &p_captura, &rasg_r_comp);
+							 &cont_pers_arrest, &p_captura, rasg_r_comp);
 	while (!stop) {
 		Person p;
 		r = Queue_leer(&q, &p, sizeof(Person));
@@ -189,7 +189,7 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 		if (r == sizeof(Person)) {
 			if (Person_es_extranjero(&p))
 				error = Migraciones_procesar_extranjero(
-					sellos, numero_ventanilla, &rasg_r_comp, &p,
+					sellos, numero_ventanilla, rasg_r_comp, &p,
 					&cont_pers_deport, &cont_extr_ingres, log);
 			else
 				error = Migraciones_procesar_residente(
@@ -211,7 +211,7 @@ int Migraciones_run(Sellos *sellos, unsigned int numero_ventanilla, Log *log) {
 	Log_escribir(log, "Cerrando ventanilla n° %d\n", numero_ventanilla);
 
 	Liberar_recursos(&cont_extr_ingres, &cont_pers_arrest, &cont_pers_deport,
-					 &rasg_r_comp, &p_captura, &q);
+					 rasg_r_comp, &p_captura, &q);
 
 	return 0;
 }

@@ -13,7 +13,6 @@
 #define RASGOS_PTR(X) X->shm.mem_ptr
 
 typedef struct {
-	RasgosDeRiesgo rasgos;
 	SharedMemory shm;
 	LockArchivo lock;
 } RasgosDeRiesgoCompartidos;

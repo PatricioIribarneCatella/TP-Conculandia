@@ -12,7 +12,7 @@ int RasgosCompartidos_crear(RasgosDeRiesgoCompartidos *rasgos,
 							   RASGOS_DE_RIESGO_SHM_FILENAME,
 							   RASGOS_DE_RIESGO_SHM_NUMBER);
 	if (!error)
-		Rasgos_inicializar(rasgos->shm.mem_ptr);
+		Rasgos_inicializar(RASGOS_PTR(rasgos));
 
 	return error < 0 ? error : 0;
 }

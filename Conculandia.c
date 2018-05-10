@@ -277,7 +277,6 @@ void Conculandia_run(CmdLine *cl) {
 							 &extr_ingresados, &pers_deportadas,
 							 &pers_arrestadas, &p_captura, &rasgos_riesgo);
 
-
 	if (!error) {
 	
 		// Ejecuta la Shell
@@ -287,14 +286,13 @@ void Conculandia_run(CmdLine *cl) {
 		Ventanillas_wait(cl->ventanillas);
 
 		Log_escribir(&log,
-					"PERSONAS DEPORTADAS: %d\n"
-					"PERSONAS ARRESTADAS: %d\n"
-					"PERSONAS EXTRANJERAS INGRESADAS: %d\n",
-					Contador_get(&pers_deportadas), Contador_get(&pers_arrestadas),
-					Contador_get(&extr_ingresados));
-
+				"PERSONAS DEPORTADAS: %d, "
+				"PERSONAS ARRESTADAS: %d, "
+				"PERSONAS EXTRANJERAS INGRESADAS: %d\n",
+				Contador_get(&pers_deportadas),
+				Contador_get(&pers_arrestadas),
+				Contador_get(&extr_ingresados));
 	}
-
 
 	Liberar_recursos(&log, &q, &sellos, &extr_ingresados, &pers_deportadas,
 					 &pers_arrestadas, &p_captura, &rasgos_riesgo);

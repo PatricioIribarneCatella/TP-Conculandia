@@ -1,5 +1,20 @@
 #include "Log.h"
 
+// produce un nuevo timestamp 
+static char* timestamp() {
+
+	time_t lt;
+	char* at;
+
+	lt = time(NULL);
+
+	at = asctime(localtime(&lt));
+
+	at[strlen(at) - 2] = '\0';
+
+	return at;
+}
+
 int Log_abrir(Log *LG, const char *filename, int debug) {
 	LG->debug = debug;
 
@@ -19,29 +34,31 @@ int Log_abrir(Log *LG, const char *filename, int debug) {
 }
 
 int Log_escribir(Log *LG, const char *msg, ...) {
+	
+	char buffer[MSG_MAX_SIZE];
+	char logtxt[MSG_MAX_SIZE];
 	int return_value = LOG_OK;
 
 	if (LG->debug) {
-		char buffer[MSG_MAX_SIZE];
-
+	
 		va_list args;
 		va_start(args, msg);
 		vsprintf(buffer, msg, args);
 		va_end(args);
 
-		if (strlen(msg) > MSG_MAX_SIZE) {
+		if (strlen(msg) > MSG_MAX_SIZE)
 			return ERROR_LOG_WRITE_MSGTOOLONG;
-		}
 
 		// Adquiero el lock
 		LG->fl.l_type = F_WRLCK;
 		fcntl(LG->fd, F_SETLKW, &(LG->fl));
 
+		snprintf(logtxt, sizeof logtxt, "[%s] %s", timestamp(), buffer);
+
 		// Me muevo al final del archivo y escribo
 		lseek(LG->fd, 0, SEEK_END);
-		if (ERROR_LOG_WRITE == write(LG->fd, buffer, strlen(buffer))) {
+		if (ERROR_LOG_WRITE == write(LG->fd, logtxt, strlen(logtxt)))
 			return_value = ERROR_LOG_WRITE;
-		}
 
 		// Libero el lock
 		LG->fl.l_type = F_UNLCK;

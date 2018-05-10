@@ -6,13 +6,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <time.h>
 
 #define LOG_OK 0
 #define ERROR_LOG_OPEN -1
 #define ERROR_LOG_WRITE -2
 #define ERROR_LOG_WRITE_MSGTOOLONG -3
 
-#define MSG_MAX_SIZE 512
+#define MSG_MAX_SIZE 1024
 
 typedef struct {
 	struct flock fl;
